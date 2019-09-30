@@ -1,0 +1,356 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">แบบทดสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">รหัสแบบทดสอบ</label>
+                <div class="col-sm-9">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">กลุ่มวิชา</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="SubjectGroupID">
+                    <option>GREATS</option>
+                    <option>SMART WORK</option>
+                    <option>SMART II</option>
+                    <option>SMART PV</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">วิชา</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="SubjectID">
+                    <option>G</option>
+                    <option>R</option>
+                    <option>E</option>
+                    <option>A</option>
+                    <option>T</option>
+                    <option>S</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">ชื่อแบบทดสอบ</label>
+                <div class="col-sm-9">
+                  <input class="form-control " placeholder="ชื่อแบบทดสอบ">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">คำอธิบาย</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control " placeholder="คำอธิบาย" rows="5"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">วิธีการเลือกข้อสอบ</label>
+                <div class="col-sm-9">
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-4" checked #device1 value="random" (change)="ChooseOnchange(device1.value)">
+                    สุ่ม
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-4" #device2 value="custom" (change)="ChooseOnchange(device2.value)">
+                    กำหนดเอง
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="divrandom">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-11">
+              <div class="form-group">
+                <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>ประเภทข้อสอบ</th>
+                      <th>วิชาย่อย</th>
+                      <th>ง่ายมาก</th>
+                      <th>ง่าย</th>
+                      <th>ปากลาง</th>
+                      <th>ยาก</th>
+                      <th>ยากมาก</th>
+                      <th class="action"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>ข้อสอบแบบเลือกตอบ (Multiple Choice)</td>
+                      <td>G1</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>10</td>
+                      <td>10</td>
+                      <td>10</td>
+                      <td>
+                        <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left" (click)="EditChoiceOnclick()">
+                          กำหนด
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>ข้อสอบแบบถูก-ผิด (True-False)</td>
+                      <td>G1</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>10</td>
+                      <td>10</td>
+                      <td>10</td>
+                      <td>
+                        <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left" (click)="EditChoiceOnclick()">
+                          กำหนด
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>ข้อสอบแบบจับคู่ (Multiple Matching)</td>
+                      <td>G1</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>10</td>
+                      <td>10</td>
+                      <td>10</td>
+                      <td>
+                        <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left" (click)="EditChoiceOnclick()">
+                          กำหนด
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div id="divcustom">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="col-sm-3">
+                  </div>
+                  <div class="col-sm-9">
+                    <button class="btn btn-danger" type="button">
+                      เพิ่มข้อสอบ
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-11">
+                <div class="form-group">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>ลำดับ</th>
+                        <th>คำถาม(ไทย)</th>
+                        <th>คำถาม(อังกฤษ)</th>
+                        <th>ระดับความยาก</th>
+                        <th class="action"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>AAAAAAAA</td>
+                        <td>AAAAAAAA</td>
+                        <td>ยาก</td>
+                        <td>
+                          <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left" (click)="EditChoiceOnclick()">
+                            แก้ไข
+                          </a>
+                          <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                            ลบ
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>AAAAAAAA</td>
+                        <td>AAAAAAAA</td>
+                        <td>ยาก</td>
+                        <td>
+                          <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left" (click)="EditChoiceOnclick()">
+                            แก้ไข
+                          </a>
+                          <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                            ลบ
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">เวลาที่ใช้ในการสอบ</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control" id="Time" placeholder="เวลา">
+                </div>
+                <div class="col-sm-4">
+                  <select class="form-control select2" id="TimeTypeID">
+                    <option>วินาที</option>
+                    <option>นาที</option>
+                    <option>ชั่วโมง</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">รูปแบบการทำข้อสอบ</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="LevelID">
+                    <option>เดินหน้าและถอยหลัง</option>
+                    <option>เดินหน้าอย่างเดียว</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">หลักสูตร</label>
+                <div class="col-sm-9">
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-2" checked>
+                    ไทย
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-2">
+                    อังกฤษ
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">แสดงคะแนนหลังสอบ</label>
+                <div class="col-sm-9">
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-3" checked>
+                    แสดง
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-3">
+                    ไม่แสดง
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">สถานะ</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="Status">
+                    <option>ใช้งาน</option>
+                    <option>ยกเลิก</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">สถานะการคัดเลือก</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" >
+                    <option>ร่าง</option>
+                    <option>รอการคัดเลือก</option>
+                    <option>คัดเลือกแล้ว</option>
+                    <option>ไม่ผ่านการคัดเลือก</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9">
+                  <button class="btn btn-danger" type="submit">
+                    บันทึก
+                  </button>
+
+                  <a href="#" class="btn btn-gray" [routerLink]="['/staff-search']">
+                    กลับ
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div class="col-sm-12 text-right">
+                  <a href="#" class="btn btn-blue" [routerLink]="['/reset-password']">
+                    ดูตัวอย่างการแสดงผล
+                  </a>
+                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
+                    ส่งให้คัดเลือก
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+

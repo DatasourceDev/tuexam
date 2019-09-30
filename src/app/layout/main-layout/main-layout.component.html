@@ -1,0 +1,230 @@
+<div class="boxed-container-red">
+
+  <nav class="navbar horizontal-menu navbar-fixed-top navbar-minimal">
+    <div class="navbar-inner">
+
+      <!-- Navbar Brand -->
+      <div class="navbar-brand">
+        <a href="#" class="logo">
+          <img src="assets/images/tu/main-logo.png" width="140" alt="" class="hidden-xs" />
+          <img src="assets/images/tu/main-logo.png" width="140" alt="" class="visible-xs" />
+        </a>
+
+      </div>
+
+      <!-- Mobile Toggles Links -->
+      <div class="nav navbar-mobile">
+
+        <!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+        <div class="mobile-menu-toggle">
+          <!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
+          <!-- data-toggle="mobile-menu-horizontal" will show horizontal menu links only -->
+          <!-- data-toggle="mobile-menu" will show sidebar menu links only -->
+          <!-- data-toggle="mobile-menu-both" will show sidebar and horizontal menu links -->
+          <a href="#" data-toggle="mobile-menu-horizontal">
+            <i class="fa-bars"></i>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="navbar-mobile-clear"></div>
+      <!-- main menu -->
+      <ul class="navbar-nav">
+        <li class="">
+          <a href="#" [routerLink]="['/dashboard']" routerLinkActive="active">
+            <i class="fa fa-home"></i>
+            <span class="title">หน้าแรก</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="#" onclick="return false;">
+            <i class="fa fa-file-text-o"></i>
+            <span class="title">คลังข้อสอบ</span>
+          </a>
+          <ul>
+            <li>
+              <a href="#" [routerLink]="['/subjectgroup-search']" routerLinkActive="active">
+                <span class="title">กลุ่มวิชา</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/subject-search']" routerLinkActive="active">
+                <span class="title">วิชา</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/subjectsub-search']" routerLinkActive="active">
+                <span class="title">วิชาย่อย</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/question-search']" routerLinkActive="active">
+                <span class="title">ข้อสอบ</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="">
+          <a href="#" [routerLink]="['/student-search']" routerLinkActive="active">
+            <i class="fa fa-users"></i>
+            <span class="title">ผู้เข้าสอบ</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="#" onclick="return false;">
+            <i class="fa fa-edit"></i>
+            <span class="title">จัดสอบ</span>
+          </a>
+          <ul>
+            <li>
+              <a href="#" [routerLink]="['/test-search']">
+                <span class="title">แบบทดสอบ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-search']">
+                <span class="title">รอบสอบ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-table']">
+                <span class="title">ตารางสอบ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-register']">
+                <span class="title">ลงทะเบียน</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/grade-search']">
+                <span class="title">ตรวจข้อสอบ</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="">
+          <a href="#" onclick="return false;">
+            <i class="fa fa-bar-chart"></i>
+            <span class="title">รายงาน</span>
+          </a>
+          <ul>
+            <li>
+              <a href="#" [routerLink]="['/question-level']">
+                <span class="title">ข้อสอบตามระดับความยาก-ง่าย</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/question-analyze']">
+                <span class="title">วิเคราะห์ข้อสอบ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-by-date']">
+                <span class="title">จำนวนผู้เข้าสอบรายวัน</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-by-month']">
+                <span class="title">จำนวนผู้เข้าสอบรายเดือน</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-student-list']">
+                <span class="title">รายชื่อผู้เข้าสอบ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-student']">
+                <span class="title">ผลการสอบรายบุคคล</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/login-logout-history']">
+                <span class="title">การเข้าและออกจากระบบ</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="">
+          <a href="#" [routerLink]="['/staff-search']" routerLinkActive="active">
+            <i class="fa fa-user"></i>
+            <span class="title">เจ้าหน้าที่</span>
+          </a>
+        </li>
+      </ul>
+
+
+      <!-- notifications and other links -->
+      <ul class="nav nav-userinfo navbar-right">
+
+        <li class="dropdown user-profile">
+          <a href="#" data-toggle="dropdown">
+            <img src="assets/images/user-1.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+            <span>
+              Arlind Nushi
+              <i class="fa-angle-down"></i>
+            </span>
+          </a>
+
+          <ul class="dropdown-menu user-profile-menu list-unstyled">
+            <li>
+              <a href="#" [routerLink]="['/staff']">
+                <i class="fa-user"></i>
+                ข้อมูลส่วนตัว
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/reset-password']">
+                <i class="fa-key"></i>
+                เปลี่ยนรหัสผ่าน
+              </a>
+            </li>
+            <li class="last">
+              <a href="#" [routerLink]="['/login']">
+                <i class="fa-lock"></i>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+
+
+      </ul>
+
+    </div>
+
+  </nav>
+
+  <div class="page-container container">
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <footer class="main-footer sticky footer-type-1">
+
+    <div class="footer-inner">
+
+      <!-- Add your copyright text here -->
+      <div class="footer-text">
+        &copy; 2019
+        <strong>Thammasat University</strong>
+      </div>
+
+
+      <!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+      <div class="go-up">
+
+        <a href="" rel="go-top">
+          <i class="fa-angle-up"></i>
+        </a>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</div>

@@ -1,0 +1,79 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">ลงทะเบียนสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">รูปแบบการลงทะเบียน</label>
+                <div class="col-sm-9">
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-4" checked #device1 value="advance" (change)="ChooseOnchange(device1.value)">
+                    ล่วงหน้า
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-4" #device2 value="walkin" (change)="ChooseOnchange(device2.value)">
+                    Walk-In
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="divadvance">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">นำเข้าด้วย Excel</label>
+                  <div class="col-sm-6">
+                    <input type="file" class="form-control">
+                  </div>
+                  <div class="col-sm-3">
+                    <button class="btn btn-blue">
+                      นำเข้า
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="divwalkin">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">ค้นหาผู้เข้าสอบ</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" id="text_search" placeholder="ชื่อ นามสกุล รหัสนักศึกษา รหัสประจำตัวประชาชน Passport อีเมล">
+                  </div>
+                  <div class="col-sm-3">
+                    <button class="btn btn-blue">
+                      ค้นหา
+                    </button>
+                    <a href="#" class="btn btn-secondary" [routerLink]="['/student']">
+                      เพิ่มผู้เข้าสอบใหม่
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+</div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

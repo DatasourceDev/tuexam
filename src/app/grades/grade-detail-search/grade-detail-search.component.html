@@ -1,0 +1,196 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">ตรวจข้อสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">รายละเอียด</h3>
+        <div class="panel-options">
+        </div>
+      </div>
+      <div class="panel-body">
+        <form role="form">
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">วันที่เข้าสอบ</label>
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">10/10/2019</label>
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">รอบ</label>
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">เช้า</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">วิชา</label>
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">G</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">จำนวนผู้เข้าสอบ</label>
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">20 คน</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">จำนวนผู้เข้าสอบ</label>
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">20 คน</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">ตรวจแล้ว</label>
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">10 คน</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label class="control-label">รอตรวจสอบ</label>
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">10 คน</label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">รายการ</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <a href="#" class="btn btn-secondary">
+      พิมพ์ผลสอบ
+    </a>
+    <a href="#" class="btn btn-secondary">
+      ส่งผลสอบทางอีเมล
+    </a>
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th> <input type="checkbox"></th>
+          <th>รหัสนักศึกษา</th>
+          <th>ชื่อ-นามสกุล</th>
+          <th>คณะ</th>
+          <th>อีเมล</th>
+          <th>เบอร์โทร</th>
+          <th>ที่อยู่</th>
+          <th>สถานะ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <input type="checkbox">
+          </td>
+          <td>10002542</td>
+          <td>นาย ประสงค์ กลิ่นดี</td>
+          <td>แพทยศาสตร์</td>
+          <td>aaa@aaa.com</td>
+          <td>085552222</td>
+          <td></td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/grade-prove']">
+              ตรวจ
+            </a>
+          </td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+              พิมพ์
+            </a>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+              อีเมล
+            </a>
+          </td>
+        </tr>
+        <tr>
+<td><input type="checkbox"></td>
+          <td>10002543</td>
+          <td>น.ส. ดวงใจ ดวงดาว</td>
+          <td>แพทยศาสตร์</td>
+          <td>aaa@aaa.com</td>
+          <td>085552222</td>
+          <td></td>
+          <td>
+            ตรวจแล้ว
+          </td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+              พิมพ์
+            </a>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+              อีเมล
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="9" class="text-right">
+            <ul class="pagination">
+              <li><a href="#"><i class="fa-angle-left"></i></a></li>
+              <li><a href="#">1</a></li>
+              <li class="active"><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li class="disabled"><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li><a href="#">6</a></li>
+              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>
+

@@ -1,0 +1,198 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">เจ้าหน้าที่</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">คำนำหน้า</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="PrefixID">
+                    <option>นาย</option>
+                    <option>นางสาว</option>
+                    <option>นาง</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">สถานะ</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="Status">
+                    <option>ใช้งาน</option>
+                    <option>ยกเลิก</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">ชื่อ</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Name" placeholder="ชื่อ">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">นามสกุล</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="LastName" placeholder="นามสกุล">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">รหัสประจำตัวประชาชน</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="CardID" placeholder="รหัสประจำตัวประชาชน">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">อีเมล</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Email" placeholder="อีเมล">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">เบอร์โทรศัพท์</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="PhoneNumber" placeholder="เบอร์โทรศัพท์">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">วันที่เปิดใช้งาน</label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control datepicker" id="OpenDate" data-format="dd/mm/yyyy">
+                    <div class="input-group-addon">
+                      <a href=""><i class="linecons-calendar"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">วันที่หมดอายุ</label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control datepicker" id="ExpiryDate" data-format="dd/mm/yyyy">
+                    <div class="input-group-addon">
+                      <a href=""><i class="linecons-calendar"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">สิทธิ์การเข้าถึงระบบ</label>
+                <div class="col-sm-9">
+                  <label>
+                    <input type="checkbox">
+                    เจ้าหน้าที่ทั่วไป (Administrator)
+                  </label>
+                  <br />
+                  <label>
+                    <input type="checkbox">
+                    เจ้าหน้าที่พิเศษ (Master Administrator
+                  </label>
+                  <br />
+                  <label>
+                    <input type="checkbox">
+                    ผู้กลั่นกรองข้อสอบ (Question Approval)
+                  </label>
+                  <br />
+                  <label>
+                    <input type="checkbox">
+                    ผู้กลั่นกรองข้อสอบพิเศษ (Master Question Approval)
+                  </label>
+                  <br />
+                  <label>
+                    <input type="checkbox">
+                    ผู้คัดเลือกแบบทดสอบ (Test Approval)
+                  </label>
+                  <br />
+                  <label>
+                    <input type="checkbox">
+                    ผู้คัดเลือกแบบทดสอบพิเศษ (Master Approval)
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9">
+                  <button class="btn btn-danger" type="submit">
+                    บันทึก
+                  </button>
+
+                  <a href="#" class="btn btn-gray" [routerLink]="['/staff-search']">
+                    กลับ
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div class="col-sm-12 text-right">
+                  <a href="#" class="btn btn-blue" [routerLink]="['/reset-password']">
+                    เปลี่ยนรหัสผ่าน
+                  </a>
+                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
+                    ประวัติการเข้า-ออกจากระบบ
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

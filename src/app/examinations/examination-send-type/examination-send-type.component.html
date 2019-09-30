@@ -1,0 +1,90 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">สิ้นสุดการทำแบบทดสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  กรณาระบุช่องการส่งผลสอบ
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-4" checked #device1 value="email" (change)="ChooseOnchange(device1.value)">
+                    อีเมล
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-4" #device2 value="post" (change)="ChooseOnchange(device2.value)">
+                    ไปรษณีย์
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="radio-4" #device3 value="other" (change)="ChooseOnchange(device3.value)">
+                    อื่นๆ
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="divemail">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" placeholder="อีเมล">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="divpost">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-6">
+                  <textarea class="form-control" placeholder="ที่อยู่" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="divother">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-6">
+                  ประกาศผลที่เว็บไซต์ <a href="https://tu.ac.th/" target="_blank">www.tu.ac.th</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <a href="#" class="btn btn-orange" [routerLink]="['/examination-end']">
+                    ตกลง
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

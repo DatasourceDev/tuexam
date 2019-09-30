@@ -1,0 +1,195 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">ผู้เข้าสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">รหัสนักศึกษา</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="StudentID" placeholder="รหัสนักศึกษา">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">คำนำหน้า</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="PrefixID">
+                    <option>นาย</option>
+                    <option>นางสาว</option>
+                    <option>นาง</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">สถานะ</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="Status">
+                    <option>ใช้งาน</option>
+                    <option>ยกเลิก</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">ชื่อ(ไทย)</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Name" placeholder="ชื่อ">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">นามสกุล(ไทย)</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="LastName" placeholder="นามสกุล">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">ชื่อ(อังกฤษ)</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Name" placeholder="ชื่อ">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">นามสกุล(อังกฤษ)</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="LastName" placeholder="นามสกุล">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">รหัสประจำตัวประชาชน</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="CardID" placeholder="รหัสประจำตัวประชาชน">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">อีเมล</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Email" placeholder="อีเมล">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">เบอร์โทรศัพท์</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="PhoneNumber" placeholder="เบอร์โทรศัพท์">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Passport</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Passport" placeholder="Passport">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">คณะ</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="FacultyID">
+                    <option></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">หลักสูตร</label>
+                <div class="col-sm-9">
+                  <select class="form-control select2" id="LangID">
+                    <option></option>
+                    <option>ไทย</option>
+                    <option>อังกฤษ</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9">
+                  <button class="btn btn-danger" type="submit">
+                    บันทึก
+                  </button>
+
+                  <a href="#" class="btn btn-gray" [routerLink]="['/staff-search']">
+                    กลับ
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div class="col-sm-12 text-right">
+                  <a href="#" class="btn btn-blue" [routerLink]="['/reset-password']">
+                    เปลี่ยนรหัสผ่าน
+                  </a>
+                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
+                    ประวัติการเข้าสอบ
+                  </a>
+                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
+                    ประวัติการเข้า-ออกจากระบบ
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+

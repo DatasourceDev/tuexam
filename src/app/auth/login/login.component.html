@@ -1,0 +1,75 @@
+
+
+<body class="page-body login-page login-light">
+  <div class="login-container">
+    <div class="row">
+      <div class="col-sm-6">
+
+        <!-- Errors container -->
+        <div class="errors-container">
+
+
+        </div>
+
+        <!-- Add class "fade-in-effect" for login form effect -->
+        <form role="form" id="login" class="login-form" (ngSubmit)="onSubmit()">
+
+          <div class="login-header">
+            <a href="dashboard-1.html" class="logo">
+              <img src="assets/images/tu/main-logo.png" alt="" width="100%" />
+              <br />
+              <br />
+              <h4>Log in</h4>
+            </a>
+
+            <p>ระบบคลังข้อสอบ</p>
+          </div>
+
+
+          <div class="form-group">
+            <label class="control-label" for="username">รหัสผู้ใช้</label>
+            <input type="text" class="form-control" [(ngModel)]="username" name="username" id="username" autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="password">รหัสผ่าน</label>
+            <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-danger  btn-block text-left">
+              <i class="fa-lock"></i>
+              Log In
+            </button>
+          </div>
+
+          <div class="login-footer">
+            <a href="#" (click)="ForgotPwd()">ลืมรหัสผ่าน?</a>
+            <div class="info-links">
+              <a href="#"></a> -
+              <a href="#"></a>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Bottom Scripts -->
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/TweenMax.min.js"></script>
+  <script src="assets/js/resizeable.js"></script>
+  <script src="assets/js/joinable.js"></script>
+  <script src="assets/js/xenon-api.js"></script>
+  <script src="assets/js/xenon-toggles.js"></script>
+  <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
+  <script src="assets/js/toastr/toastr.min.js"></script>
+  <!-- JavaScripts initializations and stuff -->
+  <script src="assets/js/xenon-custom.js"></script>-->
+</body>
+
+

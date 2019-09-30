@@ -1,0 +1,153 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">แบบทดสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">การค้นหา</h3>
+        <div class="panel-options">
+        </div>
+      </div>
+      <div class="panel-body">
+        <form role="form">
+          <div class="row">
+
+            <div class="form-group">
+              <div class="col-sm-4">
+                <label class="control-label">ค้นหาจาก</label>
+                <input type="text" class="form-control" id="text_search" placeholder="ชื่อแบบทดสอบ">
+              </div>
+              <div class="col-sm-3">
+                <label class="control-label">กลุ่มวิชา</label>
+                <select class="form-control select2" id="SubjectGroupID">
+                  <option></option>
+                  <option>GREATS</option>
+                  <option>SMART WORK</option>
+                  <option>SMART II</option>
+                  <option>SMART PV</option>
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label">วิชา</label>
+                <select class="form-control select2" id="SubjectID">
+                  <option></option>
+                  <option>G</option>
+                  <option>R</option>
+                  <option>E</option>
+                  <option>A</option>
+                  <option>T</option>
+                  <option>S</option>
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label">สถานะ</label>
+                <select class="form-control select2" id="Status">
+                  <option></option>
+                  <option>ใช้งาน</option>
+                  <option>ยกเลิก</option>
+                </select>
+              </div>
+
+              <div class="col-sm-1">
+                <button class="btn btn-blue btn-search btn-block" type="submit">
+                  ค้นหา
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">รายการ</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <a href="#" class="btn btn-secondary" [routerLink]="['/test']">
+      เพิ่ม
+    </a>
+
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>แบบทดสอบ</th>
+          <th>กลุ่มวิชา</th>
+          <th>วิชา</th>
+          <th>วันที่แก้ไข</th>
+          <th>สถานะ</th>
+          <th class="action"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>แบบทดสอบ G20190110</td>
+          <td>GREATS</td>
+          <td>G</td>
+          <td>1/1/2019</td>
+          <td>ใช้งาน</td>
+          <td>
+            <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+              แก้ไข
+            </a>
+            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+              ลบ
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>แบบทดสอบ G20190101</td>
+          <td>GREATS</td>
+          <td>G</td>
+          <td>1/1/2019</td>
+          <td>ยกเลิก</td>
+          <td>
+            <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+              แก้ไข
+            </a>
+            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+              ลบ
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6" class="text-right">
+            <ul class="pagination">
+              <li><a href="#"><i class="fa-angle-left"></i></a></li>
+              <li><a href="#">1</a></li>
+              <li class="active"><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li class="disabled"><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li><a href="#">6</a></li>
+              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>
+

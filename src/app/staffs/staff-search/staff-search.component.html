@@ -1,0 +1,131 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">เจ้าหน้าที่</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">การค้นหา</h3>
+        <div class="panel-options">
+        </div>
+      </div>
+      <div class="panel-body">
+        <form role="form">
+          <div class="row">
+
+            <div class="form-group">
+              <div class="col-sm-5">
+                <label class="control-label">ค้นหาจาก</label>
+                <input type="text" class="form-control" id="text_search" placeholder="ชื่อ นามสกุล รหัสประจำตัวประชาชน อีเมล เบอร์โทรศัพท์">
+              </div>
+              <div class="col-sm-4">
+                <label class="control-label">สิทธิ์การเข้าถึงระบบ</label>
+                <select class="form-control select2" id="SubjectGroupID">
+                  <option></option>
+                  <option>
+                    เจ้าหน้าที่ทั่วไป (Administrator)
+                  </option>
+                  <option>เจ้าหน้าที่พิเศษ (Master Administrator)</option>
+                  <option>ผู้กลั่นกรองข้อสอบ (Question Approval)</option>
+                  <option>ผู้กลั่นกรองข้อสอบพิเศษ (Master Question Approval)</option>
+                  <option>ผู้คัดเลือกแบบทดสอบ (Test Approval)</option>
+                  <option>ผู้คัดเลือกแบบทดสอบพิเศษ (Master Approval)</option>
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label">สถานะ</label>
+                <select class="form-control select2" id="Status">
+                  <option></option>
+                  <option>ใช้งาน</option>
+                  <option>ยกเลิก</option>
+                </select>
+              </div>
+
+              <div class="col-sm-1">
+                <button class="btn btn-blue btn-search btn-block" type="submit">
+                  ค้นหา
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">รายการ</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <a href="#" class="btn btn-secondary" [routerLink]="['/staff']" routerLinkActive="active">
+      เพิ่ม
+    </a>
+
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>ชื่อ-นามสกุล</th>
+          <th>อีเมล</th>
+          <th>รหัสบัตรประชาชน</th>
+          <th>เบอร์โทร</th>
+          <th>วันที่เปิด/หมดอายุ</th>
+          <th>สถานะ</th>
+          <th class="action"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>นวลเพ็ญ ศรีสาม</td>
+          <td>nonpen@tu.ac.th</td>
+          <td>1100254525552</td>
+          <td>0856657782</td>
+          <td>01/01/2019-01/02/2019</td>
+          <td>ใช้งาน</td>
+          <td>
+            <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+              แก้ไข
+            </a>
+            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+              ลบ
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="7" class="text-right">
+            <ul class="pagination">
+              <li><a href="#"><i class="fa-angle-left"></i></a></li>
+              <li><a href="#">1</a></li>
+              <li class="active"><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li class="disabled"><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li><a href="#">6</a></li>
+              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>
+

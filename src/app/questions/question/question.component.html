@@ -1,0 +1,45 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">ข้อสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">ประเภทข้อสอบ</label>
+                <div class="col-sm-9">
+                  <select class="form-control" id="QuestionTypeID" (change)="onChange($event, device.value)" #device>
+                    <option></option>
+                    <option value="1">ข้อสอบแบบเลือกตอบ (Multiple Choice)</option>
+                    <option value="2">ข้อสอบแบบถูก-ผิด (True-False)</option>
+                    <option value="3">ข้อสอบแบบจับคู่ (Multiple Matching)</option>
+                    <option value="4">ข้อสอบแบบตอบสั้น (Short Answer)</option>
+                    <option value="5">ข้อสอบอัตนัยหรือเรียงความ (Essay)</option>
+                    <option value="6">ข้อสอบแบบส่งงาน (Assignment)</option>
+                    <option value="7">ข้อสอบแบบเลือกตอบประกอบบทความ (Reading Text And Multiple Choice)</option>
+                    <option value="8">ข้อสอบแบบวัดทัศนคติ (Attitude)</option>
+                    <option value="9">ข้อสอบแบบปรนัยภาคพิสดาร (Comprehensive Multiple Choice)</option>
+                  </select>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

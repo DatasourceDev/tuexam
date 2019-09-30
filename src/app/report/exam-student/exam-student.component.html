@@ -1,0 +1,116 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">รายงานแสดงผลการสอบรายบุคคล</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">การค้นหา</h3>
+        <div class="panel-options">
+        </div>
+      </div>
+      <div class="panel-body">
+        <form role="form">
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-7">
+                <label class="control-label">ค้นหาจาก</label>
+                <input type="text" class="form-control" id="text_search" placeholder="ชื่อ นามสกุล รหัสนักศึกษา รหัสประจำตัวประชาชน Passport อีเมล">
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label">วันที่จาก</label>
+                <div class="input-group">
+                  <input type="text" class="form-control datepicker" data-format="dd/mm/yyyy">
+                  <div class="input-group-addon">
+                    <a href=""><i class="linecons-calendar"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label">ถึง</label>
+                <div class="input-group">
+                  <input type="text" class="form-control datepicker" data-format="dd/mm/yyyy">
+                  <div class="input-group-addon">
+                    <a href=""><i class="linecons-calendar"></i></a>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-sm-1">
+                <button class="btn btn-blue btn-search btn-block" type="submit">
+                  ค้นหา
+                </button>
+              </div>
+            </div>
+          </div>
+          
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">รายการ</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>รหัสนักศึกษา</th>
+          <th>ชื่อ-นามสกุล</th>
+          <th>วันที่สอบล่าสุด</th>
+          <th class="action"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>10021020</td>
+          <td>นาย วง ประทิน</td>
+          <td>03/01/2019</td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left"  [routerLink]="['/exam-student-all']" target="_blank">
+              ทั้งหมด
+            </a>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/exam-student-best-score']" target="_blank">
+              Best Score
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" class="text-right">
+            <ul class="pagination">
+              <li><a href="#"><i class="fa-angle-left"></i></a></li>
+              <li><a href="#">1</a></li>
+              <li class="active"><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li class="disabled"><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li><a href="#">6</a></li>
+              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>
+
