@@ -1,17 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
     "\\src\\app",
-    "\\src\\app\\examinations\\examination",
-    "\\src\\app\\examinations\\examination-end",
-    "\\src\\app\\examinations\\examination-send-type",
-    "\\src\\app\\grades\\grade-end",
-    "\\src\\app\\grades\\grade-prove",
     "\\src\\app\\layout",
-    "\\src\\app\\layout\\student-layout",
-    "\\src\\app\\tests",
-    "\\src\\app\\tests\\test"
+    "\\src\\app\\layout\\student-layout"
   ],
   "PreviewInSolutionExplorer": false
 }
