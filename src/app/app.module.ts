@@ -58,7 +58,7 @@ import { GradeEndComponent } from './grades/grade-end/grade-end.component';
 import { ExaminationSendTypeComponent } from './examinations/examination-send-type/examination-send-type.component';
 
 const appRoutes: Routes = [
-  { path: '', component: LoginStudentComponent },
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'login-student', component: LoginStudentComponent },
   { path: 'forgot', component: ForgotComponent },
