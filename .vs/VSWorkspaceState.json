@@ -1,9 +1,17 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src\\app",
-    "\\src\\app\\layout",
-    "\\src\\app\\layout\\student-layout"
+    "\\src",
+    "\\src\\app\\auth",
+    "\\src\\app\\authstudent",
+    "\\src\\app\\authstudent\\login-student",
+    "\\src\\app\\auth\\login",
+    "\\src\\app\\questions",
+    "\\src\\app\\subjects",
+    "\\src\\app\\subjects\\subject",
+    "\\src\\app\\subjects\\subject-search",
+    "\\src\\app\\tests",
+    "\\src\\app\\tests\\test"
   ],
   "PreviewInSolutionExplorer": false
 }

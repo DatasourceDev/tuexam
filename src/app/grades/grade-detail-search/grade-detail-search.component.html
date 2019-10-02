@@ -49,16 +49,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="col-sm-3">
-                <label class="control-label">จำนวนผู้เข้าสอบ</label>
-              </div>
-              <div class="col-sm-3">
-                <label class="control-label">20 คน</label>
-              </div>
-            </div>
-          </div>
+         
           <div class="row">
             <div class="form-group">
               <div class="col-sm-3">
@@ -98,7 +89,47 @@
 
 
 </div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">การค้นหา</h3>
+        <div class="panel-options">
+        </div>
+      </div>
+      <div class="panel-body">
+        <form role="form">
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-9">
+                <label class="control-label">ค้นหาจาก</label>
+                <input type="text" class="form-control" id="text_search" placeholder="ชื่อ นามสกุล รหัสนักศึกษา รหัสประจำตัวประชาชน Passport อีเมล เบอร์โทร">
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label">สถานะ</label>
+                <select class="form-control select2" id="Status">
+                  <option></option>
+                  <option>รอตรวสอบ</option>
+                  <option>ตรวจแล้ว</option>
+                </select>
+              </div>
 
+              <div class="col-sm-1">
+                <button class="btn btn-blue btn-search btn-block" type="submit">
+                  ค้นหา
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">รายการ</h3>
@@ -107,10 +138,10 @@
     </div>
   </div>
   <div class="panel-body">
-    <a href="#" class="btn btn-secondary">
+    <a href="#" class="btn btn-blue">
       พิมพ์ผลสอบ
     </a>
-    <a href="#" class="btn btn-secondary">
+    <a href="#" class="btn btn-blue">
       ส่งผลสอบทางอีเมล
     </a>
     <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
