@@ -2,16 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app\\auth",
-    "\\src\\app\\authstudent",
-    "\\src\\app\\authstudent\\login-student",
-    "\\src\\app\\auth\\login",
-    "\\src\\app\\questions",
-    "\\src\\app\\subjects",
-    "\\src\\app\\subjects\\subject",
-    "\\src\\app\\subjects\\subject-search",
-    "\\src\\app\\tests",
-    "\\src\\app\\tests\\test"
+    "\\src\\app",
+    "\\src\\app\\grades",
+    "\\src\\app\\grades\\grade-prove",
+    "\\src\\app\\report",
+    "\\src\\app\\report\\exam-by-date",
+    "\\src\\app\\report\\exam-by-month",
+    "\\src\\app\\report\\exam-student"
   ],
   "PreviewInSolutionExplorer": false
 }
