@@ -17,17 +17,14 @@ export class ExaminationSendTypeComponent implements OnInit {
     if (value == 'email') {
       $('#divemail').show();
       $('#divpost').hide();
-      $('#divother').hide();
     }
     else if (value == 'post') {
       $('#divemail').hide();
       $('#divpost').show();
-      $('#divother').hide();
     }
     else {
       $('#divemail').hide();
       $('#divpost').hide();
-      $('#divother').show();
     }
   }
 }

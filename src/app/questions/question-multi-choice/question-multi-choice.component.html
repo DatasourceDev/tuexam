@@ -77,11 +77,11 @@
                 <label class="col-sm-3 control-label">หลักสูตร <span class="text-red">*</span></label>
                 <div class="col-sm-9">
                   <label class="checkbox-inline">
-                    <input type="checkbox" >
+                    <input type="checkbox">
                     ไทย
                   </label>
                   <label class="checkbox-inline">
-                    <input type="checkbox" >
+                    <input type="checkbox">
                     อังกฤษ
                   </label>
                 </div>
@@ -103,6 +103,20 @@
                 <div class="col-sm-9">
                   <textarea class="form-control " placeholder="คำถาม(อังกฤษ)" rows="5"></textarea>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">ไฟล์คำถาม</label>
+                <div class="col-sm-9">
+                  <input type="file" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
               </div>
             </div>
           </div>
@@ -131,7 +145,7 @@
                       <th>คำตอบ(ไทย)</th>
                       <th>คำตอบ(อังกฤษ)</th>
                       <th>อธิบาย</th>
-                      <th>เฉลย</th>
+                      <th>คะแนน</th>
                       <th class="action"></th>
                     </tr>
                   </thead>
@@ -141,9 +155,54 @@
                       <td>AAAAAAAA</td>
                       <td>AAAAAAAA</td>
                       <td></td>
-                      <td></td>
+                      <td>1</td>
                       <td>
-                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" >
+                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+                          แก้ไข
+                        </a>
+                        <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                          ลบ
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>AAAAAAAA</td>
+                      <td>AAAAAAAA</td>
+                      <td></td>
+                      <td>-1</td>
+                      <td>
+                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+                          แก้ไข
+                        </a>
+                        <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                          ลบ
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>AAAAAAAA</td>
+                      <td>AAAAAAAA</td>
+                      <td></td>
+                      <td>2</td>
+                      <td>
+                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+                          แก้ไข
+                        </a>
+                        <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                          ลบ
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>AAAAAAAA</td>
+                      <td>AAAAAAAA</td>
+                      <td></td>
+                      <td>-1</td>
+                      <td>
+                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
                           แก้ไข
                         </a>
                         <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
@@ -162,10 +221,7 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label class="col-sm-3 control-label">คะแนน <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Point" placeholder="คะแนน">
-                </div>
+
               </div>
             </div>
             <div class="col-sm-6">
@@ -185,7 +241,7 @@
                   <select class="form-control select2" id="LevelID">
                     <option>ง่ายมาก</option>
                     <option>ง่าย</option>
-                    <option>ปานกลาง</option>
+                    <option selected>ปานกลาง</option>
                     <option>ยาก</option>
                     <option>ยากมาก</option>
                   </select>
@@ -263,10 +319,10 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <div class="col-sm-12 text-right">
-                  <a href="#" class="btn btn-blue" >
+                  <a href="#" class="btn btn-blue">
                     ดูตัวอย่างการแสดงผล
                   </a>
-                  <a href="#" class="btn btn-blue" >
+                  <a href="#" class="btn btn-blue">
                     ส่งให้กลั่นกรอง
                   </a>
                 </div>
@@ -383,4 +439,5 @@
     </div>
   </div>
 </div>
+
 

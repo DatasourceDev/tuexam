@@ -33,8 +33,6 @@ export class QuestionComponent implements OnInit {
       this.router.navigate(["/question-read-text-multi-choice"]);
     else if (deviceValue == '8')
       this.router.navigate(["/question-attitude"]);
-    else if (deviceValue == '9')
-      this.router.navigate(["/question-com-multi-choice"]);
   }
 
   

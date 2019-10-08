@@ -1210,6 +1210,38 @@ function setup_date_picker() {
 // Setup Calendar
 function setup_calendar() {
   // Calendar Initialization
+  var events = [];
+  for (var i = 1; i <= 31; i++){
+    var d = '2019-10-' + i;
+    var e1 = {
+      id: i+'1',
+      title: 'GREATS เช้า (30)',
+      start: d,
+      color: '#8dc63f'
+    };
+    var e2 = {
+      id: i + '2',
+      title: 'GREATS บ่าย (40)',
+      start: d,
+      color: '#ffba00'
+    };
+    var e3 = {
+      id: i + '3',
+      title: 'GREATS ค่ำ (10)',
+      start: d,
+      color: '#40bbea'
+    };
+    var e4 = {
+      id: i + '4',
+      title: 'SMART II เช้า (10)',
+      start: d,
+      color: '#2c2e2f'
+    };
+    events.push(e1);
+    events.push(e2);
+    events.push(e3);
+    events.push(e4);
+  }
   $('#calendar').fullCalendar({
     header: {
       left: 'title',
@@ -1218,12 +1250,16 @@ function setup_calendar() {
     },
     buttonIcons: {
       prev: 'prev fa-angle-left',
-      next: 'next fa-angle-right',
+      next: 'next fa-angle-right'
     },
-    defaultDate: '2014-09-12',
+    defaultDate: '2019-10-08',
     editable: true,
-    eventLimit: true,      
-    droppable: true,
+    eventLimit: true,
+    events: events,
+    eventClick: function (info) {
+      window.location = window.location.href.replace('exam-table','exam-register');
+    },
+    droppable: false,
     drop: function (date) {
 
       var $event = $(this).find('a'),

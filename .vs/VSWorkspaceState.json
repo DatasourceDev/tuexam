@@ -3,12 +3,17 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\grades",
-    "\\src\\app\\grades\\grade-prove",
-    "\\src\\app\\report",
-    "\\src\\app\\report\\exam-by-date",
-    "\\src\\app\\report\\exam-by-month",
-    "\\src\\app\\report\\exam-student"
+    "\\src\\app\\exams\\exam",
+    "\\src\\app\\questions\\question",
+    "\\src\\app\\questions\\question-multi-choice",
+    "\\src\\app\\questions\\question-multi-math",
+    "\\src\\app\\questions\\question-read-text-multi-choice",
+    "\\src\\app\\questions\\question-short-ans",
+    "\\src\\app\\questions\\question-tf",
+    "\\src\\app\\students",
+    "\\src\\app\\tests",
+    "\\src\\app\\tests\\test"
   ],
+  "SelectedNode": "\\src\\app\\students\\student\\student.component.html",
   "PreviewInSolutionExplorer": false
 }

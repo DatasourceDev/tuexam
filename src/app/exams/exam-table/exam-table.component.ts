@@ -13,16 +13,6 @@ export class ExamTableComponent implements OnInit {
 
   ngOnInit() {
     setup_calendar();
-    this.ChooseOnchange('random');
   }
-  ChooseOnchange(value) {
-    if (value == 'random') {
-      $('#divcustom').hide();
-      $('#divrandom').show();
-    }
-    else {
-      $('#divrandom').hide();
-      $('#divcustom').show();
-    }
-  }
+ 
 }

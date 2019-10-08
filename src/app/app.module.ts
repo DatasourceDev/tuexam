@@ -30,7 +30,6 @@ import { StudentSearchComponent } from './students/student-search/student-search
 import { QuestionComponent } from './questions/question/question.component';
 import { QuestionReadTextMultiChoiceComponent } from './questions/question-read-text-multi-choice/question-read-text-multi-choice.component';
 import { QuestionAttitudeComponent } from './questions/question-attitude/question-attitude.component';
-import { QuestionComMultiChoiceComponent } from './questions/question-com-multi-choice/question-com-multi-choice.component';
 import { TestSearchComponent } from './tests/test-search/test-search.component';
 import { TestComponent } from './tests/test/test.component';
 import { ExamSearchComponent } from './exams/exam-search/exam-search.component';
@@ -56,6 +55,8 @@ import { ExaminationEndComponent } from './examinations/examination-end/examinat
 import { StudentLayoutComponent } from './layout/student-layout/student-layout.component';
 import { GradeEndComponent } from './grades/grade-end/grade-end.component';
 import { ExaminationSendTypeComponent } from './examinations/examination-send-type/examination-send-type.component';
+import { ExaminationSummaryComponent } from './examinations/examination-summary/examination-summary.component';
+import { ExamAutoSetupComponent } from './exams/exam-auto-setup/exam-auto-setup.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -153,12 +154,6 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'question-com-multi-choice', component: MainLayoutComponent,
-    children: [
-      { path: '', component: QuestionComMultiChoiceComponent }
-    ]
-  },
-  {
     path: 'question-read-text-multi-choice', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionReadTextMultiChoiceComponent }
@@ -240,6 +235,12 @@ const appRoutes: Routes = [
     path: 'exam-table', component: MainLayoutComponent,
     children: [
       { path: '', component: ExamTableComponent }
+    ]
+  },
+  {
+    path: 'exam-auto-setup', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamAutoSetupComponent }
     ]
   },
   {
@@ -344,6 +345,13 @@ const appRoutes: Routes = [
       { path: '', component: ExaminationSendTypeComponent }
     ]
   },
+  {
+    path: 'examination-summary', component: StudentLayoutComponent,
+    children: [
+      { path: '', component: ExaminationSummaryComponent }
+    ]
+  },
+
 ];
 
 @NgModule({
@@ -375,7 +383,6 @@ const appRoutes: Routes = [
     QuestionComponent,
     QuestionReadTextMultiChoiceComponent,
     QuestionAttitudeComponent,
-    QuestionComMultiChoiceComponent,
     TestSearchComponent,
     TestComponent,
     ExamSearchComponent,
@@ -400,7 +407,9 @@ const appRoutes: Routes = [
     ExaminationEndComponent,
     StudentLayoutComponent,
     GradeEndComponent,
-    ExaminationSendTypeComponent    
+    ExaminationSendTypeComponent,
+    ExaminationSummaryComponent,
+    ExamAutoSetupComponent    
   ],
   imports: [
     BrowserModule,

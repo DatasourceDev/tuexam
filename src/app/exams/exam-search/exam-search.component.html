@@ -58,7 +58,7 @@
               <div class="col-sm-2">
                 <label class="control-label">วันที่จาก</label>
                 <div class="input-group">
-                  <input type="text" class="form-control datepicker"  data-format="dd/mm/yyyy">
+                  <input type="text" class="form-control datepicker" data-format="dd/mm/yyyy">
                   <div class="input-group-addon">
                     <a href=""><i class="linecons-calendar"></i></a>
                   </div>
@@ -67,14 +67,14 @@
               <div class="col-sm-2">
                 <label class="control-label">ถึง</label>
                 <div class="input-group">
-                  <input type="text" class="form-control datepicker"  data-format="dd/mm/yyyy">
+                  <input type="text" class="form-control datepicker" data-format="dd/mm/yyyy">
                   <div class="input-group-addon">
                     <a href=""><i class="linecons-calendar"></i></a>
                   </div>
                 </div>
               </div>
 
-             
+
             </div>
           </div>
 
@@ -96,7 +96,7 @@
     </div>
   </div>
   <div class="panel-body">
-    <a href="#" class="btn btn-secondary" [routerLink]="['/exam-table']">
+    <a href="#" class="btn btn-secondary" [routerLink]="['/exam']">
       เพิ่ม
     </a>
 
@@ -107,6 +107,7 @@
           <th>รอบ</th>
           <th>กลุ่มวิชา</th>
           <th>วิชา</th>
+          <th>แบบทดสอบ</th>
           <th>จำนวนผู้ลงทะเบียน</th>
           <th>ผู้ลงทะเบียน</th>
           <th class="action"></th>
@@ -118,15 +119,19 @@
           <td>เช้า</td>
           <td>GREATS</td>
           <td>G</td>
+          <td>สุ่ม</td>
           <td>20</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/exam-register-search']" >
-              ดู
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/exam-register-search']">
+              ลงทะเบียน / แก้ไข
             </a>
           </td>
           <td>
             <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
               พิมพ์ใบเซ็นชื่อ
+            </a>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/exam']">
+              แก้ไข
             </a>
             <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
               ลบ
@@ -138,15 +143,19 @@
           <td>บ่าย</td>
           <td>GREATS</td>
           <td>G</td>
+          <td>G00000001</td>
           <td>30</td>
           <td>
             <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/exam-register-search']">
-              ดู
+              ลงทะเบียน / แก้ไข
             </a>
           </td>
           <td>
             <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
               พิมพ์ใบเซ็นชื่อ
+            </a>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/exam']">
+              แก้ไข
             </a>
             <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
               ลบ

@@ -163,6 +163,23 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
+                  <label class="col-sm-3 control-label">ลำดับ <span class="text-red">*</span></label>
+                  <div class="col-sm-9">
+                    <label class="radio-inline">
+                      <input type="radio" name="radio-5"  value="customorder" checked>
+                      เรียงลำดับ
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="radio-5"  value="customnonorder" >
+                      สลับข้อ
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
                   <div class="col-sm-3">
                   </div>
                   <div class="col-sm-9">
@@ -195,7 +212,7 @@
                         <td>AAAAAAAA</td>
                         <td>ยาก</td>
                         <td>
-                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" >
+                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
                             แก้ไข
                           </a>
                           <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
@@ -209,7 +226,7 @@
                         <td>AAAAAAAA</td>
                         <td>ยาก</td>
                         <td>
-                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" >
+                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
                             แก้ไข
                           </a>
                           <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
@@ -226,6 +243,7 @@
               </div>
             </div>
           </div>
+          
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
@@ -236,7 +254,7 @@
                 <div class="col-sm-4">
                   <select class="form-control select2" id="TimeTypeID">
                     <option>วินาที</option>
-                    <option>นาที</option>
+                    <option selected>นาที</option>
                     <option>ชั่วโมง</option>
                   </select>
                 </div>

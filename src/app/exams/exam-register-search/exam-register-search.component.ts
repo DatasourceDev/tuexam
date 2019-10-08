@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'app-exam-register-search',
@@ -10,6 +11,17 @@ export class ExamRegisterSearchComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.ChooseOnchange('advance');
+  }
+  ChooseOnchange(value) {
+    if (value == 'advance') {
+      $('#divwalkin').hide();
+      $('#divadvance').show();
+    }
+    else {
+      $('#divadvance').hide();
+      $('#divwalkin').show();
+    }
   }
 
 }
