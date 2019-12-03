@@ -39,26 +39,14 @@
           <a href="#" data-toggle="dropdown">
             <img src="assets/images/user-1.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
             <span>
-              Arlind Nushi
+              {{useraccesdata.firstname}} {{useraccesdata.lastname}}
               <i class="fa-angle-down"></i>
             </span>
           </a>
 
           <ul class="dropdown-menu user-profile-menu list-unstyled">
-            <!--<li>
-              <a href="#" [routerLink]="['/staff']">
-                <i class="fa-user"></i>
-                ข้อมูลส่วนตัว
-              </a>
-            </li>
-            <li>
-              <a href="#" [routerLink]="['/reset-password']">
-                <i class="fa-key"></i>
-                เปลี่ยนรหัสผ่าน
-              </a>
-            </li>-->
             <li class="last">
-              <a href="#" [routerLink]="['/login-student']">
+              <a href="#" (click)="OnLogout()">
                 <i class="fa-lock"></i>
                 Logout
               </a>

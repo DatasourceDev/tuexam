@@ -1,0 +1,86 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+<div class="page-title">
+  <div class="title-env">
+    <h1 class="title">คำตอบ</h1>
+    <p class="description"></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ลำดับคำตอบ</label>
+                <div class="col-sm-4">
+                  <input class="form-control " id="order" name="order" formControlName="order" readonly />
+                </div>
+                <label class="col-sm-2 control-label">คะแนน <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input class="form-control " id="point" name="point" formControlName="point" />
+                  <span class="text-danger" *ngIf="!inputForm.get('point').valid && inputForm.get('point').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">คำตอบ(ไทย)</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control ckeditor" id="answesth" name="answesth" formControlName="answesth"></textarea>
+                  <span class="text-danger" *ngIf="!inputForm.get('answesth').valid && inputForm.get('answesth').touched">
+                    กรุณาระบุคำตอบ(ไทย) หรือ คำตอบ(อังกฤษ)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">                
+                <label class="col-sm-2 control-label">คำตอบ(อังกฤษ)</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control ckeditor"  id="answesen" name="answesen" formControlName="answesen"></textarea>
+                  <span class="text-danger" *ngIf="!inputForm.get('answesen').valid && inputForm.get('answesen').touched">
+                    กรุณาระบุคำตอบ(ไทย) หรือ คำตอบ(อังกฤษ)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">อธิบาย</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" rows="3" id="description" name="description" formControlName="description"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <button class="btn btn-danger" type="submit">
+                    บันทึก
+                  </button>
+                  <button href="#" class="btn btn-gray" (click)="OnBack()">
+                    กลับ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

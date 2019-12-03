@@ -28,14 +28,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              //"src/assets/js/bootstrap.min.js",
-              //"src/assets/js/TweenMax.min.js",
-              //"src/assets/js/resizeable.js",
-              //"src/assets/js/joinable.js",
-              //"src/assets/js/xenon-api.js",
-              //"src/assets/js/xenon-toggles.js",
-              //"src/assets/js/select2/select2.js",
-              //"src/assets/js/xenon-custom.js"
             ]
           },
           "configurations": {

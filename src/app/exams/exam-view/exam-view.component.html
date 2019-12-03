@@ -1,0 +1,135 @@
+<!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="page-title">
+  <div class="title-env">
+    <h1 class="title">รอบสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">วันที่ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examdate" name="examdate" formControlName="examdate" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">รอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <input type="hidden" class="form-control" id="examperiod" name="examperiod" formControlName="examperiod">
+                  <input type="text" class="form-control" value="{{examperiodname}}" readonly>
+                </div>
+              
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="hidden" class="form-control" id="groupid" name="groupid" formControlName="groupid">
+                  <input type="text" class="form-control" value="{{group}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">วิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <input type="hidden" class="form-control" id="subjectid" name="subjectid" formControlName="subjectid">
+                  <input type="text" class="form-control" value="{{subject}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ประเภทแบบทดสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <input type="hidden" class="form-control" id="examtesttype" name="examtesttype" formControlName="examtesttype">
+                  <input type="text" class="form-control" value="{{examtesttypename}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="divrandom"></div>
+          <div class="row" id="divcustom">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">แบบทดสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <input type="hidden" class="form-control" id="testid" name="testid" formControlName="testid">
+                  <input type="text" class="form-control" value="{{test}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4">                
+                  <a href="#" class="btn btn-gray" [routerLink]="['/exam-search']">
+                    กลับ
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="panel panel-default" *ngIf="testresultdata != null && testresultdata.length > 0">
+  <div class="panel-heading">
+    <h3 class="panel-title">ผู้เข้าสอบ</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>รหัสนักศึกษา</th>
+          <th>ชื่อ-นามสกุล</th>
+          <th>เวลาเริ่มทำแบบทดสอบ</th>
+          <th>เวลาส่งแบบทดสอบ</th>
+          <th>สถานะ</th>
+          <th>ตรวจข้อสอบ</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="testresultdata != null && testresultdata.length > 0">
+        <tr *ngFor="let item of testresultdata">
+          <td>{{item.studentcode}}</td>
+          <td>{{getStudentName(item.prefix,item.firstname,item.lastname, item.firstnameen, item.lastnameen)}}</td>
+          <td>{{item.starton}}</td>
+          <td>{{item.endon}}</td>
+          <td>{{item.examingstatus}}</td>
+          <td>{{item.provestatusname}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

@@ -1,11 +1,22 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
-    <h1 class="title">ตรวจข้อสอบ นายประสงค์ กลิ่นดี</h1>
-    <p class="description">ข้อที่ 2/10</p>
+    <h1 class="title">{{getStudentName(prefix, firstname, lastname, firstnameen, lastnameen)}}</h1>
+    <p class="description">ข้อที่ {{ix}}/{{questioncnt}}</p>
+    <h4>ได้ <b [ngClass]="{'text-success':point > 0}">{{point}}</b> คะแนน</h4>
   </div>
+  <div class="breadcrumb-env">
+    <ol class="breadcrumb bc-1">
+      <li class="text-right">
+        ทำข้อสอบทั้งหมด <b>{{answeredcnt}}</b>/{{questioncnt}} ข้อ
+        <h4>คะแนนรวม <b [ngClass]="{'text-success':totalpoint > 0}">{{totalpoint}}</b> คะแนน</h4>
+      </li>
+    </ol>
 
+  </div>
 </div>
 <div class="row">
   <div class="col-sm-12">
@@ -16,56 +27,24 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                  </p>
+                  <p [innerHTML]="questionth"> </p>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <u>คำตอบ</u>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <u>ให้คะแนน <span class="text-red">*</span></u>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-3">
-                  <input type="text" class="form-control" id="text_search" placeholder="คะแนน">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <a href="#" class="btn btn-danger" [routerLink]="['/grade-end']">
-                    ยืนยันการให้คะแนน
-                  </a>
+          <div *ngIf="questiontype == 1">
+            <div class="row" *ngFor="let item of answers">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-1" *ngIf="answerid == item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" checked disabled>
+                  </div>
+                  <div class="col-sm-1" *ngIf="answerid != item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" disabled>
+                  </div>
+                  <div class="col-sm-11">
+                    <p [innerHTML]="item.answerth"> </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,19 +54,23 @@
               <div class="form-group">
                 <div class="col-sm-12">
                   <ul class="pagination">
-                    <li><a href="#"><i class="fa-angle-left"></i></a></li>
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li class="disabled"><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li>
-                    <li><a href="#"><i class="fa-angle-right"></i></a></li>
+                    <li><a href="#" (click)="OnBack()"><i class="fa-angle-left"></i></a></li>
+                    <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==ix}">
+                      <a href="#" (click)="OnPageChange(item)">{{item}}</a>
+                    </li>
+                    <li><a href="#" (click)="OnNext()"><i class="fa-angle-right"></i></a></li>
                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <button  class="btn btn-gray" (click)="OnBacktoMain()">
+                    กลับ
+                  </button>
                 </div>
               </div>
             </div>

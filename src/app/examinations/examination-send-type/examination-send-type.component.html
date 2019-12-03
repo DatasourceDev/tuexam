@@ -11,11 +11,68 @@
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
+                  <b>
+                    {{useraccesdata.prefix}} {{useraccesdata.firstname}} {{useraccesdata.lastname}}
+                  </b>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  รหัสนักศึกษา <b>{{useraccesdata.studentcode}}</b>
+</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <u>แบบทดสอบ</u>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  กลุ่มวิชา <b>{{group}}</b>
+</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  วิชา <b>{{subject}}</b>
+</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  ทำข้อสอบไปทั้งหมดจำนวน <b>{{answeredcnt}}</b>/<b>{{questioncnt}}</b> ข้อ
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
                   ประกาศผลที่เว็บไซต์ <a href="https://tu.ac.th/" target="_blank">www.tu.ac.th</a>
                 </div>
               </div>
@@ -54,7 +111,10 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" placeholder="อีเมล">
+                  <input type="text" class="form-control"  id="email" name="email" formControlName="email">
+                  <span class="text-danger" *ngIf="!inputForm.get('email').valid && inputForm.get('email').touched">
+                    รูปแบบอีเมลไม่ถูกต้อง
+                  </span>
                 </div>
               </div>
             </div>
@@ -63,7 +123,10 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-6">
-                  <textarea class="form-control" placeholder="ที่อยู่" rows="3"></textarea>
+                  <textarea class="form-control" rows="3" id="address" name="address" formControlName="address"></textarea>
+                  <span class="text-danger" *ngIf="!inputForm.get('address').valid && inputForm.get('address').touched">
+                    กรุณาระบุที่อยู่
+                  </span>
                 </div>
               </div>
             </div>
@@ -73,9 +136,12 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  <a href="#" class="btn btn-orange" [routerLink]="['/examination-end']">
-                    ตกลง
-                  </a>
+                  <button class="btn btn-gray" (click)="OnBack()" *ngIf="timeremaining > 0">
+                    กลับไปยังแบบทดสอบ
+                  </button>
+                  <button class="btn btn-orange" type="submit">
+                    ส่งแบบทดสอบ
+                  </button>
                 </div>
               </div>
             </div>

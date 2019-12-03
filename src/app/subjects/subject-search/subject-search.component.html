@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -16,29 +18,25 @@
         </div>
       </div>
       <div class="panel-body">
-        <form role="form">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
           <div class="row">
             <div class="form-group">
               <div class="col-sm-6">
                 <label class="control-label">ค้นหาจาก</label>
-                <input type="text" class="form-control" id="text_search" placeholder="ชื่อวิชา">
+                <input type="text" class="form-control" id="text_search" name="text_search" formControlName="text_search" placeholder="ชื่อวิชา">
               </div>
               <div class="col-sm-3">
                 <label class="control-label">กลุ่มวิชา</label>
-                <select class="form-control select2" id="SubjectGroupID">
+                <select class="form-control" id="group_search" name="group_search" formControlName="group_search">
                   <option></option>
-                  <option>GREATS</option>
-                  <option>SMART WORK</option>
-                  <option>SMART II</option>
-                  <option>SMART PV</option>
+                  <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                 </select>
               </div>
               <div class="col-sm-2">
                 <label class="control-label">สถานะ</label>
-                <select class="form-control select2" id="Status">
+                <select class="form-control" id="status_search" name="status_search" formControlName="status_search">
                   <option></option>
-                  <option>ใช้งาน</option>
-                  <option>ยกเลิก</option>
+                  <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                 </select>
               </div>
 
@@ -69,7 +67,7 @@
     </div>
   </div>
   <div class="panel-body">
-    <a href="#" class="btn btn-secondary" [routerLink]="['/subject']" routerLinkActive="active">
+    <a href="#" class="btn btn-secondary" [routerLink]="['/subject/0']">
       เพิ่ม
     </a>
 
@@ -79,106 +77,38 @@
           <th>ลำดับการทำข้อสอบ</th>
           <th>กลุ่มวิชา</th>
           <th>วิชา</th>
+          <th>ผู้แก้ไข</th>
           <th>วันที่แก้ไข</th>
           <th>สถานะ</th>
           <th class="action"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.index}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.update_by}}</td>
+          <td>{{item.update_on}}</td>
+          <td>{{item.status}}</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
               แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+            </button>
+            <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)">
               ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>GREATS</td>
-          <td>R</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>GREATS</td>
-          <td>E</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>GREATS</td>
-          <td>A</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>GREATS</td>
-          <td>T</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>GREATS</td>
-          <td>S</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
+            </button>
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="6" class="text-right">
+          <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <!--<tfoot>
+        <tr>
+          <td colspan="8" class="text-right">
             <ul class="pagination">
               <li><a href="#"><i class="fa-angle-left"></i></a></li>
               <li><a href="#">1</a></li>
@@ -191,7 +121,7 @@
             </ul>
           </td>
         </tr>
-      </tfoot>
+      </tfoot>-->
     </table>
 
   </div>

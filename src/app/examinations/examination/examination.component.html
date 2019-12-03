@@ -1,16 +1,18 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
-    <h1 class="title">นายประสงค์ กลิ่นดี</h1>
-    <p class="description">ข้อที่ 2/10</p>
+    <h1 class="title">{{useraccesdata.prefix}} {{useraccesdata.firstname}} {{useraccesdata.lastname}}</h1>
+    <p class="description">ข้อที่ {{ix}}/{{questioncnt}}</p>
   </div>
   <div class="breadcrumb-env">
     <ol class="breadcrumb bc-1">
       <li class="text-right">
-        เหลือเวลาทำข้อสอบอีก <b>10:12</b> นาที
+        เหลือเวลาทำแบบทดสอบอีก <b>{{countdown}}</b> นาที
         <br />
-        ทำข้อสอบแล้ว <b>2</b>/20 ข้อ
+        ทำข้อสอบแล้ว <b>{{answeredcnt}}</b>/{{questioncnt}} ข้อ
       </li>
     </ol>
 
@@ -25,9 +27,24 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                  </p>
+                  <p [innerHTML]="questionth"> </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="questiontype == 1">
+            <div class="row" *ngFor="let item of answers">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-1" *ngIf="answerid == item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" checked #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-1" *ngIf="answerid != item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-11">
+                    <p [innerHTML]="item.answerth"> </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -36,27 +53,15 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  <u>คำตอบ</u>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <input type="text" class="form-control" id="text_search" placeholder="คำตอบ">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <a href="#" class="btn btn-orange" [routerLink]="['/examination-summary']">
-                    ยืนยันคำตอบ
-                  </a>
+                  <button href="#" class="btn btn-gray" (click)="OnBack()" *ngIf="ix > 1">
+                    ย้อนกลับ
+                  </button>
+                  <button href="#" class="btn btn-orange" (click)="OnNext()" *ngIf="ix < questioncnt">
+                    ถัดไป
+                  </button>
+                  <button href="#" class="btn btn-orange" (click)="OnSendResult()" *ngIf="ix == questioncnt">
+                    ถัดไป
+                  </button>
                 </div>
               </div>
             </div>
@@ -66,18 +71,9 @@
               <div class="form-group">
                 <div class="col-sm-12">
                   <ul class="pagination">
-                    <li><a href="#"><i class="fa-angle-left"></i></a></li>
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li class="disabled"><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li>
-                    <li><a href="#"><i class="fa-angle-right"></i></a></li>
+                    <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==ix}">
+                      <a href="#" (click)="OnPageChange(item)">{{item}}</a>
+                    </li>
                   </ul>
                 </div>
               </div>

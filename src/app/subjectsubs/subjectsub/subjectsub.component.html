@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -11,68 +13,71 @@
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">วิชาย่อย <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="text_search" placeholder="ชื่อวิชาย่อย">
+                <label class="col-sm-2 control-label">วิชาย่อย <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="name" name="name" formControlName="name" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('name').valid && inputForm.get('name').touched">
+                    กรุณาระบุชื่อวิชาย่อย
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectGroupID">
-                    <option>GREATS</option>
-                    <option>SMART WORK</option>
-                    <option>SMART II</option>
-                    <option>SMART PV</option>
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="groupid" name="groupid" formControlName="groupid" (change)="OnGroupChange(true)">
+                    <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('groupid').valid && inputForm.get('groupid').touched">
+                    กรุณาระบุกลุ่มวิชา
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">วิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectID">
-                    <option>G</option>
-                    <option>R</option>
-                    <option>E</option>
-                    <option>A</option>
-                    <option>T</option>
-                    <option>S</option>
+                <label class="col-sm-2 control-label">วิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="subjectid" name="subjectid" formControlName="subjectid">
+                    <option *ngFor="let item of subjectlist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('subjectid').valid && inputForm.get('subjectid').touched">
+                    กรุณาระบุวิชา
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">สถานะ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="Status">
-                    <option>ใช้งาน</option>
-                    <option>ยกเลิก</option>
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="status" name="status" formControlName="status">
+                    <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('status').valid && inputForm.get('status').touched">
+                    กรุณาระบุสถานะ
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-4">
                   <button class="btn btn-danger" type="submit">
                     บันทึก
                   </button>

@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -16,34 +18,26 @@
         </div>
       </div>
       <div class="panel-body">
-        <form role="form">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
           <div class="row">
 
             <div class="form-group">
               <div class="col-sm-5">
                 <label class="control-label">ค้นหาจาก</label>
-                <input type="text" class="form-control" id="text_search" placeholder="ชื่อ นามสกุล รหัสประจำตัวประชาชน อีเมล เบอร์โทร">
+                <input type="text" class="form-control" id="text_search" name="text_search" formControlName="text_search" placeholder="ชื่อ นามสกุล รหัสประจำตัวประชาชน อีเมล เบอร์โทร">
               </div>
               <div class="col-sm-4">
                 <label class="control-label">สิทธิ์การเข้าถึงระบบ</label>
-                <select class="form-control select2" id="SubjectGroupID">
+                <select class="form-control" id="role_search" name="role_search" formControlName="role_search">
                   <option></option>
-                  <option>
-                    เจ้าหน้าที่ทั่วไป (Administrator)
-                  </option>
-                  <option>เจ้าหน้าที่พิเศษ (Master Administrator)</option>
-                  <option>ผู้กลั่นกรองข้อสอบ (Question Approval)</option>
-                  <option>ผู้กลั่นกรองข้อสอบพิเศษ (Master Question Approval)</option>
-                  <option>ผู้คัดเลือกแบบทดสอบ (Test Approval)</option>
-                  <option>ผู้คัดเลือกแบบทดสอบพิเศษ (Master Approval)</option>
+                  <option *ngFor="let item of rolelist" value="{{item.value}}">{{item.text}}</option>
                 </select>
               </div>
               <div class="col-sm-2">
                 <label class="control-label">สถานะ</label>
-                <select class="form-control select2" id="Status">
+                <select class="form-control" id="status_search" name="status_search" formControlName="status_search">
                   <option></option>
-                  <option>ใช้งาน</option>
-                  <option>ยกเลิก</option>
+                  <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                 </select>
               </div>
 
@@ -74,13 +68,14 @@
     </div>
   </div>
   <div class="panel-body">
-    <a href="#" class="btn btn-secondary" [routerLink]="['/staff']" routerLinkActive="active">
+    <a href="#" class="btn btn-secondary" [routerLink]="['/staff/0']">
       เพิ่ม
     </a>
 
     <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
       <thead>
         <tr>
+          <th>รหัสผู้ใช้</th>
           <th>ชื่อ-นามสกุล</th>
           <th>อีเมล</th>
           <th>รหัสบัตรประชาชน</th>
@@ -90,40 +85,31 @@
           <th class="action"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>นวลเพ็ญ ศรีสาม</td>
-          <td>nonpen@tu.ac.th</td>
-          <td>1100254525552</td>
-          <td>0856657782</td>
-          <td>01/01/2019-01/02/2019</td>
-          <td>ใช้งาน</td>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.username}}</td>
+          <td>{{item.prefix}} {{item.firstname}} {{item.lastname}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.idcard}}</td>
+          <td>{{item.phone}}</td>
+          <td>{{item.opendate}} - {{item.expirydate}}</td>
+          <td>{{item.status}}</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+            <button class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
               แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+            </button>
+            <button class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)">
               ลบ
-            </a>
+            </button>
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="7" class="text-right">
-            <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
-            </ul>
-          </td>
+          <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
         </tr>
-      </tfoot>
+      </tbody>
+
     </table>
 
   </div>

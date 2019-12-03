@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
   <div class="title-env">
     <h1 class="title">รอบสอบ</h1>
@@ -10,107 +12,112 @@
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">วันที่ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 control-label">วันที่ <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
                   <div class="input-group">
-                    <input type="text" class="form-control datepicker"  data-format="dd/mm/yyyy">
+                    <input type="text" class="form-control datepicker" id="examdate" name="examdate" formControlName="examdate" data-format="dd/mm/yyyy">
                     <div class="input-group-addon">
                       <a href=""><i class="linecons-calendar"></i></a>
                     </div>
                   </div>
+                  <span class="text-danger" *ngIf="!inputForm.get('examdate').valid && inputForm.get('examdate').touched">
+                    กรุณาระบุรอบ
+                  </span>
                 </div>
+               
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">รอบ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2">
-                    <option>เช้า</option>
-                    <option>บ่าย</option>
-                    <option>ค่ำ</option>
+                <label class="col-sm-2 control-label">รอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <select class="form-control " id="examperiod" name="examperiod" formControlName="examperiod">
+                    <option *ngFor="let item of examperiodlist" value="{{item.value}}">{{item.text}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('examperiod').valid && inputForm.get('examperiod').touched">
+                    กรุณาระบุรอบ
+                  </span>
                 </div>
+                
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2">
-                    <option>GREATS</option>
-                    <option>SMART WORK</option>
-                    <option>SMART II</option>
-                    <option>SMART PV</option>
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <select class="form-control" id="groupid" name="groupid" formControlName="groupid" (change)="OnGroupChange(true)">
+                    <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('groupid').valid && inputForm.get('groupid').touched">
+                    กรุณาระบุกลุ่มวิชา
+                  </span>
                 </div>
+               
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">วิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectID">
-                    <option>G</option>
-                    <option>R</option>
-                    <option>E</option>
-                    <option>A</option>
-                    <option>T</option>
-                    <option>S</option>
+                <label class="col-sm-2 control-label">วิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <select class="form-control " id="subjectid" name="subjectid" formControlName="subjectid" (change)="OnSubjectChange()">
+                    <option *ngFor="let item of subjectlist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('subjectid').valid && inputForm.get('subjectid').touched">
+                    กรุณาระบุวิชา
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label"></label>
-                <div class="col-sm-9">
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-4" checked #device1 value="random" (change)="ChooseOnchange(device1.value)">
-                    สุ่มแบบทดสอบ
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-4" #device2 value="custom" (change)="ChooseOnchange(device2.value)">
-                    กำหนดแบบทดสอบเอง
-                  </label>
+                <label class="col-sm-2 control-label">ประเภทแบบทดสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <select class="form-control " id="examtesttype" name="examtesttype" formControlName="examtesttype" (change)="ExamTypeOnchange()">
+                    <option *ngFor="let item of examtesttypelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('examtesttype').valid && inputForm.get('examtesttype').touched">
+                    กรุณาระบุประเภทแบบทดสอบ
+                  </span>
                 </div>
+                
               </div>
             </div>
           </div>
           <div id="divrandom"></div>
           <div class="row" id="divcustom">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">แบบทดสอบ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2">
-                    <option>G0000001</option>
-                    <option>G0000002</option>
-                    <option>G0000003</option>
-                    <option>G0000004</option>
+                <label class="col-sm-2 control-label">แบบทดสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4" >
+                  <select class="form-control " id="testid" name="testid" formControlName="testid" (change)="ExamTypeOnchange()">
+                    <option *ngFor="let item of testlist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('testid').valid && inputForm.get('testid').touched">
+                    กรุณาระบุแบบทดสอบ
+                  </span>
                 </div>
+                
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <div class="col-sm-3">  </div>
-                <div class="col-sm-9">
-                  <button class="btn btn-danger" type="submit">
+                <div class="col-sm-2">  </div>
+                <div class="col-sm-4">
+                  <button class="btn btn-danger" type="submit" >
                     บันทึก
                   </button>
                   <a href="#" class="btn btn-gray" [routerLink]="['/exam-search']">
@@ -127,4 +134,3 @@
 
   </div>
 </div>
-

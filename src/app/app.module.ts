@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, NgSelectOption } from "@angular/forms";
+import { FormsModule, NgSelectOption, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from '@angular/router';
+import { HttpModule } from '@angular/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -58,6 +61,16 @@ import { ExaminationSendTypeComponent } from './examinations/examination-send-ty
 import { ExaminationSummaryComponent } from './examinations/examination-summary/examination-summary.component';
 import { ExamAutoSetupComponent } from './exams/exam-auto-setup/exam-auto-setup.component';
 
+import { AppService } from "./share/service/app.service";
+import { AppData } from "./share/data/app.data";
+import { SessionService } from './share/service/session.service';
+import { Interceptor } from './share/service/httpinterceptor';
+import { AnswerComponent } from './questions/answer/answer.component';
+import { TestQrandomComponent } from './tests/test-qrandom/test-qrandom.component';
+import { TestQcustomComponent } from './tests/test-qcustom/test-qcustom.component';
+import { ResetPasswordStudentComponent } from './authstudent/reset-password-student/reset-password-student.component';
+import { ExamViewComponent } from './exams/exam-view/exam-view.component';
+
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -70,7 +83,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'subjectgroup', component: MainLayoutComponent,
+    path: 'subjectgroup/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: SubjectgroupComponent }
     ]
@@ -82,7 +95,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'subject', component: MainLayoutComponent,
+    path: 'subject/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: SubjectComponent }
     ]
@@ -94,7 +107,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'subjectsub', component: MainLayoutComponent,
+    path: 'subjectsub/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: SubjectsubComponent }
     ]
@@ -112,51 +125,57 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'question-assigment', component: MainLayoutComponent,
+    path: 'question-assigment/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionAssigmentComponent }
     ]
   },
   {
-    path: 'question-eassy', component: MainLayoutComponent,
+    path: 'question-eassy/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionEassyComponent }
     ]
   },
   {
-    path: 'question-multi-choice', component: MainLayoutComponent,
+    path: 'question-multi-choice/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionMultiChoiceComponent }
     ]
   },
   {
-    path: 'question-multi-math', component: MainLayoutComponent,
+    path: 'question-multi-math/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionMultiMathComponent }
     ]
   },
   {
-    path: 'question-short-ans', component: MainLayoutComponent,
+    path: 'question-short-ans/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionShortAnsComponent }
     ]
   },
   {
-    path: 'question-tf', component: MainLayoutComponent,
+    path: 'question-tf/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionTfComponent }
     ]
   },
   {
-    path: 'question-attitude', component: MainLayoutComponent,
+    path: 'question-attitude/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionAttitudeComponent }
     ]
   },
   {
-    path: 'question-read-text-multi-choice', component: MainLayoutComponent,
+    path: 'question-read-text-multi-choice/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionReadTextMultiChoiceComponent }
+    ]
+  },
+  {
+    path: 'answer/:qid/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: AnswerComponent }
     ]
   },
   {
@@ -172,7 +191,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'student', component: MainLayoutComponent,
+    path: 'student/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: StudentComponent }
     ]
@@ -184,19 +203,25 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'staff', component: MainLayoutComponent,
+    path: 'staff/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: StaffComponent }
     ]
   },
   {
-    path: 'reset-password', component: MainLayoutComponent,
+    path: 'reset-password/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: ResetPasswordComponent }
     ]
-  },     
+  },
   {
-    path: 'test', component: MainLayoutComponent,
+    path: 'reset-password-student/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ResetPasswordStudentComponent }
+    ]
+  }, 
+  {
+    path: 'test/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: TestComponent }
     ]
@@ -208,15 +233,33 @@ const appRoutes: Routes = [
     ]
   },
   {
+    path: 'test-qrandom/:tid/:gid/:sid/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: TestQrandomComponent }
+    ]
+  },
+  {
+    path: 'test-qcustom/:tid/:gid/:sid/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: TestQcustomComponent }
+    ]
+  },
+  {
     path: 'exam-search', component: MainLayoutComponent,
     children: [
       { path: '', component: ExamSearchComponent }
     ]
   },
   {
-    path: 'exam', component: MainLayoutComponent,
+    path: 'exam/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: ExamComponent }
+    ]
+  },
+  {
+    path: 'exam-view/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamViewComponent }
     ]
   },
   {
@@ -226,7 +269,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'exam-register-search', component: MainLayoutComponent,
+    path: 'exam-register-search/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: ExamRegisterSearchComponent }
     ]
@@ -250,7 +293,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'grade-detail-search', component: MainLayoutComponent,
+    path: 'grade-detail-search/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: GradeDetailSearchComponent }
     ]
@@ -310,7 +353,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'grade-prove', component: MainLayoutComponent,
+    path: 'grade-prove/:id/:ix', component: MainLayoutComponent,
     children: [
       { path: '', component: GradeProveComponent }
     ]
@@ -322,13 +365,13 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'examination', component: StudentLayoutComponent,
+    path: 'examination/:id/:ix', component: StudentLayoutComponent,
     children: [
       { path: '', component: ExaminationComponent }
     ]
   },
   {
-    path: 'examination-end', component: StudentLayoutComponent,
+    path: 'examination-end/:id', component: StudentLayoutComponent,
     children: [
       { path: '', component: ExaminationEndComponent }
     ]
@@ -340,7 +383,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'examination-send-type', component: StudentLayoutComponent,
+    path: 'examination-send-type/:id', component: StudentLayoutComponent,
     children: [
       { path: '', component: ExaminationSendTypeComponent }
     ]
@@ -393,7 +436,7 @@ const appRoutes: Routes = [
     GradeSearchComponent,
     GradeDetailSearchComponent,
     QuestionLevelComponent,
-    QuestionAnalyzeComponent,   
+    QuestionAnalyzeComponent,
     ExamStudentComponent,
     ExamStudentBestScoreComponent,
     ExamStudentListComponent,
@@ -409,17 +452,35 @@ const appRoutes: Routes = [
     GradeEndComponent,
     ExaminationSendTypeComponent,
     ExaminationSummaryComponent,
-    ExamAutoSetupComponent    
+    ExamAutoSetupComponent,
+    AnswerComponent,
+    TestQrandomComponent,
+    TestQcustomComponent,
+    ResetPasswordStudentComponent,
+    ExamViewComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
+    HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }
-    )
+    ),
+    NgxLoadingModule.forRoot({})
   ],
-  providers: [],
+  providers: [
+    AppService,
+    AppData,
+    SessionService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

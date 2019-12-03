@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -20,37 +22,43 @@
         <tr>
           <th>กลุ่มวิชา</th>
           <th>วิชา</th>
+          <th>แบบทดสอบ</th>
           <th>จำนวนข้อสอบ</th>
           <th>เวลา</th>
           <th class="action">ทำเข้าสอบ</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>20</td>
-          <td>30 นาที</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/examination']">
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.test}}</td>
+          <td>{{item.questioncnt}}</td>
+          <td>{{item.timelimit}} {{item.timelimittype}}</td>
+          <td *ngIf="item.examingstatus == 0 ">
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnStart(item.id)">
               เริ่ม
-            </a>
+            </button>
           </td>
-        </tr>
-        <tr>
-          <td>GREATS</td>
-          <td>R</td>
-          <td>20</td>
-          <td>30 นาที</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/examination']">
-              เริ่ม
-            </a>
+          <td *ngIf="item.examingstatus == 1">
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnStart(item.id)">
+              ทำข้อสอบต่อ
+            </button>
+          </td>
+          <td *ngIf="item.examingstatus == 2">
+            สิ้นสุดแบบทดสอบ
           </td>
         </tr>
       </tbody>
+      <tbody *ngIf="data == null || data.length == 0">
+        <tr>
+          <td colspan="6" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
     </table>
-
+    <a href="#" class="btn btn-gray" (click)="OnLogout()">
+      ออกจากระบบ
+    </a>
   </div>
 </div>
 

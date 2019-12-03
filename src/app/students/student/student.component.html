@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -12,190 +14,179 @@
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">รหัสผู้ใช้</label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 control-label">รหัสผู้ใช้</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="username" name="username" formControlName="username" maxlength="250" readonly>
+                  <span class="text-danger" *ngIf="!inputForm.get('username').valid && inputForm.get('username').touched">
+                    กรุณาระบุรหัสผู้ใช้
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">รหัสนักศึกษา</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="StudentID" placeholder="รหัสนักศึกษา">
+                <label class="col-sm-2 control-label">รหัสนักศึกษา</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="studentcode" name="studentcode" formControlName="studentcode" maxlength="100">
+                  <span class="text-danger" *ngIf="!inputForm.get('studentcode').valid && inputForm.get('studentcode').touched">
+                    กรุณาระบุรหัสผู้ใช้
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">คำนำหน้า <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="PrefixID">
-                    <option>นาย</option>
-                    <option>นางสาว</option>
-                    <option>นาง</option>
+                <label class="col-sm-2 control-label">คำนำหน้า <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="prefix" name="prefix" formControlName="prefix">
+                    <option *ngFor="let item of prefixlist" value="{{item.value}}">{{item.text}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('prefix').valid && inputForm.get('prefix').touched">
+                    กรุณาระบุคำนำหน้า
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">สถานะ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="Status">
-                    <option>ใช้งาน</option>
-                    <option>ยกเลิก</option>
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="status" name="status" formControlName="status">
+                    <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                   </select>
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">ชื่อ(ไทย)</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Name" placeholder="ชื่อ">
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">นามสกุล(ไทย)</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="LastName" placeholder="นามสกุล">
+                  <span class="text-danger" *ngIf="!inputForm.get('status').valid && inputForm.get('status').touched">
+                    กรุณาระบุสถานะ
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">ชื่อ(อังกฤษ)</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Name" placeholder="ชื่อ">
+                <label class="col-sm-2 control-label">ชื่อ</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="firstname" name="firstname" formControlName="firstname" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('firstname').valid && inputForm.get('firstname').touched">
+                    กรุณาระบุชื่อ(ไทย) หรือ ชื่อ(อังกฤษ)
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">นามสกุล(อังกฤษ)</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="LastName" placeholder="นามสกุล">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">รหัสประจำตัวประชาชน</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="CardID" placeholder="รหัสประจำตัวประชาชน">
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">อีเมล</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Email" placeholder="อีเมล">
+                <label class="col-sm-2 control-label">นามสกุล</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="lastname" name="lastname" formControlName="lastname" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('lastname').valid && inputForm.get('lastname').touched">
+                    กรุณาระบุนามสกุล(ไทย) หรือ นามสกุล(อังกฤษ)
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">เบอร์โทรศัพท์</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="PhoneNumber" placeholder="เบอร์โทรศัพท์">
+                <label class="col-sm-2 control-label">ชื่อ(อังกฤษ)</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="firstnameen" name="firstnameen" formControlName="firstnameen" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('firstnameen').valid && inputForm.get('firstnameen').touched">
+                    กรุณาระบุชื่อ(ไทย) หรือ ชื่อ(อังกฤษ)
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Passport</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Passport" placeholder="Passport">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">ที่อยู่</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control" placeholder="ที่อยู่" rows="3"></textarea>
+                <label class="col-sm-2 control-label">นามสกุล(อังกฤษ)</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="lastnameen" name="lastnameen" formControlName="lastnameen" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('lastnameen').valid && inputForm.get('lastnameen').touched">
+                    กรุณาระบุนามสกุล(ไทย) หรือ นามสกุล(อังกฤษ)
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">คณะ</label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="FacultyID">
+                <label class="col-sm-2 control-label">เลขประจำตัวประชาชน <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="idcard" name="idcard" formControlName="idcard" maxlength="14">
+                  <span class="text-danger" *ngIf="!inputForm.get('idcard').valid && inputForm.get('idcard').touched">
+                    กรุณาระบุเลขประจำตัวประชาชน
+                  </span>
+                </div>
+                <label class="col-sm-2 control-label">อีเมล</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="email" name="email" formControlName="email" maxlength="100">
+                  <div class="text-danger" *ngIf="!inputForm.get('email').valid && inputForm.get('email').touched">
+                    รูปแบบอีเมลไม่ถูกต้อง
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">เบอร์โทรศัพท์</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="phone" name="phone" formControlName="phone" maxlength="50">
+                </div>
+                <label class="col-sm-2 control-label">Passport</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="passport" name="passport" formControlName="passport" maxlength="50">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ที่อยู่</label>
+                <div class="col-sm-4">
+                  <textarea class="form-control" rows="3" id="address" name="address" formControlName="address" maxlength="1000" ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">คณะ</label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="faculty" name="faculty" formControlName="faculty">
                     <option></option>
+                    <option *ngFor="let item of facultylist" value="{{item.value}}">{{item.text}}</option>
                   </select>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">หลักสูตร <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="LangID">
-                    <option></option>
-                    <option>ไทย</option>
-                    <option>อังกฤษ</option>
-                    <option>สองภาษา</option>
+                <label class="col-sm-2 control-label">หลักสูตร <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="course" name="course" formControlName="course">
+                    <option *ngFor="let item of courselist" value="{{item.value}}">{{item.text}}</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-10">
                   <button class="btn btn-danger" type="submit">
                     บันทึก
                   </button>
-
-                  <a href="#" class="btn btn-gray" [routerLink]="['/staff-search']">
+                  <button href="#" class="btn btn-blue" (click)="OnReset()" *ngIf="id != null && id > 0">
+                    เปลี่ยนรหัสผ่าน
+                  </button>
+                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank" *ngIf="id != null && id > 0">
+                    ประวัติการเข้าสอบ
+                  </a>
+                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank" *ngIf="id != null && id > 0">
+                    ประวัติการเข้า-ออกจากระบบ
+                  </a>
+                  <a href="#" class="btn btn-gray" [routerLink]="['/student-search']">
                     กลับ
                   </a>
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <div class="col-sm-12 text-right">
-                  <a href="#" class="btn btn-blue" [routerLink]="['/reset-password']">
-                    เปลี่ยนรหัสผ่าน
-                  </a>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
-                    ประวัติการเข้าสอบ
-                  </a>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
-                    ประวัติการเข้า-ออกจากระบบ
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
-
         </form>
 
       </div>

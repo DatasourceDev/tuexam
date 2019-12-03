@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -16,20 +18,19 @@
         </div>
       </div>
       <div class="panel-body">
-        <form role="form">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
           <div class="row">
 
             <div class="form-group">
               <div class="col-sm-9">
                 <label class="control-label">ค้นหาจาก</label>
-                <input type="text" class="form-control" id="text_search" placeholder="ชื่อกลุ่มวิชา">
+                <input type="text" class="form-control" id="text_search" name="text_search" placeholder="ชื่อกลุ่มวิชา" formControlName="text_search" maxlength="1000">
               </div>
               <div class="col-sm-2">
                 <label class="control-label">สถานะ</label>
-                <select class="form-control select2" id="Status">
+                <select class="form-control" id="status_search" name="status_search" formControlName="status_search">
                   <option></option>
-                  <option>ใช้งาน</option>
-                  <option>ยกเลิก</option>
+                  <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                 </select>
               </div>
               <div class="col-sm-1">
@@ -58,7 +59,7 @@
     </div>
   </div>
   <div class="panel-body">
-    <a href="#" class="btn btn-secondary" [routerLink]="['/subjectgroup']">
+    <a href="#" class="btn btn-secondary" [routerLink]="['/subjectgroup/0']">
       เพิ่ม
     </a>
 
@@ -67,81 +68,33 @@
       <thead>
         <tr>
           <th>กลุ่มวิชา</th>
+          <th>ผู้แก้ไข</th>
           <th>วันที่แก้ไข</th>
           <th>สถานะ</th>
           <th class="action"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>GREATS</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.name}}</td>
+          <td>{{item.update_by}}</td>
+          <td>{{item.update_on}}</td>
+          <td>{{item.status}}</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+            <button class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
               แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+            </button>
+            <button class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)">
               ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>SMART WORK</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>SMART II</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>SMART PV</td>
-          <td>10/10/2019 15:45</td>
-          <td>ใช้งาน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              แก้ไข
-            </a>
-            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-              ลบ
-            </a>
+            </button>
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="4" class="text-right">
-            <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
-            </ul>
-          </td>
+          <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
         </tr>
-      </tfoot>
+      </tbody>
     </table>
 
   </div>

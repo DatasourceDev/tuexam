@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -12,350 +14,288 @@
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">รหัสแบบทดสอบ</label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 control-label">รหัสแบบทดสอบ</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="testcode" name="testcode" formControlName="testcode" readonly>
+                </div>
+                <label class="col-sm-2 control-label">ชื่อแบบทดสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="name" name="name" formControlName="name" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('name').valid && inputForm.get('name').touched">
+                    กรุณาระบุชื่อแบบทดสอบ
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectGroupID">
-                    <option>GREATS</option>
-                    <option>SMART WORK</option>
-                    <option>SMART II</option>
-                    <option>SMART PV</option>
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4" *ngIf="this.id == null || this.id== 0">
+                  <select class="form-control" id="groupid" name="groupid" formControlName="groupid" (change)="OnGroupChange(true)">
+                    <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('groupid').valid && inputForm.get('groupid').touched">
+                    กรุณาระบุกลุ่มวิชา
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">วิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectID">
-                    <option>G</option>
-                    <option>R</option>
-                    <option>E</option>
-                    <option>A</option>
-                    <option>T</option>
-                    <option>S</option>
+                <div class="col-sm-4" *ngIf="this.id != null && this.id > 0">
+                  <input type="text" class="form-control" id="group" name="group" formControlName="group" readonly>
+                  <input type="hidden" class="form-control" id="groupid" name="groupid" formControlName="groupid">
+                </div>
+                <label class="col-sm-2 control-label">วิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4" *ngIf="this.id == null || this.id== 0">
+                  <select class="form-control " id="subjectid" name="subjectid" formControlName="subjectid">
+                    <option *ngFor="let item of subjectlist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('subjectid').valid && inputForm.get('subjectid').touched">
+                    กรุณาระบุวิชา
+                  </span>
+                </div>
+                <div class="col-sm-4" *ngIf="this.id != null && this.id > 0">
+                  <input type="text" class="form-control" id="subject" name="subject" formControlName="subject" readonly>
+                  <input type="hidden" class="form-control" id="subjectid" name="subjectid" formControlName="subjectid" >
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">ชื่อแบบทดสอบ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <input class="form-control " placeholder="ชื่อแบบทดสอบ">
-
+                <label class="col-sm-2 control-label">คำอธิบาย</label>
+                <div class="col-sm-4">
+                  <textarea class="form-control " id="description" name="description" formControlName="description" rows="5"></textarea>
+                  <span class="text-danger" *ngIf="!inputForm.get('description').valid && inputForm.get('description').touched">
+                    กรุณาระบุคำอธิบาย
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">คำอธิบาย</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control " placeholder="คำอธิบาย" rows="5"></textarea>
+                <label class="col-sm-2 control-label">เวลาสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="timelimit" name="timelimit" formControlName="timelimit">
+                  <span class="text-danger" *ngIf="!inputForm.get('timelimit').valid && inputForm.get('timelimit').touched">
+                    กรุณาระบุเวลาสอบ
+                  </span>
+                </div>
+                <div class="col-sm-2">
+                  <select class="form-control " id="timelimittype" name="timelimittype" formControlName="timelimittype">
+                    <option *ngFor="let item of timetypelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('timelimittype').valid && inputForm.get('timelimittype').touched">
+                    กรุณาระบุหน่วย
+                  </span>
+                </div>
+                <label class="col-sm-2 control-label">รูปแบบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="testdoexamtype" name="testdoexamtype" formControlName="testdoexamtype">
+                    <option *ngFor="let item of testdoexamtypelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('testdoexamtype').valid && inputForm.get('testdoexamtype').touched">
+                    กรุณาระบุรูปแบบ
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">กำหนดข้อสอบ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-4" checked #device1 value="random" (change)="ChooseOnchange(device1.value)">
-                    สุ่ม
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-4" #device2 value="custom" (change)="ChooseOnchange(device2.value)">
-                    กำหนดเอง
-                  </label>
+                <label class="col-sm-2 control-label">หลักสูตร <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="course" name="course" formControlName="course">
+                    <option *ngFor="let item of courselist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('course').valid && inputForm.get('course').touched">
+                    กรุณาระบุหลักสูตร
+                  </span>
+                </div>
+                <label class="col-sm-2 control-label">แสดงผลคะแนน <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="showresult" name="showresult" formControlName="showresult">
+                    <option *ngFor="let item of showresultlist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('showresult').valid && inputForm.get('showresult').touched">
+                    กรุณาระบุแสดงผลคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="status" name="status" formControlName="status">
+                    <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('status').valid && inputForm.get('status').touched">
+                    กรุณาระบุสถานะ
+                  </span>
+                </div>
+                <label class="col-sm-2 control-label">การคัดเลือก <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="approvalstatus" name="approvalstatus" formControlName="approvalstatus">
+                    <option *ngFor="let item of approvelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('approvalstatus').valid && inputForm.get('approvalstatus').touched">
+                    กรุณาระบุการคัดเลือก
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">กำหนดข้อสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="testquestiontype" name="testquestiontype" formControlName="testquestiontype" (change)="ChooseOnchange()">
+                    <option *ngFor="let item of testquestionlist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('testquestiontype').valid && inputForm.get('testquestiontype').touched">
+                    กรุณาระบุกำหนดข้อสอบ
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row" id="divrandom">
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-11">
+            <div class="col-sm-12">
               <div class="form-group">
-                <table class="table table-bordered table-striped" cellspacing="0" width="100%">
-                  <thead>
-                    <tr>
-                      <th>ประเภทข้อสอบ</th>
-                      <th>วิชาย่อย</th>
-                      <th>ง่ายมาก</th>
-                      <th>ง่าย</th>
-                      <th>ปากลาง</th>
-                      <th>ยาก</th>
-                      <th>ยากมาก</th>
-                      <th class="action"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>ข้อสอบแบบเลือกตอบ (Multiple Choice)</td>
-                      <td>G1</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>10</td>
-                      <td>10</td>
-                      <td>10</td>
-                      <td>
-                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" >
-                          กำหนด
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ข้อสอบแบบถูก-ผิด (True-False)</td>
-                      <td>G1</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>10</td>
-                      <td>10</td>
-                      <td>10</td>
-                      <td>
-                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" >
-                          กำหนด
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ข้อสอบแบบจับคู่ (Multiple Matching)</td>
-                      <td>G1</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>10</td>
-                      <td>10</td>
-                      <td>10</td>
-                      <td>
-                        <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" >
-                          กำหนด
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div id="divcustom">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">ลำดับ <span class="text-red">*</span></label>
-                  <div class="col-sm-9">
-                    <label class="radio-inline">
-                      <input type="radio" name="radio-5"  value="customorder" checked>
-                      เรียงลำดับ
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="radio-5"  value="customnonorder" >
-                      สลับข้อ
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <div class="col-sm-3">
-                  </div>
-                  <div class="col-sm-9">
-                    <button class="btn btn-secondary" type="button">
-                      เพิ่มข้อสอบ
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-1">
-              </div>
-              <div class="col-sm-11">
-                <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <button class="btn btn-secondary" type="button" (click)="OnQRandomAdd()">
+                    เพิ่ม
+                  </button>
                   <table class="table table-bordered table-striped" cellspacing="0" width="100%">
                     <thead>
                       <tr>
-                        <th>ลำดับ</th>
-                        <th>คำถาม(ไทย)</th>
-                        <th>คำถาม(อังกฤษ)</th>
-                        <th>ระดับความยาก</th>
+                        <th>ประเภทข้อสอบ</th>
+                        <th>วิชาย่อย</th>
+                        <th>ง่ายมาก</th>
+                        <th>ง่าย</th>
+                        <th>ปากลาง</th>
+                        <th>ยาก</th>
+                        <th>ยากมาก</th>
                         <th class="action"></th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>AAAAAAAA</td>
-                        <td>AAAAAAAA</td>
-                        <td>ยาก</td>
+                    <tbody *ngIf="qrandomdata != null && qrandomdata.length > 0">
+                      <tr *ngFor="let item of qrandomdata">
+                        <td>{{item.questiontype}}</td>
+                        <td>{{item.sub}}</td>
+                        <td>{{item.veryeasy}}</td>
+                        <td>{{item.easy}}</td>
+                        <td>{{item.mid}}</td>
+                        <td>{{item.hard}}</td>
+                        <td>{{item.veryhard}}</td>
                         <td>
-                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+                          <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnQRandomEdit(item.id)">
                             แก้ไข
-                          </a>
-                          <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                          </button>
+                          <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnQRandomDelete(item.id)">
                             ลบ
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>AAAAAAAA</td>
-                        <td>AAAAAAAA</td>
-                        <td>ยาก</td>
-                        <td>
-                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-                            แก้ไข
-                          </a>
-                          <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
-                            ลบ
-                          </a>
+                          </button>
                         </td>
                       </tr>
                     </tbody>
-                    <tfoot>
-
-                    </tfoot>
+                    <tbody *ngIf="qrandomdata == null || qrandomdata.length == 0">
+                      <tr>
+                        <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-          
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">เวลาสอบ <span class="text-red">*</span></label>
-                <div class="col-sm-5">
-                  <input type="text" class="form-control" id="Time" placeholder="เวลา">
-                </div>
-                <div class="col-sm-4">
-                  <select class="form-control select2" id="TimeTypeID">
-                    <option>วินาที</option>
-                    <option selected>นาที</option>
-                    <option>ชั่วโมง</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">รูปแบบ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="LevelID">
-                    <option>เดินหน้าและถอยหลัง</option>
-                    <option>เดินหน้าอย่างเดียว</option>
-                  </select>
+          <div id="divcustom">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ลำดับ <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <select class="form-control " id="testcustomordertype" name="testcustomordertype" formControlName="testcustomordertype">
+                      <option *ngFor="let item of testcustomordertypelist" value="{{item.value}}">{{item.text}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('testcustomordertype').valid && inputForm.get('testcustomordertype').touched">
+                      กรุณาระบุลำดับ
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-10">
+                    <button class="btn btn-secondary" type="button" (click)="OnQCustomAdd()">
+                      เพิ่มข้อสอบ
+                    </button>
+                    <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>ลำดับ</th>
+                          <th>คำถาม</th>
+                          <th>ระดับความยาก</th>
+                          <th class="action"></th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="qcustomdata != null && qcustomdata.length > 0">
+                        <tr *ngFor="let item of qcustomdata">
+                          <td>{{item.order}}</td>
+                          <td>{{getquestion(item.questionth,item.questionen)}}</td>
+                          <td>{{item.questionlevel}}</td>
+                          <td>
+                            <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnQCustomDelete(item.id)">
+                              ลบ
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="qcustomdata == null || qcustomdata.length == 0">
+                        <tr>
+                          <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
 
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">หลักสูตร <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-2" checked>
-                    ไทย
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-2">
-                    อังกฤษ
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">แสดงผลคะแนน <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-3" checked>
-                    แสดง
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-3">
-                    ไม่แสดง
-                  </label>
+                      </tfoot>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">สถานะ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="Status">
-                    <option>ใช้งาน</option>
-                    <option>ยกเลิก</option>
-                  </select>
+                <div class="col-sm-2">
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">การคัดเลือก <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" >
-                    <option>ร่าง</option>
-                    <option>รอการคัดเลือก</option>
-                    <option>คัดเลือกแล้ว</option>
-                    <option>ไม่ผ่านการคัดเลือก</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <div class="col-sm-3">
-                </div>
-                <div class="col-sm-9">
+                <div class="col-sm-10">
                   <button class="btn btn-danger" type="submit">
                     บันทึก
                   </button>
-
-                  <a href="#" class="btn btn-gray" [routerLink]="['/staff-search']">
-                    กลับ
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <div class="col-sm-12 text-right">
                   <a href="#" class="btn btn-blue" [routerLink]="['/reset-password']">
                     ดูตัวอย่างการแสดงผล
                   </a>
                   <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
                     ส่งให้คัดเลือก
+                  </a>
+                  <a href="#" class="btn btn-gray" [routerLink]="['/test-search']">
+                    กลับ
                   </a>
                 </div>
               </div>

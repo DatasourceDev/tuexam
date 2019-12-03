@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -11,90 +13,111 @@
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
+          <input type="hidden" class="form-control" id="userid" name="userid" formControlName="userid">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">คำนำหน้า <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="PrefixID">
-                    <option>นาย</option>
-                    <option>นางสาว</option>
-                    <option>นาง</option>
+                <label class="col-sm-2 control-label">รหัสผู้ใช้ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="username" name="username" formControlName="username" maxlength="250" readonly>
+                  <span class="text-danger" *ngIf="!inputForm.get('username').valid && inputForm.get('username').touched">
+                    กรุณาระบุรหัสผู้ใช้
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">คำนำหน้า <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="prefix" name="prefix" formControlName="prefix">
+                    <option *ngFor="let item of prefixlist" value="{{item.value}}">{{item.text}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('prefix').valid && inputForm.get('prefix').touched">
+                    กรุณาระบุคำนำหน้า
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">สถานะ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="Status">
-                    <option>ใช้งาน</option>
-                    <option>ยกเลิก</option>
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="status" name="status" formControlName="status">
+                    <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                   </select>
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">ชื่อ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Name" placeholder="ชื่อ">
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">นามสกุล <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="LastName" placeholder="นามสกุล">
+                  <span class="text-danger" *ngIf="!inputForm.get('status').valid && inputForm.get('status').touched">
+                    กรุณาระบุสถานะ
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">รหัสประจำตัวประชาชน <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="CardID" placeholder="รหัสประจำตัวประชาชน">
+                <label class="col-sm-2 control-label">ชื่อ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="firstname" name="firstname" formControlName="firstname" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('firstname').valid && inputForm.get('firstname').touched">
+                    กรุณาระบุชื่อ
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">อีเมล</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Email" placeholder="อีเมล">
+                <label class="col-sm-2 control-label">นามสกุล <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="lastname" name="lastname" formControlName="lastname" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('lastname').valid && inputForm.get('lastname').touched">
+                    กรุณาระบุนามสกุล
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">เบอร์โทร</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="PhoneNumber" placeholder="เบอร์โทร">
+                <label class="col-sm-2 control-label">รหัสประจำตัวประชาชน <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="idcard" name="idcard" formControlName="idcard" maxlength="14">
+                  <span class="text-danger" *ngIf="!inputForm.get('idcard').valid && inputForm.get('idcard').touched">
+                    กรุณาระบุรหัสประจำตัวประชาชน
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
+                <label class="col-sm-2 control-label">อีเมล</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="email" name="email" formControlName="email" maxlength="100">
+                  <div class="text-danger" *ngIf="!inputForm.get('email').valid && inputForm.get('email').touched">
+                    รูปแบบอีเมลไม่ถูกต้อง
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">วันที่เปิดใช้งาน</label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 control-label">เบอร์โทร</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="phone" name="phone" formControlName="phone" maxlength="10">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">วันที่เปิดใช้งาน</label>
+                <div class="col-sm-4">
                   <div class="input-group">
-                    <input type="text" class="form-control datepicker" id="OpenDate" data-format="dd/mm/yyyy">
+                    <input type="text" class="form-control datepicker" id="opendate" name="opendate" formControlName="opendate" data-format="dd/mm/yyyy">
+                    <div class="input-group-addon">
+                      <a href=""><i class="linecons-calendar"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <label class="col-sm-2 control-label">วันที่หมดอายุ</label>
+                <div class="col-sm-4">
+                  <div class="input-group">
+                    <input type="text" class="form-control datepicker" id="expirydate" name="expirydate" formControlName="expirydate" data-format="dd/mm/yyyy">
                     <div class="input-group-addon">
                       <a href=""><i class="linecons-calendar"></i></a>
                     </div>
@@ -102,25 +125,12 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">วันที่หมดอายุ</label>
-                <div class="col-sm-9">
-                  <div class="input-group">
-                    <input type="text" class="form-control datepicker" id="ExpiryDate" data-format="dd/mm/yyyy">
-                    <div class="input-group-addon">
-                      <a href=""><i class="linecons-calendar"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">สิทธิ์ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 control-label">สิทธิ์ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
                   <label>
                     <input type="checkbox">
                     เจ้าหน้าที่ทั่วไป (Administrator)
@@ -153,35 +163,28 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-10">
                   <button class="btn btn-danger" type="submit">
                     บันทึก
                   </button>
-
+                  <button href="#" class="btn btn-blue"  (click)="OnReset()" *ngIf="id != null && id > 0">
+                    เปลี่ยนรหัสผ่าน
+                  </button>
+                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank" *ngIf="id != null && id > 0">
+                    ประวัติการเข้า-ออกจากระบบ
+                  </a>
                   <a href="#" class="btn btn-gray" [routerLink]="['/staff-search']">
                     กลับ
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <div class="col-sm-12 text-right">
-                  <a href="#" class="btn btn-blue" [routerLink]="['/reset-password']">
-                    เปลี่ยนรหัสผ่าน
-                  </a>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
-                    ประวัติการเข้า-ออกจากระบบ
                   </a>
                 </div>
               </div>

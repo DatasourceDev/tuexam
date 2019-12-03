@@ -1,0 +1,129 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="page-title">
+  <div class="title-env">
+    <h1 class="title">ข้อสอบ</h1>
+    <p class="description"></p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ประเภทข้อสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="questiontype" name="questiontype" formControlName="questiontype">
+                    <option *ngFor="let item of questiontypelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('questiontype').valid && inputForm.get('questiontype').touched">
+                    กรุณาระบุประเภทข้อสอบ
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">วิชาย่อย <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " id="subid" name="subid" formControlName="subid">
+                    <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('subid').valid && inputForm.get('subid').touched">
+                    กรุณาระบุวิชาย่อย
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ง่ายมาก</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="veryeasy" name="veryeasy" formControlName="veryeasy">
+                  <span class="text-danger" *ngIf="!inputForm.get('veryeasy').valid && inputForm.get('veryeasy').touched">
+                    กรุณาระบุจำนวนข้อสอบ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ง่าย</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="easy" name="easy" formControlName="easy">
+                  <span class="text-danger" *ngIf="!inputForm.get('easy').valid && inputForm.get('easy').touched">
+                    กรุณาระบุจำนวนข้อสอบ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ปานกลาง</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="mid" name="mid" formControlName="mid">
+                  <span class="text-danger" *ngIf="!inputForm.get('mid').valid && inputForm.get('mid').touched">
+                    กรุณาระบุจำนวนข้อสอบ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ยาก</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="hard" name="hard" formControlName="hard">
+                  <span class="text-danger" *ngIf="!inputForm.get('hard').valid && inputForm.get('hard').touched">
+                    กรุณาระบุจำนวนข้อสอบ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ยากมาก</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="veryhard" name="veryhard" formControlName="veryhard">
+                  <span class="text-danger" *ngIf="!inputForm.get('veryhard').valid && inputForm.get('veryhard').touched">
+                    กรุณาระบุจำนวนข้อสอบ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <button class="btn btn-danger" type="submit">
+                    บันทึก
+                  </button>
+                  <button href="#" class="btn btn-gray" (click)="OnBack()">
+                    กลับ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

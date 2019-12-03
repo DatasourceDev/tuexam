@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -9,39 +11,73 @@
 </div>
 <div class="row">
   <div class="col-sm-12">
-    <div class="panel panel-default">
+    <div class="panel panel-default" >
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">ชื่อกลุ่มวิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="text_search" placeholder="ชื่อกลุ่มวิชา">
+                <label class="col-sm-2 control-label">ชื่อกลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="name" id="name" name="name" maxlength="250">
+                  <span class="text-danger" *ngIf="!inputForm.get('name').valid && inputForm.get('name').touched">
+                    กรุณาระบุชื่อกลุ่มวิชา
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
-
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">สถานะ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="Status">
-                    <option>ใช้งาน</option>
-                    <option>ยกเลิก</option>
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control " formControlName="status" id="status" name="status">
+                    <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('status').valid && inputForm.get('status').touched">
+                    กรุณาระบุสถานะ
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <div class="col-sm-3">
+                <label class="col-sm-2 control-label">สีที่แสดงบนตารางสอบ (เช้า)</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="color1" id="color1" name="color1">
                 </div>
-                <div class="col-sm-9">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">สีที่แสดงบนตารางสอบ (บ่าย)</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="color2" id="color2" name="color2">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">สีที่แสดงบนตารางสอบ (ค่ำ)</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="color3" id="color3" name="color3">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-4">
                   <button class="btn btn-danger" type="submit">
                     บันทึก
                   </button>

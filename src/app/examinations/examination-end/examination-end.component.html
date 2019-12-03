@@ -16,9 +16,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  <p>
-                    นายประสงค์ กลิ่นดี
-                  </p>
+                    <b>{{useraccesdata.prefix}} {{useraccesdata.firstname}} {{useraccesdata.lastname}}</b>
                 </div>
               </div>
             </div>
@@ -27,8 +25,8 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  รหัสนักศึกษา 10200012
-                </div>
+                  รหัสนักศึกษา <b>{{useraccesdata.studentcode}}</b>
+</div>
               </div>
             </div>
           </div>
@@ -45,7 +43,25 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  กลุ่มวิชา GREATS
+                  กลุ่มวิชา <b>{{group}}</b>
+</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  วิชา <b>{{subject}}</b>
+</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  เริ่มทำแบบดสอบ <b>{{starton}}</b>
                 </div>
               </div>
             </div>
@@ -54,7 +70,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  วิชา G
+                  ส่งแบบดสอบ <b>{{endon}}</b>
                 </div>
               </div>
             </div>
@@ -63,7 +79,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  เริ่มทำแบบดสอบ 10/10/209 10:30
+                  ทำข้อสอบไปทั้งหมดจำนวน <b>{{answeredcnt}}</b>/<b>{{questioncnt}}</b> ข้อ
                 </div>
               </div>
             </div>
@@ -72,7 +88,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  เริ่มทำแบบดสอบ 10/10/209 11:02
+                  ตอบถูกจำนวน <b>{{correctcnt}}</b>/<b>{{questioncnt}}</b> ข้อ
                 </div>
               </div>
             </div>
@@ -81,25 +97,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  ทำข้อสอบจำนวน 20/20 ข้อ
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  ตอบถูกจำนวน 15/20 ข้อ
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  ผลคะแนน 15 คะแนน
+                  ผลคะแนน <b>{{point}}</b> คะแนน
                 </div>
               </div>
             </div>
@@ -109,7 +107,10 @@
               <div class="form-group">
                 <div class="col-sm-12">
                   <a href="#" class="btn btn-orange" [routerLink]="['/examination-select']">
-                    สิ้นสุดแบบทดสอบ
+                    ปิดแบบทดสอบ
+                  </a>
+                  <a href="#" class="btn btn-gray" (click)="OnLogout()">
+                    ออกจากระบบ
                   </a>
                 </div>
               </div>

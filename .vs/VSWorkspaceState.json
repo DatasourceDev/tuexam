@@ -3,17 +3,16 @@
     "",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\exams",
     "\\src\\app\\exams\\exam",
-    "\\src\\app\\questions\\question",
-    "\\src\\app\\questions\\question-multi-choice",
-    "\\src\\app\\questions\\question-multi-math",
-    "\\src\\app\\questions\\question-read-text-multi-choice",
-    "\\src\\app\\questions\\question-short-ans",
-    "\\src\\app\\questions\\question-tf",
-    "\\src\\app\\students",
-    "\\src\\app\\tests",
-    "\\src\\app\\tests\\test"
+    "\\src\\app\\exams\\exam-table",
+    "\\src\\app\\staffs\\staff-search",
+    "\\src\\app\\students\\student-search",
+    "\\src\\app\\subjectgroups",
+    "\\src\\app\\subjectgroups\\subjectgroup",
+    "\\src\\assets",
+    "\\src\\assets\\js"
   ],
-  "SelectedNode": "\\src\\app\\students\\student\\student.component.html",
+  "SelectedNode": "\\src\\assets\\js\\xenon-custom.js",
   "PreviewInSolutionExplorer": false
 }

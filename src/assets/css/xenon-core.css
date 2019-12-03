@@ -753,7 +753,7 @@ footer.main-footer .footer-inner:after,
 }
 
 body {
-  background-color: #eee
+  background-color: #eee;
 }
 
 a {
@@ -9282,3 +9282,4 @@ pre {
 .btn.btn-search {
   margin-top: 23px;
 }
+

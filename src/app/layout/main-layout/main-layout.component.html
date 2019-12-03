@@ -1,3 +1,4 @@
+
 <div class="boxed-container-red">
 
   <nav class="navbar horizontal-menu navbar-fixed-top navbar-minimal">
@@ -97,11 +98,11 @@
                 <span class="title">รอบสอบ</span>
               </a>
             </li>
-            <li>
+            <!--<li>
               <a href="#" [routerLink]="['/exam-register']">
                 <span class="title">ลงทะเบียน</span>
               </a>
-            </li>
+            </li>-->
             <li>
               <a href="#" [routerLink]="['/grade-search']">
                 <span class="title">ตรวจข้อสอบ</span>
@@ -168,26 +169,26 @@
           <a href="#" data-toggle="dropdown">
             <img src="assets/images/user-1.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
             <span>
-              Arlind Nushi
+              {{useraccesdata.firstname}} {{useraccesdata.lastname}}
               <i class="fa-angle-down"></i>
             </span>
           </a>
 
           <ul class="dropdown-menu user-profile-menu list-unstyled">
             <li>
-              <a href="#" [routerLink]="['/staff']">
+              <a href="#" (click)="OnProfile()">
                 <i class="fa-user"></i>
                 ข้อมูลส่วนตัว
               </a>
             </li>
             <li>
-              <a href="#" [routerLink]="['/reset-password']">
+              <a href="#" (click)="OnReset()">
                 <i class="fa-key"></i>
                 เปลี่ยนรหัสผ่าน
               </a>
             </li>
             <li class="last">
-              <a href="#" [routerLink]="['/login']">
+              <a href="#" (click)="OnLogout()">
                 <i class="fa-lock"></i>
                 Logout
               </a>
@@ -207,7 +208,6 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-
   <footer class="main-footer sticky footer-type-1">
 
     <div class="footer-inner">

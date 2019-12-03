@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -17,43 +19,28 @@
         </div>
       </div>
       <div class="panel-body">
-        <form role="form">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
           <div class="row">
             <div class="form-group">
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                 <label class="control-label">ค้นหาจาก</label>
-                <input type="text" class="form-control" id="text_search" placeholder="ชื่อแบบทดสอบ ผู้เข้าสอบ">
+                <input type="text" class="form-control" id="text_search" name="text_search" formControlName="text_search" placeholder="ชื่อแบบทดสอบ ชื่อนักศึกษา นามสกุล รหัสนักศึกษา รหัสประจำตัวประชาชน Passport อีเมล">
               </div>
               <div class="col-sm-3">
                 <label class="control-label">กลุ่มวิชา</label>
-                <select class="form-control select2" id="SubjectGroupID">
+                <select class="form-control " id="group_search" name="group_search" formControlName="group_search" (change)="OnGroupChange()">
                   <option></option>
-                  <option>GREATS</option>
-                  <option>SMART WORK</option>
-                  <option>SMART II</option>
-                  <option>SMART PV</option>
+                  <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                 </select>
               </div>
               <div class="col-sm-2">
                 <label class="control-label">วิชา</label>
-                <select class="form-control select2" id="SubjectID">
+                <select class="form-control" id="subject_search" name="subject_search" formControlName="subject_search">
                   <option></option>
-                  <option>G</option>
-                  <option>R</option>
-                  <option>E</option>
-                  <option>A</option>
-                  <option>T</option>
-                  <option>S</option>
+                  <option *ngFor="let item of subjectlist" value="{{item.id}}">{{item.name}}</option>
                 </select>
               </div>
-              <div class="col-sm-2">
-                <label class="control-label">สถานะ</label>
-                <select class="form-control select2" id="Status">
-                  <option></option>
-                  <option>รอตรวจสอบ</option>
-                  <option>ตรวจแล้ว</option>
-                </select>
-              </div>
+
 
               <div class="col-sm-1">
                 <button class="btn btn-blue btn-search btn-block" type="submit">
@@ -67,7 +54,7 @@
               <div class="col-sm-2">
                 <label class="control-label">วันที่จาก</label>
                 <div class="input-group">
-                  <input type="text" class="form-control datepicker" data-format="dd/mm/yyyy">
+                  <input type="text" class="form-control datepicker" id="from_search" name="from_search" formControlName="from_search" data-format="dd/mm/yyyy">
                   <div class="input-group-addon">
                     <a href=""><i class="linecons-calendar"></i></a>
                   </div>
@@ -76,13 +63,19 @@
               <div class="col-sm-2">
                 <label class="control-label">ถึง</label>
                 <div class="input-group">
-                  <input type="text" class="form-control datepicker" data-format="dd/mm/yyyy">
+                  <input type="text" class="form-control datepicker" id="to_search" name="to_search" formControlName="to_search" data-format="dd/mm/yyyy">
                   <div class="input-group-addon">
                     <a href=""><i class="linecons-calendar"></i></a>
                   </div>
                 </div>
               </div>
-
+              <div class="col-sm-2">
+                <label class="control-label">สถานะ</label>
+                <select class="form-control" id="status_search" name="status_search" formControlName="status_search">
+                  <option></option>
+                  <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
+                </select>
+              </div>
 
             </div>
           </div>
@@ -110,7 +103,6 @@
         <tr>
           <th>วันที่</th>
           <th>รอบ</th>
-          <th>กลุ่มวิชา</th>
           <th>วิชา</th>
           <th>ผู้เข้าสอบ</th>
           <th>ตรวจแล้ว</th>
@@ -119,37 +111,41 @@
           <th class="action"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>20/10/2019</td>
-          <td>เช้า</td>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>20</td>
-          <td>10</td>
-          <td>10</td>
-          <td>
-            รอตรวจสอบ
-          </td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left"  [routerLink]="['/grade-detail-search']">
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.examdate}}</td>
+          <td>{{item.examperiod}}</td>
+          <td>{{item.group}} - {{item.subject}}</td>
+          <td>{{item.examregistercnt}}</td>
+          <td>{{item.provedcnt}}</td>
+          <td>{{item.unprovedcnt}}</td>
+          <td>{{item.provestatusname}}</td>
+          <td *ngIf="item.provestatus == 0">
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
               ตรวจ
-            </a>
+            </button>
+          </td>
+          <td *ngIf="item.provestatus == 1">
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
+              ดู
+            </button>
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="9" class="text-right">
+          <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="pagelen > 1">
+        <tr>
+          <td colspan="8" class="text-right">
             <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+              <li><a href="#" (click)="OnPageChange(pageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==pageno}">
+                <a href="#" (click)="OnPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnPageChange(pageno+1)"><i class="fa-angle-right"></i></a></li>
             </ul>
           </td>
         </tr>

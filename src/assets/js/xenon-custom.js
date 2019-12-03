@@ -281,7 +281,8 @@ var public_vars = public_vars || {};
       $(".select2").each(function (i, el) {
         var $this = $(el),
           opts = {
-            allowClear: attrDefault($this, 'allowClear', false)
+            allowClear: attrDefault($this, 'allowClear', false),
+            minimumResultsForSearch: -1
           };
 
         $this.select2(opts);
@@ -1138,18 +1139,19 @@ function sidebar_menu_close_items_siblings($li) {
   });
 }
  // select2
-function setup_select2() {
+function setup_select2() {        
+
   if ($.isFunction($.fn.select2)) {
     $(".select2").each(function (i, el) {
       var $this = $(el),
         opts = {
-          allowClear: attrDefault($this, 'allowClear', false)
+          allowClear: attrDefault($this, 'allowClear', false),
+          minimumResultsForSearch: -1
         };
 
       $this.select2(opts);
       $this.addClass('visible');
 
-      //$this.select2("open");
     });
 
 
@@ -1161,14 +1163,6 @@ function setup_select2() {
       });
     }
   }
-  //$(".select2").select2({
-  //  placeholder: '',
-  //  allowClear: true,
-  //  minimumResultsForSearch: -1
-  //}).on('select2-open', function () {
-  //  // Adding Custom Scrollbar
-  //  $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
-  //});
 }
 // Datepicker
 function setup_date_picker() {
@@ -1207,41 +1201,25 @@ function setup_date_picker() {
   }
 }
 
-// Setup Calendar
-function setup_calendar() {
-  // Calendar Initialization
-  var events = [];
-  for (var i = 1; i <= 31; i++){
-    var d = '2019-10-' + i;
-    var e1 = {
-      id: i+'1',
-      title: 'GREATS เช้า (30)',
-      start: d,
-      color: '#8dc63f'
-    };
-    var e2 = {
-      id: i + '2',
-      title: 'GREATS บ่าย (40)',
-      start: d,
-      color: '#ffba00'
-    };
-    var e3 = {
-      id: i + '3',
-      title: 'GREATS ค่ำ (10)',
-      start: d,
-      color: '#40bbea'
-    };
-    var e4 = {
-      id: i + '4',
-      title: 'SMART II เช้า (10)',
-      start: d,
-      color: '#2c2e2f'
-    };
-    events.push(e1);
-    events.push(e2);
-    events.push(e3);
-    events.push(e4);
+// summernot
+function setup_summernote() {
+  $('.summernote').summernote({
+    height: 500 
+  });
+}
+
+//ckeditor
+function setup_ckeditor() {
+  // CKeditor WYSIWYG
+  if ($.isFunction($.fn.ckeditor)) {
+    $(".ckeditor").ckeditor({
+      contentsLangDirection: rtl() ? 'rtl' : 'ltr'
+    });
   }
+}
+// Setup Calendar
+function setup_calendar(events, curdate) {
+  // Calendar Initialization
   $('#calendar').fullCalendar({
     header: {
       left: 'title',
@@ -1252,12 +1230,12 @@ function setup_calendar() {
       prev: 'prev fa-angle-left',
       next: 'next fa-angle-right'
     },
-    defaultDate: '2019-10-08',
+    defaultDate: curdate,
     editable: true,
     eventLimit: true,
     events: events,
     eventClick: function (info) {
-      window.location = window.location.href.replace('exam-table','exam-register');
+      //window.location = window.location.href.replace('exam-table','exam-register');
     },
     droppable: false,
     drop: function (date) {
@@ -1421,7 +1399,6 @@ function setup_horizontal_menu() {
     });
   }
 }
-
 
 function stickFooterToBottom() {
   public_vars.$mainFooter.add(public_vars.$mainContent).add(public_vars.$sidebarMenu).attr('style', '');

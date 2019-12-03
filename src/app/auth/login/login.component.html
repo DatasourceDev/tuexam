@@ -1,6 +1,8 @@
 
 
 <body class="page-body login-page login-light">
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
   <div class="login-container">
     <div class="row">
       <div class="col-sm-6">
@@ -12,7 +14,7 @@
         </div>
 
         <!-- Add class "fade-in-effect" for login form effect -->
-        <form role="form" id="login" class="login-form" (ngSubmit)="onSubmit()">
+        <form role="form" id="login" class="login-form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
 
           <div class="login-header">
             <a href="dashboard-1.html" class="logo">
@@ -24,16 +26,21 @@
 
             <p>ระบบคลังข้อสอบ</p>
           </div>
-
+          <!--<div class="form-group">
+            <span>รหัสผู้ใช้</span>
+          </div>-->
 
           <div class="form-group">
-            <label class="control-label" for="username">รหัสผู้ใช้</label>
-            <input type="text" class="form-control" [(ngModel)]="username" name="username" id="username" autocomplete="off" />
+            <input type="text" placeholder="รหัสผู้ใช้" class="form-control" formControlName="username" name="username" id="username" autocomplete="off" maxlength="250" />
+            <span class="text-danger" *ngIf="!inputForm.get('username').valid && inputForm.get('username').touched">
+              กรุณาระบุรหัสผู้ใช้
+            </span>
           </div>
-
           <div class="form-group">
-            <label class="control-label" for="password">รหัสผ่าน</label>
-            <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" autocomplete="off" />
+            <input type="password" placeholder="รหัสผ่าน" class="form-control" formControlName="password" name="password" id="password" autocomplete="off" maxlength="250" />
+            <span class="text-danger" *ngIf="!inputForm.get('password').valid && inputForm.get('password').touched">
+              กรุณาระบุรหัสผ่าน
+            </span>
           </div>
 
           <div class="form-group">
@@ -47,7 +54,7 @@
             <a href="#" (click)="ForgotPwd()">ลืมรหัสผ่าน?</a>
             <div class="info-links">
               <!--<a href="#" [routerLink]="['/login-student']">ระบบจัดสอบ</a>
-              <a href="#"></a>-->
+      <a href="#"></a>-->
             </div>
           </div>
 
