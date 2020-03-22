@@ -21,6 +21,7 @@ export class TestQcustomComponent implements OnInit {
   sid: string;
   pageno: number = 1;
   pagelen: number = 0;
+  itemcnt: number = 0;
   SearchFrom: FormGroup;
   private sublist: any;
   private levellist: any;
@@ -60,6 +61,7 @@ export class TestQcustomComponent implements OnInit {
       group_search: this.gid,
       subject_search: this.sid,
       test_filter: this.tid,
+      approve_search:2,
     };
     this.OnSearch(formdata);
     this.OnSubList();
@@ -78,9 +80,11 @@ export class TestQcustomComponent implements OnInit {
         else {
           this.data = result["data"];
           this.pagelen = result["pagelen"];
+          this.itemcnt = result["itemcnt"]; 
         }
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }
@@ -97,6 +101,7 @@ export class TestQcustomComponent implements OnInit {
           this.sublist = result;
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
 
       });
   }
@@ -109,6 +114,7 @@ export class TestQcustomComponent implements OnInit {
       subject_search: this.SearchFrom.value.subject_search,
       sub_search: this.SearchFrom.value.sub_search,
       level_search: this.SearchFrom.value.level_search,
+      approve_search:2,
       pageno: this.pageno,
     };
     this.OnSearch(formdata);
@@ -149,21 +155,28 @@ export class TestQcustomComponent implements OnInit {
       }
     }
   }
+  OnPageChange(no) {
+    if (no < 1)
+      no = 1;
+    if (no > this.pagelen)
+      no = this.pagelen;
 
+    this.pageno = no;
+    this.OnSubmit();
+    return false;
+  }
+
+  getPaginationArray() {
+    var arr = [];
+    for (var i = 1; i <= this.pagelen; i++) {
+      arr.push(i);
+    }
+    return arr;
+  }
   getquestion(th, en) {
     var name = th;
     if (th == null || th == '')
       name = en;
-    return this.convert_html_to_string(name);
+    return this.service.convert_html_to_string(name,20);
   }
-  convert_html_to_string(html) {
-    if (html == null)
-      return "";
-    var result = html.replace(/(<([^>]+)>)/g, "");
-    if (result.length > 20) {
-      result = result.substring(0, 20) + ' ...';
-    }
-    return result;
-  }
-
 }

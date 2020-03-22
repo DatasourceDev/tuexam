@@ -28,11 +28,6 @@
               <div class="col-sm-3">
                 <label class="control-label">{{examdate}}</label>
               </div>
-
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
               <div class="col-sm-3">
                 <label class="control-label">รอบ</label>
               </div>
@@ -49,10 +44,6 @@
               <div class="col-sm-3">
                 <label class="control-label">{{group}}</label>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
               <div class="col-sm-3">
                 <label class="control-label">วิชา</label>
               </div>
@@ -79,10 +70,6 @@
               <div class="col-sm-3">
                 <label class="control-label">{{provedcnt}} คน</label>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
               <div class="col-sm-3">
                 <label class="control-label">รอตรวจสอบ</label>
               </div>
@@ -147,45 +134,49 @@
     </div>
   </div>
   <div class="panel-body">
-    <a href="#" class="btn btn-blue">
+    <!--<a href="#" class="btn btn-blue">
       พิมพ์ผลสอบ
     </a>
     <a href="#" class="btn btn-blue">
       ส่งผลสอบทางอีเมล
-    </a>
+    </a>-->
     <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
       <thead>
         <tr>
-          <th> <input type="checkbox"></th>
+          <!--<th> <input type="checkbox"></th>-->
           <th>รหัสนักศึกษา</th>
           <th>ชื่อ-นามสกุล</th>
           <th>คะแนน</th>
-          <th>จำนวนข้อ</th>
           <th>สถานะ</th>
           <th>ส่งผลสอบด้วย</th>
-          <th>อีเมล/ที่อยู่</th>
+          <!--<th>อีเมล</th>
+          <th>ที่อยู่</th>-->
           <th></th>
         </tr>
       </thead>
       <tbody *ngIf="data != null && data.length > 0">
         <tr *ngFor="let item of data">
-          <td>
+          <!--<td>
             <input type="checkbox">
-          </td>
+          </td>-->
           <td>{{item.studentcode}}</td>
           <td>{{getStudentName(item.prefix,item.firstname,item.lastname, item.firstnameen, item.lastnameen)}}</td>
           <td>{{item.point}}</td>
-          <td>{{item.questioncnt}}</td>
-          <td>{{item.provestatusname}}</td>
-          <td>{{getsendtype(item.sendbyemail,item.sendbypost,item.other)}}</td>
-          <td>{{item.email}}<br />{{item.address}}</td>
+          <td>{{item.examingstatus}}</td>
           <td>
-            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+            {{getsendtype(item.sendbyemail,item.sendbypost,item.other)}}
+            <br />
+            {{item.email}}
+            <br />
+            {{item.address}}
+          </td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnPdf(item.id)" target="_blank">
               พิมพ์
-            </button>
-            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left">
+            </a>
+            <!--<button href="#" class="btn btn-blue btn-sm btn-icon icon-left">
               อีเมล
-            </button>
+            </button>-->
             <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnProve(item.id)" *ngIf="item.provestatus == 0">
               ตรวจ
             </button>
@@ -197,7 +188,7 @@
       </tbody>
       <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="9" class="text-center">ไม่พบข้อมูล</td>
+          <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
         </tr>
       </tbody>      
     </table>

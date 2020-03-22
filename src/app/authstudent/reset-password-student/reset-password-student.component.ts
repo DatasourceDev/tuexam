@@ -42,17 +42,18 @@ export class ResetPasswordStudentComponent implements OnInit {
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/student/', this.id]);
-            }
-            else {
+            if (result["result"] == 200) {
               this.data = result;
               this.uid = this.data.userid;
+            }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/student/', this.id]);
             }
             this.loading = false;
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
     }

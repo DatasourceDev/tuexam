@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from "../../share/service/app.service";
+import { SessionService } from '../../share/service/session.service';
 import { HttpClient } from '@angular/common/http';
 import { AppData } from "../../share/data/app.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import Swal from 'sweetalert2';
+import { PlyrComponent } from 'ngx-plyr';
 declare var $: any;
 declare var setup_ckeditor: any;
+import Plyr from 'plyr';
 
 @Component({
   selector: 'app-question-multi-choice',
@@ -14,9 +17,12 @@ declare var setup_ckeditor: any;
   styleUrls: ['./question-multi-choice.component.css']
 })
 export class QuestionMultiChoiceComponent implements OnInit {
+  public useraccesdata: any;
+
   public loading = false;
   private ansdata: any;
   private data: any;
+  //private audio: any;
   private statuslist: any;
   private grouplist: any;
   private subjectlist: any;
@@ -26,10 +32,28 @@ export class QuestionMultiChoiceComponent implements OnInit {
   private courselist: any;
   private timetypelist: any;
 
+  fileurl: string;
   id: string;
+  pid: string;
   inputForm: FormGroup;
+  uploadForm: FormGroup;
 
-  constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute) {
+  @ViewChild(PlyrComponent, { static: true })
+  plyr: PlyrComponent;
+
+  player: Plyr;
+  videoSources: Plyr.Source[] = [{}];
+
+  played(event: Plyr.PlyrEvent) {
+
+  }
+
+  play() {
+    this.player.play(); // or this.plyr.player.play()
+    return false;
+  }
+
+  constructor(public session: SessionService,private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute) {
     let questioncode = new FormControl('');
     let status = new FormControl('', Validators.required);
     let groupid = new FormControl('', Validators.required);
@@ -44,7 +68,13 @@ export class QuestionMultiChoiceComponent implements OnInit {
     let timelimit = new FormControl('');
     let timelimittype = new FormControl('');
     let approvalstatus = new FormControl('');
+    let approvalstatusname = new FormControl('');
     let remark = new FormControl('');
+    let fileurl = new FormControl('');
+    let filename = new FormControl('');
+    let filetype = new FormControl('');
+    let update_on = new FormControl('');
+    let update_by = new FormControl('');
 
     this.inputForm = new FormGroup({
       questioncode: questioncode,
@@ -61,13 +91,33 @@ export class QuestionMultiChoiceComponent implements OnInit {
       timelimit: timelimit,
       timelimittype: timelimittype,
       approvalstatus: approvalstatus,
+      approvalstatusname: approvalstatusname,
       remark: remark,
+      fileurl: fileurl,
+      filename: filename,
+      filetype: filetype,
+      update_on: update_on,
+      update_by: update_by,
     });
 
+
+    let fileupload = new FormControl();
+    let questionid = new FormControl('');
+
+    this.uploadForm = new FormGroup({
+      questionid: questionid,
+      fileupload: fileupload,
+      update_by: update_by
+    });
+
+    let useracces = this.session.getData();
+    this.useraccesdata = JSON.parse(useracces);
   }
 
   ngOnInit() {
+
     this.id = this.route.snapshot.params['id'];
+    this.pid = this.route.snapshot.params['pid'];
 
     this.statuslist = this.appdata.getstatus();
     this.levellist = this.appdata.getlevel();
@@ -79,6 +129,8 @@ export class QuestionMultiChoiceComponent implements OnInit {
     this.inputForm.patchValue({ questionlevel: "2" });
     this.inputForm.patchValue({ timelimittype: "0" });
     this.inputForm.patchValue({ approvalstatus: "0" });
+    this.inputForm.patchValue({ approvalstatusname: "ร่าง" });
+    this.inputForm.patchValue({ courseth: true });
 
     if (this.id != null && parseInt(this.id) > 0) {
       this.loading = true;
@@ -87,15 +139,16 @@ export class QuestionMultiChoiceComponent implements OnInit {
         .subscribe(result => {
           if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
             Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-            this.router.navigate(['/question-search/']);
+            if (this.pid != null && parseInt(this.pid) > 0) {
+              this.router.navigate(['/question-read-text-multi-choice/', this.pid, 0]);
+            }
+            else {
+              this.router.navigate(['/question-search/']);
+            }
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/question-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               setup_ckeditor();
 
               this.data = result;
@@ -112,44 +165,98 @@ export class QuestionMultiChoiceComponent implements OnInit {
               this.inputForm.patchValue({ timelimit: this.data.timelimit });
               this.inputForm.patchValue({ timelimittype: this.data.timelimittype });
               this.inputForm.patchValue({ approvalstatus: this.data.approvalstatus });
+              this.inputForm.patchValue({ approvalstatusname: this.data.approvalstatusname });
               this.inputForm.patchValue({ remark: this.data.remark });
               this.inputForm.patchValue({ status: this.data.status });
-              
+              this.inputForm.patchValue({ fileurl: this.data.fileurl });
+              this.inputForm.patchValue({ filename: this.data.filename });
+              this.inputForm.patchValue({ filetype: this.data.filetype });
+              this.inputForm.patchValue({ update_by: this.data.update_by });
+              this.inputForm.patchValue({ update_on: this.data.update_on });
+              this.fileurl = this.data.fileurl;
               this.OnGroupList(false);
               this.OnSujectList(false);
               this.OnSubList(false);
 
               $('#questionth').val(this.data.questionth);
               $('#questionen').val(this.data.questionen);
+
+              this.videoSources = [
+                {
+                  src: this.data.fileurl,
+                  type: this.data.filetype,
+                },
+              ];
+              this.OnGetParent();
+            }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              if (this.pid != null && parseInt(this.pid) > 0) {
+                this.router.navigate(['/question-read-text-multi-choice/', this.pid, 0]);
+              }
+              else {
+                this.router.navigate(['/question-search/']);
+              }
             }
             this.loading = false;
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
 
-        this.OnAnsSearch();
+      this.OnAnsSearch();
     }
     else {
       setup_ckeditor();
       this.OnGroupList(true);
+      this.OnGetParent();
+    }
+
+
+  }
+  OnGetParent() {
+    if (this.pid != null && parseInt(this.pid) > 0) {
+      this.loading = true;
+      var formdata = { id: this.pid };
+      this.service.httpClientGet("api/Question/getquestion", formdata)
+        .subscribe(result => {
+          if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
+            Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            this.router.navigate(['/question-read-text-multi-choice/', this.pid, 0]);
+            this.loading = false;
+          }
+          else {
+            if (result["result"] == 200) {
+              setup_ckeditor();
+
+              this.data = result;
+              this.inputForm.patchValue({ groupid: this.data.groupid });
+              this.inputForm.patchValue({ subjectid: this.data.subjectid });
+              this.inputForm.patchValue({ subid: this.data.subid });
+              this.inputForm.patchValue({ courseth: this.data.courseth });
+              this.inputForm.patchValue({ courseen: this.data.courseen });
+              this.inputForm.patchValue({ keyword: this.data.keyword });
+              this.inputForm.patchValue({ questionlevel: this.data.questionlevel });
+              this.inputForm.patchValue({ timelimit: this.data.timelimit });
+              this.inputForm.patchValue({ timelimittype: this.data.timelimittype });
+              this.inputForm.patchValue({ approvalstatus: this.data.approvalstatus });
+              this.inputForm.patchValue({ approvalstatusname: this.data.approvalstatusname });
+              this.inputForm.patchValue({ status: this.data.status });
+            }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/question-read-text-multi-choice/', this.pid, 0]);
+            }
+            this.loading = false;
+          }
+        }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          this.loading = false;
+        });
     }
   }
-  OnAnsSearch() {
-    var formdata = { id: this.id };
-    this.service.httpClientGet("api/Question/listanswer", formdata)
-      .subscribe(result => {
-        if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
-          this.ansdata = null;
-        }
-        else {
-          this.ansdata = result;
-        }
-        this.loading = false;
-      }, error => {
-        this.loading = false;
-      });
-  }
+
   OnGroupChange() {
     this.OnSujectList(false);
     this.inputForm.patchValue({ subjectid: '' });
@@ -176,6 +283,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
           }
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSujectList(setdefault) {
@@ -199,6 +307,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
 
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
 
       });
   }
@@ -223,10 +332,60 @@ export class QuestionMultiChoiceComponent implements OnInit {
           }
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
 
       });
   }
-  OnSubmit(gochild) {
+
+  OnAnsSearch() {
+    var formdata = { id: this.id };
+    this.service.httpClientGet("api/Question/listanswer", formdata)
+      .subscribe(result => {
+        if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
+          this.ansdata = null;
+        }
+        else {
+          this.ansdata = result;
+        }
+        this.loading = false;
+      }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        this.loading = false;
+      });
+  }
+  OnAnsAdd() {
+    if (this.id == null || parseInt(this.id) == 0) {
+      Swal.fire({ text: 'หลังจากกดปุ่มตกลง ระบบจะบันทึกข้อมูลเข้าสู่ระบบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+        if (result.value == true) {
+          this.OnSubmit(true, false);
+        }
+      });
+    }
+    else {
+      this.router.navigate(['/answer/', this.id, 0, this.pid]);
+      return false;
+    }
+  }
+  OnAnsEdit(id) {
+    this.router.navigate(["/answer/", this.id, id, this.pid]);
+    return false;
+  }
+  OnAnsDelete(id) {
+    Swal.fire({ text: 'คุณต้องการที่จะลบรายการนี้', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      if (result.value == true) {
+        let deldata = { id: id};
+        this.service.httpClientGet("api/Question/answerdelete", deldata)
+          .subscribe(result => {
+            this.OnAnsSearch();
+          }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          });
+      }
+    });
+    return false;
+  }
+
+  OnSubmit(goanswer, goupload) {
 
     this.inputForm.controls['groupid'].markAsTouched();
     this.inputForm.controls['subjectid'].markAsTouched();
@@ -241,7 +400,11 @@ export class QuestionMultiChoiceComponent implements OnInit {
     this.inputForm.controls['timelimittype'].markAsTouched();
     this.inputForm.controls['status'].markAsTouched();
     this.inputForm.controls['approvalstatus'].markAsTouched();
+    this.inputForm.controls['approvalstatusname'].markAsTouched();
     this.inputForm.controls['remark'].markAsTouched();
+    this.inputForm.controls['fileurl'].markAsTouched();
+    this.inputForm.controls['filename'].markAsTouched();
+    this.inputForm.controls['filetype'].markAsTouched();
 
     var questionth = $('#questionth').val();
     var questionen = $('#questionen').val();
@@ -254,7 +417,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
     if (this.inputForm.value.courseen == "")
       this.inputForm.patchValue({ courseen: false });
 
-    this.inputForm.controls['courseth'].setErrors(null); 
+    this.inputForm.controls['courseth'].setErrors(null);
     if (this.inputForm.value.courseth == false && this.inputForm.value.courseen == false) {
       this.inputForm.controls['courseth'].setErrors({ 'incorrect': true });
     }
@@ -268,7 +431,8 @@ export class QuestionMultiChoiceComponent implements OnInit {
     if (this.inputForm.valid) {
       let formdata = {
         ID: this.id,
-        QuestionType:1,
+        QuestionParentID: this.pid,
+        QuestionType: 1,
         SubjectGroupID: this.inputForm.value.groupid,
         SubjectID: this.inputForm.value.subjectid,
         SubjectSubID: this.inputForm.value.subid,
@@ -283,6 +447,9 @@ export class QuestionMultiChoiceComponent implements OnInit {
         Status: this.inputForm.value.status,
         ApprovalStatus: this.inputForm.value.approvalstatus,
         Remark: this.inputForm.value.remark,
+        FileUrl: this.inputForm.value.fileurl,
+        FileName: this.inputForm.value.filename,
+        FileType: this.inputForm.value.filetype,
       };
       this.loading = true;
       if (this.id != null && parseInt(this.id) > 0) {
@@ -293,7 +460,12 @@ export class QuestionMultiChoiceComponent implements OnInit {
             }
             else {
               if (result["result"] == 200) {
-                this.router.navigate(['/question-search/']);
+                if (this.pid != null && parseInt(this.pid) > 0) {
+                  this.router.navigate(['/question-read-text-multi-choice/', this.pid, 0]);
+                }
+                else {
+                  this.router.navigate(['/question-search/']);
+                }
               }
               else {
                 Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
@@ -301,7 +473,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -313,11 +485,20 @@ export class QuestionMultiChoiceComponent implements OnInit {
             }
             else {
               if (result["result"] == 200) {
-                if (gochild == true) {
-                  this.router.navigate(['/answer/', result["id"], 0]);
+                this.id = result["id"];
+                if (goanswer == true) {
+                  this.router.navigate(['/answer/', result["id"], 0, this.pid]);
+                }
+                else if (goupload == true) {
+                  this.OnUpload();
                 }
                 else {
-                  this.router.navigate(['/question-search/']);
+                  if (this.pid != null && parseInt(this.pid) > 0) {
+                    this.router.navigate(['/question-read-text-multi-choice/', this.pid, 0]);
+                  }
+                  else {
+                    this.router.navigate(['/question-search/']);
+                  }
                 }
               }
               else {
@@ -326,39 +507,113 @@ export class QuestionMultiChoiceComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
     }
   }
 
-
-  OnAnsAdd() {
+  incomingfile(event) {
+    let reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.uploadForm.get('fileupload').setValue({
+          filename: file.name,
+          filetype: file.type,
+          value: (<string>reader.result).split(',')[1]
+        })
+      };
+    }
+  }
+  OnFileUpload() {
+    if (this.uploadForm.value.fileupload == null || this.uploadForm.value.fileupload == '') {
+      Swal.fire({ text: 'กรุณาระบุไฟล์นำเข้า', type: 'warning', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      return false;
+    }
     if (this.id == null || parseInt(this.id) == 0) {
-      Swal.fire({ text: 'ทำการบันทึกข้อมูลก่อนไปยังขั้นตอนจัดการคำตอบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      Swal.fire({ text: 'หลังจากกดปุ่มตกลง ระบบจะบันทึกข้อมูลเข้าสู่ระบบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
         if (result.value == true) {
-          this.OnSubmit(true);
+          this.OnSubmit(false, true);
         }
       });
     }
     else {
-      this.router.navigate(['/answer/', this.id, 0]);
-      return false;
+      this.OnUpload();
     }
   }
-
-  OnAnsEdit(id) {
-    this.router.navigate(["/answer/", this.id, id]);
+  OnUpload() {
+    this.loading = true;
+    this.uploadForm.patchValue({ questionid: this.id });
+    this.uploadForm.patchValue({ update_by: this.useraccesdata.username });
+    let data = JSON.stringify(this.uploadForm.value);
+    this.service.httpClientFilePost("api/Question/fileupload", data)
+      .subscribe(result => {
+        if (result["result"] == 200) {
+          this.fileurl = result["fileurl"];
+          this.inputForm.patchValue({ fileurl: result["fileurl"] });
+          this.inputForm.patchValue({ filename: result["filename"] });
+          this.inputForm.patchValue({ filetype: result["filetype"]});
+          this.videoSources = [
+            {
+              src: result["fileurl"],
+              type: result["filetype"],
+            },
+          ];
+        }
+        this.loading = false;
+      }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        this.loading = false;
+      });
+  }
+  OnFileDelete() {
+    Swal.fire({ text: 'คุณต้องการที่จะไฟล์นี้', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      if (result.value == true) {
+        let deldata = { id: this.id };
+        this.service.httpClientGet("api/Question/filedelete", deldata)
+          .subscribe(result => {
+            if (result["result"] == 200) {
+              this.fileurl = "";
+            }
+            else
+              Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          });
+      }
+    });
+  }
+  OnQCustomMoveUp(id) {
+    let formdata = { id: id };
+    this.service.httpClientGet("api/Question/answermoveup", formdata)
+      .subscribe(result => {
+        this.OnAnsSearch();
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
     return false;
   }
-  OnAnsDelete(id) {
-    Swal.fire({ text: 'คุณต้องการที่จะลบรายการนี้', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+  OnQCustomMoveDown(id) {
+    let formdata = { id: id };
+    this.service.httpClientGet("api/Question/answermovedown", formdata)
+      .subscribe(result => {
+        this.OnAnsSearch();
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+    return false;
+  }
+  OnApprove() {
+    Swal.fire({ text: 'คุณต้องการเริ่มกระบวนการกลั่นกรองข้อสอบ', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
       if (result.value == true) {
-        let deldata = { id: id };
-        this.service.httpClientGet("api/Question/answerdelete", deldata)
+        let formdata = { id: this.id };
+        this.service.httpClientGet("api/Question/approveconfirm", formdata)
           .subscribe(result => {
-            this.OnAnsSearch();
+            Swal.fire({ text: 'ส่งกลั่นกรองสำเร็จ', type: 'success', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            this.router.navigate(['/question-search/']);
           }, error => {
             Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           });
@@ -366,12 +621,10 @@ export class QuestionMultiChoiceComponent implements OnInit {
     });
     return false;
   }
-
-  convert_html_to_string(html) {
-    var result = html.replace(/(<([^>]+)>)/g, "");
-    if (result.length > 20) {
-      result = result.substring(0, 20) + ' ...';
-    }
-    return result;
+  getanswer(th, en) {
+    var name = th;
+    if (th == null || th == '')
+      name = en;
+    return this.service.convert_html_to_string(name, 50);
   }
 }

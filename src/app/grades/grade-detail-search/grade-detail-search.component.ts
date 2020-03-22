@@ -64,11 +64,7 @@ export class GradeDetailSearchComponent implements OnInit {
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/grade-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               this.group = result["group"];
               this.subject = result["subject"];
               this.examid = result["examid"];
@@ -82,10 +78,15 @@ export class GradeDetailSearchComponent implements OnInit {
               formdata = { id: this.examid };
               this.OnSearch(formdata);
             }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/grade-search/']);
+            }
             this.loading = false;
 
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
     }
@@ -97,6 +98,7 @@ export class GradeDetailSearchComponent implements OnInit {
         this.data = result;
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }
@@ -112,6 +114,12 @@ export class GradeDetailSearchComponent implements OnInit {
   OnProve(id) {
     this.router.navigate(['/grade-prove/', id,1]);
   }
+
+  OnPdf(id) {
+    this.service.openurl("api/PdfReport/resultform?tsresult_search=" + id);
+    return false;
+  }
+
   getStudentName(prefix, firstname, lastname, firstnameen, lastnameen) {
     var name = prefix;
     if (firstname != null && firstname != "")
@@ -129,9 +137,9 @@ export class GradeDetailSearchComponent implements OnInit {
   getsendtype(sendbyemail, sendbypost, other) {
     if (sendbyemail == true)
       return "อีเมล";
-    else if (sendbypost = true)
+    else if (sendbypost == true)
       return "ไปรษณีย์";
-    else if (other = true)
+    else if (other == true)
       return "อื่นๆ";
     return "";
   }

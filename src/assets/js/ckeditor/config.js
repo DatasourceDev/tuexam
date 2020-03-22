@@ -38,5 +38,5 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	// BootstrapCK Skin Options
 	config.skin = 'bootstrapck';
-	config.height = '350px';
+	config.height = '150px';
 };

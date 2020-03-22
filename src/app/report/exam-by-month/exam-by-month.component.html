@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -17,52 +19,53 @@
         </div>
       </div>
       <div class="panel-body">
-        <form role="form">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
           <div class="row">
             <div class="form-group">
-              <div class="col-sm-3">
-                <label class="control-label">กลุ่มวิชา <span class="text-red">*</span></label>
-                <select class="form-control select2" id="SubjectGroupID">
-                  <option>GREATS</option>
-                  <option>SMART WORK</option>
-                  <option>SMART II</option>
-                  <option>SMART PV</option>
+              <div class="col-sm-5">
+                <label class="control-label">กลุ่มวิชา</label>
+                <select class="form-control " id="group_search" name="group_search" formControlName="group_search">
+                  <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                 </select>
+                <span class="text-danger" *ngIf="!SearchFrom.get('group_search').valid && SearchFrom.get('group_search').touched">
+                  กรุณาระบุกลุ่มวิชา
+                </span>
               </div>
               <div class="col-sm-2">
                 <label class="control-label">ปี</label>
-                <select class="form-control select2" id="Year">
-                  <option></option>
-                  <option>2019</option>
-                  <option>2018</option>
-                  <option>2017</option>
-                  <option>2016</option>
+                <select class="form-control " id="from_search" name="from_search" formControlName="from_search">
+                  <option *ngFor="let item of yearlist" value="{{item.value}}">{{item.text}}</option>
                 </select>
+                <span class="text-danger" *ngIf="!SearchFrom.get('from_search').valid && SearchFrom.get('from_search').touched">
+                  กรุณาระบุปีจาก
+                </span>
               </div>
               <div class="col-sm-2">
                 <label class="control-label">ถึง</label>
-                <select class="form-control select2" id="Year">
-                  <option></option>
-                  <option>2019</option>
-                  <option>2018</option>
-                  <option>2017</option>
-                  <option>2016</option>
+                <select class="form-control " id="to_search" name="to_search" formControlName="to_search">
+                  <option *ngFor="let item of yearlist" value="{{item.value}}">{{item.text}}</option>
                 </select>
+                <span class="text-danger" *ngIf="!SearchFrom.get('to_search').valid && SearchFrom.get('to_search').touched">
+                  กรุณาระบุปีถึง
+                </span>
               </div>
               <div class="col-sm-1">
                 <button class="btn btn-blue btn-search btn-block" type="submit">
                   ค้นหา
                 </button>
               </div>
+              <div class="col-sm-1">
+                <a class="btn btn-secondary btn-search btn-block" href="#" target="_blank" (click)="OnExcel()">
+                  Excel
+                </a>
+              </div>
+              <div class="col-sm-1">
+                <a href="#" class="btn btn-danger btn-search btn-block" (click)="OnPdf()" target="_blank">
+                  PDF
+                </a>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="form-group">
-
-
-            </div>
-          </div>
-
         </form>
 
       </div>
@@ -73,7 +76,7 @@
 
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default" *ngIf="data != null && data.length > 0">
   <div class="panel-heading">
     <h3 class="panel-title">รายการ</h3>
     <div class="panel-options">
@@ -86,82 +89,40 @@
         <tr>
           <th>ปี</th>
           <th>เดือน</th>
-          <th>
-            G
-          </th>
-          <th>
-            R
-          </th>
-          <th>
-            E
-          </th>
-          <th>
-            A
-          </th>
-          <th>
-            T
-          </th>
-          <th>
-            S
+          <th *ngFor="let item of subject">
+            {{item}}
           </th>
           <th>ลงทะเบียน</th>
           <th>Walk-In</th>
           <th>รวม</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-<td>2019</td>
-          <td>ธันวาคม</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>289</td>
-          <td>11</td>
-          <td>300</td>
-        </tr>
-        <tr>
-          <td>2019</td>
-          <td>พฤษจิกายน</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>289</td>
-          <td>11</td>
-          <td>300</td>
-        </tr>
-        <tr>
-          <td>2019</td>
-          <td>กันยายน</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>50</td>
-          <td>289</td>
-          <td>11</td>
-          <td>300</td>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.year}}</td>
+          <td>{{item.fullmonth}}</td>
+          <td *ngFor="let item2 of item.studentbysubject">
+            {{item2}}
+          </td>
+          <td>{{item.studentadvance}}</td>
+          <td>{{item.studentwalkin}}</td>
+          <td>{{item.total}}</td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="10" class="text-right">
+          <td colspan="11" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="pagelen > 1">
+        <tr>
+          <td colspan="11" class="text-right">
             <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+              <li><a href="#" (click)="OnPageChange(pageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==pageno}">
+                <a href="#" (click)="OnPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnPageChange(pageno+1)"><i class="fa-angle-right"></i></a></li>
             </ul>
           </td>
         </tr>

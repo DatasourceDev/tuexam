@@ -70,7 +70,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">รายการ</h3>
+    <h3 class="panel-title">รายการ ({{itemcnt}})</h3>
     <div class="panel-options">
 
     </div>
@@ -99,14 +99,20 @@
           <td>{{item.update_by}}</td>
           <td>{{item.update_on}}</td>
           <td>{{item.status}}</td>
-          <td>{{item.approvalstatus}}</td>
+          <td>{{item.approvalstatusname}}</td>
           <td>
-            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnView(item.id)" *ngIf="item.approvalstatus > 0 ">
+              ดู
+            </button>
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)" *ngIf="item.approvalstatus == 0">
               แก้ไข
             </button>
-            <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)">
+            <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)" *ngIf="item.approvalstatus == 0 ">
               ลบ
             </button>
+            <!--<button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)">
+              ลบ
+            </button>-->
           </td>
         </tr>
       </tbody>

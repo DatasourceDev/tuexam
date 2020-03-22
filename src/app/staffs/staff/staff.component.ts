@@ -31,9 +31,16 @@ export class StaffComponent implements OnInit {
     let idcard = new FormControl('', [Validators.required, Validators.maxLength(14)]);
     let email = new FormControl('', [Validators.maxLength(100),Validators.email]);
     let phone = new FormControl('',  Validators.maxLength(50));
+    let phone2 = new FormControl('',  Validators.maxLength(50));
     let opendate = new FormControl('');
     let expirydate = new FormControl('');
-    
+    let isadmin = new FormControl('');
+    let ismasteradmin = new FormControl('');
+    let isquestionappr = new FormControl('');
+    let ismasterquestionappr = new FormControl('');
+    let istestappr = new FormControl('');
+    let ismastertestappr = new FormControl('');
+
     this.inputForm = new FormGroup({
       userid: userid,
       username: username,
@@ -44,8 +51,15 @@ export class StaffComponent implements OnInit {
       idcard: idcard,
       email: email,
       phone: phone,
+      phone2: phone2,
       opendate: opendate,
       expirydate: expirydate,
+      isadmin: isadmin,
+      ismasteradmin: ismasteradmin,
+      isquestionappr: isquestionappr,
+      ismasterquestionappr: ismasterquestionappr,
+      istestappr: istestappr,
+      ismastertestappr: ismastertestappr,
     });
   }
 
@@ -70,11 +84,7 @@ export class StaffComponent implements OnInit {
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/staff-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               this.data = result;
               this.inputForm.patchValue({ userid: this.data.userid });
               this.inputForm.patchValue({ username: this.data.username });
@@ -85,15 +95,27 @@ export class StaffComponent implements OnInit {
               this.inputForm.patchValue({ idcard: this.data.idcard });
               this.inputForm.patchValue({ email: this.data.email });
               this.inputForm.patchValue({ phone: this.data.phone });
+              this.inputForm.patchValue({ phone2: this.data.phone2 });
               this.inputForm.patchValue({ opendate: this.data.opendate });
               this.inputForm.patchValue({ expirydate: this.data.expirydate });
+              this.inputForm.patchValue({ isadmin: this.data.isadmin });
+              this.inputForm.patchValue({ ismasteradmin: this.data.ismasteradmin });
+              this.inputForm.patchValue({ isquestionappr: this.data.isquestionappr });
+              this.inputForm.patchValue({ ismasterquestionappr: this.data.ismasterquestionappr });
+              this.inputForm.patchValue({ istestappr: this.data.istestappr });
+              this.inputForm.patchValue({ ismastertestappr: this.data.ismastertestappr });
 
               //$('#status').val(this.data.status).trigger('change');
               //$('#prefix').val(this.data.prefix).trigger('change');
             }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/staff-search/']);
+            }
             this.loading = false;
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
         });
     }
@@ -116,8 +138,15 @@ export class StaffComponent implements OnInit {
     this.inputForm.controls['idcard'].markAsTouched();
     this.inputForm.controls['email'].markAsTouched();
     this.inputForm.controls['phone'].markAsTouched();
+    this.inputForm.controls['phone2'].markAsTouched();
     this.inputForm.controls['opendate'].markAsTouched();
     this.inputForm.controls['expirydate'].markAsTouched();
+    this.inputForm.controls['isadmin'].markAsTouched();
+    this.inputForm.controls['ismasteradmin'].markAsTouched();
+    this.inputForm.controls['isquestionappr'].markAsTouched();
+    this.inputForm.controls['ismasterquestionappr'].markAsTouched();
+    this.inputForm.controls['istestappr'].markAsTouched();
+    this.inputForm.controls['ismastertestappr'].markAsTouched();
     if (this.inputForm.valid) {
       let formdata = {
         id: this.id,
@@ -128,10 +157,17 @@ export class StaffComponent implements OnInit {
         idcard: this.inputForm.value.idcard,
         email: this.inputForm.value.email,
         phone: this.inputForm.value.phone,
+        phone2: this.inputForm.value.phone2,
         opendate: this.inputForm.value.opendate,
         expirydate: this.inputForm.value.expirydate,
         username: this.inputForm.value.username,
         userid: this.inputForm.value.userid,
+        isadmin: this.inputForm.value.isadmin,
+        ismasteradmin: this.inputForm.value.ismasteradmin,
+        isquestionappr: this.inputForm.value.isquestionappr,
+        ismasterquestionappr: this.inputForm.value.ismasterquestionappr,
+        istestappr: this.inputForm.value.istestappr,
+        ismastertestappr: this.inputForm.value.ismastertestappr,
       };
       this.loading = true;
       if (this.id != null && parseInt(this.id) > 0) {
@@ -150,7 +186,7 @@ export class StaffComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-              Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
               this.loading = false;
           });
       }
@@ -170,7 +206,7 @@ export class StaffComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-              Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
               this.loading = false;
           });
       }
@@ -181,5 +217,12 @@ export class StaffComponent implements OnInit {
     if (this.id != null && parseInt(this.id) > 0) {
       this.router.navigate(['/reset-password/', this.id]);
     }
+  }
+
+  OnHistory() {
+    if (this.id != null && parseInt(this.id) > 0) {
+      this.router.navigate(['/login-staff-history/', this.id]);
+    }
+    return false;
   }
 }

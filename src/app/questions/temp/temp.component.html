@@ -1,0 +1,20 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+<div class="panel-body">
+  <form role="form" class="form-horizontal" [formGroup]="inputForm">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">นำเข้าด้วย Excel</label>        
+          <div class="col-sm-4">
+            <input type="file" class="form-control" id="fileupload" name="fileupload1" (change)="incomingfile($event)">
+          </div>
+          <div class="col-sm-1">
+            <button class="btn btn-blue" (click)="OnUpload()">
+              นำเข้า
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+</div>

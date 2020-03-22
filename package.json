@@ -26,6 +26,8 @@
     "jquery": "^3.4.1",
     "ng2-validation": "^4.2.0",
     "ngx-loading": "^8.0.0",
+    "ngx-plyr": "^3.0.1",
+    "plyr": "^3.5.6",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.5.3",
     "rxjs-observable": "0.0.7",

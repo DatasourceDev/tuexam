@@ -4,15 +4,10 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\exams",
-    "\\src\\app\\exams\\exam",
-    "\\src\\app\\exams\\exam-table",
-    "\\src\\app\\staffs\\staff-search",
-    "\\src\\app\\students\\student-search",
-    "\\src\\app\\subjectgroups",
-    "\\src\\app\\subjectgroups\\subjectgroup",
-    "\\src\\assets",
-    "\\src\\assets\\js"
+    "\\src\\app\\exams\\exam-register-search",
+    "\\src\\app\\questions",
+    "\\src\\app\\questions\\question-search"
   ],
-  "SelectedNode": "\\src\\assets\\js\\xenon-custom.js",
+  "SelectedNode": "\\src",
   "PreviewInSolutionExplorer": false
 }

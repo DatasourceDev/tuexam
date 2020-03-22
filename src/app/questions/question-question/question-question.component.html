@@ -1,0 +1,47 @@
+<!-- Basic Setup -->
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">เพิ่มข้อสอบของบทความ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block" (click)="OnMCAdd()">ข้อสอบแบบเลือกตอบ<br />(Multiple Choice)</button>
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block" (click)="OnAttAdd()">ข้อสอบแบบวัดทัศนคติ<br />(Attitude)</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block" (click)="OnTFAdd()" >ข้อสอบแบบถูก-ผิด<br />(True-False)</button>
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block" (click)="OnMMAdd()"  >ข้อสอบแบบจับคู่<br />(Multiple Matching)</button>
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block" (click)="OnSAAdd()" >ข้อสอบแบบตอบสั้น<br />(Short Answer)</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block" (click)="OnESAdd()" >ข้อสอบอัตนัยหรือเรียงความ<br />(Essay)</button>
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-primary btn-block" (click)="OnASAdd()" >ข้อสอบแบบส่งงาน<br />(Assignment)</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

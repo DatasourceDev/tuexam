@@ -1825,7 +1825,7 @@ body {
 }
 
 .navbar.horizontal-menu .navbar-inner > .nav > li.search-form {
-  padding: 0 20px
+  padding: 0 5px
 }
 
 .navbar.horizontal-menu .navbar-inner > .nav > li.user-profile > a {
@@ -9283,3 +9283,38 @@ pre {
   margin-top: 23px;
 }
 
+ul > li a.answered {
+  background-color: #8dc63f;
+  color:#fff;
+}
+ul > li a.unanswer {
+  color: #fff;
+}
+
+.form-control {
+  color: #2c2c2c;
+  border: 1px solid #8d8c8c;
+  font-weight: 600;
+}
+
+.control-label {
+  color: #2c2c2c;
+  font-weight: 600;
+}
+.panel .panel-body {
+  color: #2c2c2c;
+  font-weight: 600;
+}
+
+/*.form-control {
+  border: 1px solid #2c2c2c;
+}*/
+/*.table.table-bordered > thead > tr > td, .table.table-bordered > tbody > tr > td, .table.table-bordered > tfood > tr > td, .table.table-bordered > thead > tr > th, .table.table-bordered > tbody > tr > th, .table.table-bordered > tfood > tr > th {
+  border-color: #2c2c2c;
+}*/
+/*.table.table-bordered {
+  border-color: #2c2c2c;
+}
+.panel .panel-heading {
+  border-bottom: 2px solid #b8b8b8;
+}*/

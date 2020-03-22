@@ -2,7 +2,7 @@
 <div class="page-title">
 
   <div class="title-env">
-    <h1 class="title">สรุปผลการสอบ</h1>
+    <h1 class="title">{{translate("summary")}}</h1>
     <p class="description"></p>
   </div>
 
@@ -16,7 +16,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                    <b>{{useraccesdata.prefix}} {{useraccesdata.firstname}} {{useraccesdata.lastname}}</b>
+                  <b>{{useraccesdata.prefix}} {{useraccesdata.firstname}} {{useraccesdata.lastname}}</b>
                 </div>
               </div>
             </div>
@@ -25,16 +25,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  รหัสนักศึกษา <b>{{useraccesdata.studentcode}}</b>
-</div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <u>แบบทดสอบ</u>
+                  {{translate("student_code")}} <b>{{useraccesdata.studentcode}}</b>
                 </div>
               </div>
             </div>
@@ -43,25 +34,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  กลุ่มวิชา <b>{{group}}</b>
-</div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  วิชา <b>{{subject}}</b>
-</div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  เริ่มทำแบบดสอบ <b>{{starton}}</b>
+                  <u>{{translate("test")}}</u>
                 </div>
               </div>
             </div>
@@ -70,7 +43,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  ส่งแบบดสอบ <b>{{endon}}</b>
+                  {{translate("group")}} <b>{{group}}</b>
                 </div>
               </div>
             </div>
@@ -79,7 +52,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  ทำข้อสอบไปทั้งหมดจำนวน <b>{{answeredcnt}}</b>/<b>{{questioncnt}}</b> ข้อ
+                  {{translate("subject")}} <b>{{subject}}</b>
                 </div>
               </div>
             </div>
@@ -88,7 +61,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  ตอบถูกจำนวน <b>{{correctcnt}}</b>/<b>{{questioncnt}}</b> ข้อ
+                  {{translate("start_at")}} <b>{{starton}}</b>
                 </div>
               </div>
             </div>
@@ -97,7 +70,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  ผลคะแนน <b>{{point}}</b> คะแนน
+                  {{translate("finish_at")}} <b>{{endon}}</b>
                 </div>
               </div>
             </div>
@@ -106,11 +79,49 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
+                  {{translate("answered_count")}} <b>{{answeredcnt}}</b>/<b>{{questioncnt}}</b> {{translate("kho")}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"  *ngIf="showresult == 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  {{translate("corrected_count")}} <b>{{correctcnt}}</b>/<b>{{questioncnt}}</b> {{translate("kho")}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="showresult == 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  {{translate("score")}} <b>{{point}}</b> {{translate("point")}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  {{translate("send_chanel")}} <b>{{sendtype}}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-6">
                   <a href="#" class="btn btn-orange" [routerLink]="['/examination-select']">
-                    ปิดแบบทดสอบ
+                    {{translate("close_exam")}}
                   </a>
+                </div>
+                <div class="col-sm-6 text-right">
                   <a href="#" class="btn btn-gray" (click)="OnLogout()">
-                    ออกจากระบบ
+                    {{translate("logout")}}
                   </a>
                 </div>
               </div>

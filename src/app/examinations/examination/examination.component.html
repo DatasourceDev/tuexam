@@ -5,14 +5,14 @@
 
   <div class="title-env">
     <h1 class="title">{{useraccesdata.prefix}} {{useraccesdata.firstname}} {{useraccesdata.lastname}}</h1>
-    <p class="description">ข้อที่ {{ix}}/{{questioncnt}}</p>
+    <p class="description">{{translate("question_no")}} {{ix}}/{{questioncnt}}</p>
   </div>
   <div class="breadcrumb-env">
     <ol class="breadcrumb bc-1">
       <li class="text-right">
-        เหลือเวลาทำแบบทดสอบอีก <b>{{countdown}}</b> นาที
+        {{translate("time_remaining")}} <b>{{countdown}}</b> {{translate("minute")}}
         <br />
-        ทำข้อสอบแล้ว <b>{{answeredcnt}}</b>/{{questioncnt}} ข้อ
+        {{translate("answered_count")}} <b>{{answeredcnt}}</b>/{{questioncnt}} {{translate("kho")}}
       </li>
     </ol>
 
@@ -22,18 +22,84 @@
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm">
+          <div class="row" *ngIf="hasquestion(pquestionth ,pquestionen) == true">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <p [innerHTML]="getquestion(pquestionth,pquestionen)"> </p>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="pfileurl != null && pfileurl != '' && pfiletype.indexOf('video') >= 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <plyr style="display: block; width: 100%;"
+                        plyrTitle="Video 1"
+                        [plyrPlaysInline]="true"
+                        [plyrSources]="videoSources"
+                        (plyrInit)="player = $event"
+                        (plyrPlay)="played($event)"></plyr>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="pfileurl != null && pfileurl != '' && pfiletype.indexOf('audio') >= 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <plyr style="display: block; width: 100%;"
+                        plyrTitle="Video 1"
+                        [plyrPlaysInline]="true"
+                        [plyrSources]="videoSources"
+                        (plyrInit)="player = $event"
+                        (plyrPlay)="played($event)"></plyr>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  <p [innerHTML]="questionth"> </p>
+                  <p [innerHTML]="getquestion(questionth,questionen)"> </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="fileurl != null && fileurl != '' && filetype.indexOf('video') >= 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <plyr style="display: block; width: 100%;"
+                        plyrTitle="Video 2"
+                        [plyrPlaysInline]="true"
+                        [plyrSources]="videoSources2"
+                        (plyrInit)="player = $event"
+                        (plyrPlay)="played($event)"></plyr>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="fileurl != null && fileurl != '' && filetype.indexOf('audio') >= 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <plyr style="display: block; width: 100%;"
+                        plyrTitle="Video 2"
+                        [plyrPlaysInline]="true"
+                        [plyrSources]="videoSources2"
+                        (plyrInit)="player = $event"
+                        (plyrPlay)="played($event)"></plyr>
                 </div>
               </div>
             </div>
           </div>
           <div *ngIf="questiontype == 1">
-            <div class="row" *ngFor="let item of answers">
+            <div class="row" *ngFor="let item of mcanswers">
               <div class="col-sm-12">
                 <div class="form-group">
                   <div class="col-sm-1" *ngIf="answerid == item.id">
@@ -43,7 +109,120 @@
                     <input type="radio" class="rdo" name="rdo" value="{{item.id}}" #divice (click)="OnClick(divice.value)">
                   </div>
                   <div class="col-sm-11">
-                    <p [innerHTML]="item.answerth"> </p>
+                    <p [innerHTML]="getanswer(item.answerth,item.answeren)"> </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="questiontype == 2">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-1" *ngIf="tfanswer == true">
+                    <input type="radio" class="rdo" name="rdo" value="1" checked #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-1" *ngIf="tfanswer != true">
+                    <input type="radio" class="rdo" name="rdo" value="1" #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-11">
+                    <p>{{translate("true")}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-1" *ngIf="tfanswer == false">
+                    <input type="radio" class="rdo" name="rdo" value="0" checked #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-1" *ngIf="tfanswer != false">
+                    <input type="radio" class="rdo" name="rdo" value="0" #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-11">
+                    <p>{{translate("false")}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="questiontype == 3 || questiontype == 16">
+            <div class="row" *ngFor="let item of mmanswers">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-1" *ngIf="answerid == item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" checked #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-1" *ngIf="answerid != item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-11">
+                    <p [innerHTML]="getanswer(item.answerth,item.answeren)"> </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="questiontype == 4">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <input class="form-control" id="textanswer" name="textanswer" formControlName="textanswer" maxlength="250" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="questiontype == 5">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <textarea class="form-control" id="textansweres" name="textansweres" formControlName="textansweres" rows="10"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="questiontype == 6">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <input type="file" accept="audio/mp3, video/mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="form-control" id="fileupload" name="fileupload" (change)="incomingfile($event)">
+                  </div>
+                  <div class="col-sm-6">
+                    <button class="btn btn-blue" type="button" (click)="OnFileUpload()">นำเข้า</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="filenameanswer != null && filenameanswer != ''">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    {{translate("msg_import_success")}}
+                    <br />
+                    {{filenameanswer}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="questiontype == 8">
+            <div class="row" *ngFor="let item of attanswers">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-1" *ngIf="attanswerid == item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" checked #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-1" *ngIf="attanswerid != item.id">
+                    <input type="radio" class="rdo" name="rdo" value="{{item.id}}" #divice (click)="OnClick(divice.value)">
+                  </div>
+                  <div class="col-sm-11">
+                    <p [innerHTML]="getanswer(item.answerth,item.answeren)"> </p>
                   </div>
                 </div>
               </div>
@@ -54,13 +233,13 @@
               <div class="form-group">
                 <div class="col-sm-12">
                   <button href="#" class="btn btn-gray" (click)="OnBack()" *ngIf="ix > 1">
-                    ย้อนกลับ
+                    {{translate("back")}}
                   </button>
                   <button href="#" class="btn btn-orange" (click)="OnNext()" *ngIf="ix < questioncnt">
-                    ถัดไป
+                    {{translate("next")}}
                   </button>
                   <button href="#" class="btn btn-orange" (click)="OnSendResult()" *ngIf="ix == questioncnt">
-                    ถัดไป
+                    {{translate("commit")}}
                   </button>
                 </div>
               </div>
@@ -72,7 +251,7 @@
                 <div class="col-sm-12">
                   <ul class="pagination">
                     <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==ix}">
-                      <a href="#" (click)="OnPageChange(item)">{{item}}</a>
+                      <a style="width:45px;text-align:center;margin-left:-1px" href="#" (click)="OnPageChange(item)" [ngClass]="{'answered': checkanswered(item) == true}">{{item}}</a>
                     </li>
                   </ul>
                 </div>

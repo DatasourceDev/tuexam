@@ -57,6 +57,7 @@ export class SubjectsubSearchComponent implements OnInit {
           this.grouplist = result;          
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSujectList() {
@@ -74,6 +75,7 @@ export class SubjectsubSearchComponent implements OnInit {
           this.subjectlist = result;
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
 
       });
   }
@@ -92,6 +94,7 @@ export class SubjectsubSearchComponent implements OnInit {
         }
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }

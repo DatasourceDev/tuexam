@@ -1,0 +1,257 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="page-title">
+  <div class="title-env">
+    <h1 class="title">กำหนดค่า ตัวเลือกข้อสอบแบบวัดทัศนคติ</h1>
+    <p class="description"></p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit()">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">จำนวนตัวเลือก <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <select class="form-control " formControlName="attitudeanstype" id="attitudeanstype" name="attitudeanstype" (change)="OnTypeChange()">
+                    <option *ngFor="let item of attitudeanstypelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('attitudeanstype').valid && inputForm.get('attitudeanstype').touched">
+                    กรุณาระบุจำนวนตัวเลือก
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">แบบที่ <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <select class="form-control " formControlName="attitudeanssubtype" id="attitudeanssubtype" name="attitudeanssubtype" (change)="OnTypeChange()">
+                    <option *ngFor="let item of attitudeanssubtypelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('attitudeanssubtype').valid && inputForm.get('attitudeanssubtype').touched">
+                    กรุณาระบุแบบที่
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2"></label>
+                <label class="col-sm-3">ไทย</label>
+                <label class="col-sm-3">อังกฤษ</label>
+                <div class="col-sm-3"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="div1">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ตัวเลือกที่ 1 <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="text1" id="text1" name="text1">
+                  <span class="text-danger" *ngIf="!inputForm.get('text1').valid && inputForm.get('text1').touched">
+                    กรุณาระบุตัวเลือกที่ 1
+                  </span>
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="texten1" id="texten1" name="texten1">
+                  <span class="text-danger" *ngIf="!inputForm.get('texten1').valid && inputForm.get('texten1').touched">
+                    กรุณาระบุตัวเลือกที่ 1
+                  </span>
+                </div>
+                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" formControlName="point1" id="point1" name="point1">
+                  <span class="text-danger" *ngIf="!inputForm.get('point1').valid && inputForm.get('point1').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="div2">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ตัวเลือกที่ 2 <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="text2" id="text2" name="text2">
+                  <span class="text-danger" *ngIf="!inputForm.get('text2').valid && inputForm.get('text2').touched">
+                    กรุณาระบุตัวเลือกที่ 2
+                  </span>
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="texten2" id="texten2" name="texten2">
+                  <span class="text-danger" *ngIf="!inputForm.get('texten2').valid && inputForm.get('texten2').touched">
+                    กรุณาระบุตัวเลือกที่ 2
+                  </span>
+                </div>
+                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" formControlName="point2" id="point2" name="point2">
+                  <span class="text-danger" *ngIf="!inputForm.get('point2').valid && inputForm.get('point2').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="div3">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ตัวเลือกที่ 3 <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="text3" id="text3" name="text3">
+                  <span class="text-danger" *ngIf="!inputForm.get('text3').valid && inputForm.get('text3').touched">
+                    กรุณาระบุตัวเลือกที่ 3
+                  </span>
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="texten3" id="texten3" name="texten3">
+                  <span class="text-danger" *ngIf="!inputForm.get('texten3').valid && inputForm.get('texten3').touched">
+                    กรุณาระบุตัวเลือกที่ 3
+                  </span>
+                </div>
+                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" formControlName="point3" id="point3" name="point3">
+                  <span class="text-danger" *ngIf="!inputForm.get('point3').valid && inputForm.get('point3').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"  id="div4">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ตัวเลือกที่ 4 <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="text4" id="text4" name="text4">
+                  <span class="text-danger" *ngIf="!inputForm.get('text4').valid && inputForm.get('text4').touched">
+                    กรุณาระบุตัวเลือกที่ 4
+                  </span>
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="texten4" id="texten4" name="texten4">
+                  <span class="text-danger" *ngIf="!inputForm.get('texten4').valid && inputForm.get('texten4').touched">
+                    กรุณาระบุตัวเลือกที่ 4
+                  </span>
+                </div>
+                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" formControlName="point4" id="point4" name="point4">
+                  <span class="text-danger" *ngIf="!inputForm.get('point4').valid && inputForm.get('point4').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"  id="div5">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ตัวเลือกที่ 5 <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="text5" id="text5" name="text5">
+                  <span class="text-danger" *ngIf="!inputForm.get('text5').valid && inputForm.get('text5').touched">
+                    กรุณาระบุตัวเลือกที่ 5
+                  </span>
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="texten5" id="texten5" name="texten5">
+                  <span class="text-danger" *ngIf="!inputForm.get('texten5').valid && inputForm.get('texten5').touched">
+                    กรุณาระบุตัวเลือกที่ 5
+                  </span>
+                </div>
+                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" formControlName="point5" id="point5" name="point5">
+                  <span class="text-danger" *ngIf="!inputForm.get('point5').valid && inputForm.get('point5').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"  id="div6">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ตัวเลือกที่ 6 <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="text6" id="text6" name="text6">
+                  <span class="text-danger" *ngIf="!inputForm.get('text6').valid && inputForm.get('text6').touched">
+                    กรุณาระบุตัวเลือกที่ 6
+                  </span>
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="texten6" id="texten6" name="texten6">
+                  <span class="text-danger" *ngIf="!inputForm.get('texten6').valid && inputForm.get('texten6').touched">
+                    กรุณาระบุตัวเลือกที่ 6
+                  </span>
+                </div>
+                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" formControlName="point6" id="point6" name="point6">
+                  <span class="text-danger" *ngIf="!inputForm.get('point6').valid && inputForm.get('point6').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"  id="div7">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ตัวเลือกที่ 7 <span class="text-red">*</span></label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="text7" id="text7" name="text7">
+                  <span class="text-danger" *ngIf="!inputForm.get('text7').valid && inputForm.get('text7').touched">
+                    กรุณาระบุตัวเลือกที่ 7
+                  </span>
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" formControlName="texten7" id="texten7" name="texten7">
+                  <span class="text-danger" *ngIf="!inputForm.get('texten7').valid && inputForm.get('texten7').touched">
+                    กรุณาระบุตัวเลือกที่ 7
+                  </span>
+                </div>
+                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" formControlName="point7" id="point7" name="point7">
+                  <span class="text-danger" *ngIf="!inputForm.get('point7').valid && inputForm.get('point7').touched">
+                    กรุณาระบุคะแนน
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>          
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-3">
+                  <button class="btn btn-danger" type="submit">
+                    บันทึก
+                  </button>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+

@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-sm-4" *ngIf="this.id != null && this.id > 0">
                   <input type="text" class="form-control" id="subject" name="subject" formControlName="subject" readonly>
-                  <input type="hidden" class="form-control" id="subjectid" name="subjectid" formControlName="subjectid" >
+                  <input type="hidden" class="form-control" id="subjectid" name="subjectid" formControlName="subjectid">
                 </div>
               </div>
             </div>
@@ -144,13 +144,9 @@
                   </span>
                 </div>
                 <label class="col-sm-2 control-label">การคัดเลือก <span class="text-red">*</span></label>
-                <div class="col-sm-4">
-                  <select class="form-control " id="approvalstatus" name="approvalstatus" formControlName="approvalstatus">
-                    <option *ngFor="let item of approvelist" value="{{item.value}}">{{item.text}}</option>
-                  </select>
-                  <span class="text-danger" *ngIf="!inputForm.get('approvalstatus').valid && inputForm.get('approvalstatus').touched">
-                    กรุณาระบุการคัดเลือก
-                  </span>
+                <div class="col-sm-4 ">
+                  <input type="text" class="form-control" id="approvalstatusname" name="approvalstatusname" formControlName="approvalstatusname" readonly>
+                  <input type="hidden" class="form-control" id="approvalstatus" name="approvalstatus" formControlName="approvalstatus">
                 </div>
               </div>
             </div>
@@ -182,10 +178,10 @@
                     <thead>
                       <tr>
                         <th>ประเภทข้อสอบ</th>
-                        <th>วิชาย่อย</th>
+                        <!--<th>วิชาย่อย</th>-->
                         <th>ง่ายมาก</th>
                         <th>ง่าย</th>
-                        <th>ปากลาง</th>
+                        <th>ปานกลาง</th>
                         <th>ยาก</th>
                         <th>ยากมาก</th>
                         <th class="action"></th>
@@ -194,7 +190,7 @@
                     <tbody *ngIf="qrandomdata != null && qrandomdata.length > 0">
                       <tr *ngFor="let item of qrandomdata">
                         <td>{{item.questiontype}}</td>
-                        <td>{{item.sub}}</td>
+                        <!--<td>{{item.sub}}</td>-->
                         <td>{{item.veryeasy}}</td>
                         <td>{{item.easy}}</td>
                         <td>{{item.mid}}</td>
@@ -212,7 +208,7 @@
                     </tbody>
                     <tbody *ngIf="qrandomdata == null || qrandomdata.length == 0">
                       <tr>
-                        <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
+                        <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
                       </tr>
                     </tbody>
                   </table>
@@ -233,6 +229,10 @@
                       กรุณาระบุลำดับ
                     </span>
                   </div>
+                  <label class="col-sm-2 control-label">จำนวนข้อ</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" id="questioncnt" name="questioncnt" formControlName="questioncnt" readonly>
+                  </div>
                 </div>
               </div>
             </div>
@@ -248,16 +248,26 @@
                       <thead>
                         <tr>
                           <th>ลำดับ</th>
+                          <th>ประเภท</th>
                           <th>คำถาม</th>
-                          <th>ระดับความยาก</th>
+                          <th>คำถามย่อย</th>
                           <th class="action"></th>
                         </tr>
                       </thead>
                       <tbody *ngIf="qcustomdata != null && qcustomdata.length > 0">
                         <tr *ngFor="let item of qcustomdata">
-                          <td>{{item.order}}</td>
+                          <td>
+                            <a href="#" (click)="OnQCustomMoveUp(item.id)">
+                              <i class="fa fa-arrow-up"></i>
+                            </a>
+                            {{item.order}}
+                            <a href="#" (click)="OnQCustomMoveDown(item.id)">
+                              <i class="fa fa-arrow-down"></i>
+                            </a>
+                          </td>
+                          <td>{{item.questiontype}}</td>
                           <td>{{getquestion(item.questionth,item.questionen)}}</td>
-                          <td>{{item.questionlevel}}</td>
+                          <td>{{item.childcnt}}</td>
                           <td>
                             <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnQCustomDelete(item.id)">
                               ลบ
@@ -270,9 +280,6 @@
                           <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
                         </tr>
                       </tbody>
-                      <tfoot>
-
-                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -288,10 +295,7 @@
                   <button class="btn btn-danger" type="submit">
                     บันทึก
                   </button>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/reset-password']">
-                    ดูตัวอย่างการแสดงผล
-                  </a>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank">
+                  <a href="#" class="btn btn-blue" (click)="OnApprove()" *ngIf="id != null && id > 0">
                     ส่งให้คัดเลือก
                   </a>
                   <a href="#" class="btn btn-gray" [routerLink]="['/test-search']">

@@ -26,13 +26,13 @@ export class SubjectComponent implements OnInit {
     let name = new FormControl('', [Validators.required, Validators.maxLength(250)]);
     let status = new FormControl('', Validators.required);
     let groupid = new FormControl('', Validators.required);
-    let index = new FormControl('');
+    let order = new FormControl('', Validators.required);
 
     this.inputForm = new FormGroup({
       name: name,
       status: status,
       groupid: groupid,
-      index:index,
+      order: order,
     });
   }
 
@@ -40,6 +40,8 @@ export class SubjectComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
 
     this.statuslist = this.appdata.getstatus();
+    this.inputForm.patchValue({ status: "1" });
+
     this.service.httpClientGet("api/SubjectGroup/listActivegroup", null)
       .subscribe(result => {
         if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
@@ -47,15 +49,19 @@ export class SubjectComponent implements OnInit {
         }
         else {
           this.grouplist = result;
-          if (this.grouplist != null && this.grouplist.length > 0) {
-            var group = this.grouplist[0];
-            this.inputForm.patchValue({ groupid: group.id });
+          if (this.inputForm.value.groupid == null || this.inputForm.value.groupid == '') {
+            if (this.grouplist != null && this.grouplist.length > 0) {
+              var group = this.grouplist[0];
+              this.inputForm.patchValue({ groupid: group.id });
+              if (this.id == null || parseInt(this.id) == 0) {
+                this.OnNextOrder();
+              }
+            }
           }
         }
       }, error => {
-
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
-    this.inputForm.patchValue({ status: "1" });
 
     if (this.id != null && parseInt(this.id) > 0) {
       this.loading = true;
@@ -68,31 +74,47 @@ export class SubjectComponent implements OnInit {
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/subject-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               this.data = result;
               this.inputForm.patchValue({ name: this.data.name });
               this.inputForm.patchValue({ status: this.data.status });
               this.inputForm.patchValue({ groupid: this.data.groupid });
-              this.inputForm.patchValue({ index: this.data.index });
-
+              this.inputForm.patchValue({ order: this.data.order });
+            }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/subject-search/']);
             }
             this.loading = false;
           }
         }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
     }
   }
-
+  OnGroupChange() {
+    this.OnNextOrder();
+  }
+  OnNextOrder() {
+    let formdata = { id: this.inputForm.value.groupid };
+    this.service.httpClientGet("api/Subject/getordernext", formdata)
+      .subscribe(result => {
+        if (result == null || (Array.isArray(result) && result.length == 0)) {
+          Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        }
+        else {
+          this.inputForm.patchValue({ order: result });
+        }
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+  }
   OnSubmit() {
     this.inputForm.controls['name'].markAsTouched();
     this.inputForm.controls['status'].markAsTouched();
     this.inputForm.controls['groupid'].markAsTouched();
-    this.inputForm.controls['index'].markAsTouched();
+    this.inputForm.controls['order'].markAsTouched();
 
     if (this.inputForm.valid) {
       let formdata = {
@@ -100,7 +122,7 @@ export class SubjectComponent implements OnInit {
         Name: this.inputForm.value.name,
         Status: this.inputForm.value.status,
         SubjectGroupID: this.inputForm.value.groupid,
-        Index: this.inputForm.value.index,
+        Order: this.inputForm.value.order,
       };
       this.loading = true;
       if (this.id != null && parseInt(this.id) > 0) {
@@ -119,7 +141,7 @@ export class SubjectComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -139,7 +161,7 @@ export class SubjectComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }

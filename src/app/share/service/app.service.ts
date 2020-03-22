@@ -10,7 +10,7 @@ import 'rxjs/Rx';
 @Injectable()
 
 export class AppService {
-  private serverurl = "http://localhost:1531/";
+  private serverurl = "http://localhost:1532/";
   private useraccessdata;
   private token;
   private appversion = "";
@@ -62,8 +62,10 @@ export class AppService {
         params = params.append(Object.keys(data)[i], value);
       }
     }
-    if (this.useraccessdata != null)
+    if (this.useraccessdata != null) {
+      params = params.append("update_by", this.useraccessdata.username);
       params = params.append("user_id", this.useraccessdata.id);
+    }
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');
     headers = headers.set('Access-Control-Allow-Origin', '*');
@@ -94,14 +96,53 @@ export class AppService {
     return this.http.post(this.serverurl + url, data, httpOptions); 
 
   }
-  httpClientFilePost(url, data) {    
+  httpClientFilePost(url, data) {
     return this.http.post(this.serverurl + url, data);
   }
   //http client post
   httpCLientPut(url, data) {
     return this.http.put(this.serverurl +url, data);
   }
-  
+
+  openurl(url) {
+    window.open(this.serverurl +url);
+  }
+  encoder(str) {
+    let vslueStr = str;
+    for (var i = str.length - 1; i >= 0; i--) {
+      if (str[i] == "'" || str[i] == '"' || str[i] == "\n" || str[i] == "\\" || str[i] == "{" || str[i] == "}" || str[i] == "/") {
+        var replacement = '&#' + str[i].charCodeAt() + ';';
+        vslueStr = vslueStr.substr(0, i) + replacement + vslueStr.substr(i + 1);
+      }
+    }
+    return vslueStr;
+  }
+  decoder(str) {
+    if (str == null || str == '')
+      return '';
+
+    str = str.replace("&#10;", " ");
+    return str.replace(/&#(\d+);/g, function (match, dec) {
+      return String.fromCharCode(dec);
+    });
+  }
+
+  convert_html_to_string(result, max) {
+    if (result && typeof result === 'string') {
+      var element = document.createElement('div');
+      result = result.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      result = result.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = result;
+      result = element.textContent;
+      element.textContent = '';
+
+      if (result.length > max) {
+        result = result.substring(0, max) + ' ...';
+      }
+    }
+    return result;
+  }
+
 }
 
 

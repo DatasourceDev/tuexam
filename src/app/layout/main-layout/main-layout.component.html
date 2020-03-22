@@ -38,8 +38,8 @@
             <span class="title">หน้าแรก</span>
           </a>
         </li>
-        <li class="">
-          <a href="#" onclick="return false;">
+        <li class="" >
+          <a href="#" onclick="return false;" *ngIf="useraccesdata.isAdmin === true || useraccesdata.isMasterAdmin === true">
             <i class="fa fa-file-text-o"></i>
             <span class="title">คลังข้อสอบ</span>
           </a>
@@ -60,20 +60,21 @@
               </a>
             </li>
             <li>
-              <a href="#" [routerLink]="['/question-search']" routerLinkActive="active">
+              <a href="#"  (click)="OnQuestionSearch()">
                 <span class="title">ข้อสอบ</span>
               </a>
             </li>
+
           </ul>
         </li>
-        <li class="">
-          <a href="#" [routerLink]="['/student-search']" routerLinkActive="active">
+        <li class="" >
+          <a href="#" (click)="OnStudentSearch()" *ngIf="useraccesdata.isAdmin === true || useraccesdata.isMasterAdmin === true">
             <i class="fa fa-users"></i>
             <span class="title">ผู้เข้าสอบ</span>
           </a>
         </li>
-        <li class="">
-          <a href="#" onclick="return false;">
+        <li class="" >
+          <a href="#" onclick="return false;" *ngIf="useraccesdata.isAdmin === true || useraccesdata.isMasterAdmin === true">
             <i class="fa fa-edit"></i>
             <span class="title">จัดสอบ</span>
           </a>
@@ -84,18 +85,13 @@
               </a>
             </li>
             <li>
-              <a href="#" [routerLink]="['/exam-auto-setup']">
-                <span class="title">จัดตารางสอบอัตโนมัติ</span>
+              <a href="#" [routerLink]="['/exam-search']">
+                <span class="title">รอบสอบ</span>
               </a>
             </li>
             <li>
               <a href="#" [routerLink]="['/exam-table']">
                 <span class="title">ตารางสอบ</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" [routerLink]="['/exam-search']">
-                <span class="title">รอบสอบ</span>
               </a>
             </li>
             <!--<li>
@@ -110,8 +106,8 @@
             </li>
           </ul>
         </li>
-        <li class="">
-          <a href="#" onclick="return false;">
+        <li class="" >
+          <a href="#" onclick="return false;" *ngIf="useraccesdata.isAdmin === true || useraccesdata.isMasterAdmin === true">
             <i class="fa fa-bar-chart"></i>
             <span class="title">รายงาน</span>
           </a>
@@ -147,17 +143,50 @@
               </a>
             </li>
             <li>
-              <a href="#" [routerLink]="['/login-logout-history']">
-                <span class="title">การเข้าและออกจากระบบ</span>
+              <a href="#" [routerLink]="['/login-student-history/0']">
+                <span class="title">ประวัติการเข้าระบบของผู้เข้าสอบ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/login-staff-history/0']">
+                <span class="title">ประวัติการเข้าระบบของเจ้าหน้าที่</span>
               </a>
             </li>
           </ul>
         </li>
-        <li class="">
+        <li class="" *ngIf="useraccesdata.isMasterAdmin === true">
           <a href="#" [routerLink]="['/staff-search']" routerLinkActive="active">
             <i class="fa fa-user"></i>
             <span class="title">เจ้าหน้าที่</span>
           </a>
+        </li>
+        <li class="" >
+          <a href="#" onclick="return false;" *ngIf="useraccesdata.isAdmin === true || useraccesdata.isMasterAdmin === true">
+            <i class="fa fa-cogs"></i>
+            <span class="title">กำหนดค่า</span>
+          </a>
+          <ul>
+            <li>
+              <a href="#" [routerLink]="['/image-setup']">
+                <span class="title">รูปภาพ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/attitude-setup']" routerLinkActive="active">
+                <span class="title">ตัวเลือกข้อสอบวัดทัศนคติ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/exam-setup']">
+                <span class="title">จัดรอบสอบอัตโนมัติ</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" [routerLink]="['/send-result-setup']">
+                <span class="title">กำหนดรูปแบบการส่งผลสอบ</span>
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
 

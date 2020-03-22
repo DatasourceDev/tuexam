@@ -1,0 +1,519 @@
+<!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">ข้อสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">รหัสข้อสอบ</label>
+                <div class="col-sm-4">
+                  <input class="form-control " id="questioncode" name="questioncode" formControlName="questioncode" readonly />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="group" name="group" formControlName="group" readonly>
+                  <input type="hidden" class="form-control" id="groupid" name="groupid" formControlName="groupid">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">วิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="subject" name="subject" formControlName="subject" readonly>
+                  <input type="hidden" class="form-control" id="subjectid" name="subjectid" formControlName="subjectid">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">วิชาย่อย <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="sub" name="sub" formControlName="sub" readonly>
+                  <input type="hidden" class="form-control" id="subid" name="subid" formControlName="subid">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">หลักสูตร <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <label class="checkbox-inline">
+                    <input type="checkbox" id="courseth" name="courseth" value="true" formControlName="courseth" disabled>
+                    ไทย
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" id="courseen" name="courseen" value="true" formControlName="courseen" disabled>
+                    อังกฤษ
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">บทความ(ไทย)</label>
+                <div class="col-sm-10">
+                  <p [innerHTML]="questionth"></p>
+                  <input type="hidden" class="form-control" id="questionth" name="questionth" formControlName="questionth">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">บทความ(อังกฤษ)</label>
+                <div class="col-sm-10">
+                  <p [innerHTML]="questionen"></p>
+                  <input type="hidden" class="form-control" id="questionen" name="questionen" formControlName="questionen">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="fileurl != null && fileurl != ''">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-4">
+                  <plyr style="display: block; width: 100%;"
+                        plyrTitle="Video 1"
+                        [plyrPlaysInline]="true"
+                        [plyrSources]="videoSources"
+                        (plyrInit)="player = $event"
+                        (plyrPlay)="played($event)"></plyr>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">คำค้นหา (Keyword)</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="keyword" name="keyword" formControlName="keyword" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ระดับความยาก <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="questionlevelname" name="questionlevelname" formControlName="questionlevelname" readonly>
+                  <input type="hidden" class="form-control" id="questionlevel" name="questionlevel" formControlName="questionlevel">
+                </div>
+                <label class="col-sm-2 control-label">เวลาที่อนุญาตให้ทำข้อสอบ</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="timelimit" name="timelimit" formControlName="timelimit" readonly>
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="timelimittypename" name="timelimittypename" formControlName="timelimittypename" readonly>
+                  <input type="hidden" class="form-control" id="timelimittype" name="timelimittype" formControlName="timelimittype">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="statusname" name="statusname" formControlName="statusname" readonly>
+                  <input type="hidden" class="form-control" id="status" name="status" formControlName="status">
+                </div>
+                <div class="col-sm-2">
+                  <button href="#" class="btn btn-blue btn-block" (click)="OnChangeStatus()">
+                    เปลี่ยนสถานะ
+                  </button>
+                </div>
+                <label class="col-sm-2 control-label">สถานะการกลั่นกรอง</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="approvalstatusname" name="approvalstatusname" formControlName="approvalstatusname" readonly>
+                  <input type="hidden" class="form-control" id="approvalstatus" name="approvalstatus" formControlName="approvalstatus">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">หมายเหตุ</label>
+                <div class="col-sm-4">
+                  <textarea class="form-control " id="remark" name="remark" formControlName="remark" rows="5" readonly></textarea>
+                </div>
+                <label class="col-sm-2 control-label">ผู้แก้ไข</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="update_by" name="update_by" formControlName="update_by" readonly>
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="update_on" name="update_on" formControlName="update_on" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="questiontype == 3 && questiondata != null && questiondata.length > 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>ลำดับ</th>
+                        <th>คำถาม</th>
+                        <th>คะแนน</th>
+                        <td>คำตอบ</td>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="questiondata != null && questiondata.length > 0">
+                      <tr *ngFor="let item of questiondata">
+                        <td>
+                          {{item.order}}
+                        </td>
+                        <td>{{getquestion(item.questionth,item.questionen)}}</td>
+                        <td>{{item.point}}</td>
+                        <td>{{item.choice}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="questiontype == 7 && questiondata != null && questiondata.length > 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>ลำดับ</th>
+                        <th>ประเภท</th>
+                        <th>คำถาม</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="questiondata != null && questiondata.length > 0">
+                      <tr *ngFor="let item of questiondata">
+                        <td>{{item.order}}</td>
+                        <td>{{item.questiontype}}</td>
+                        <td>{{getquestion(item.questionth,item.questionen)}}</td>
+                        <td>
+                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnView(item.id)"s>
+                            ดู
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="questiontype == 1 && ansdata != null && ansdata.length > 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>ลำดับ</th>
+                        <th>คำตอบ</th>
+                        <th>คะแนน</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="ansdata != null && ansdata.length > 0">
+                      <tr *ngFor="let item of ansdata">
+                        <td>{{item.order}}</td>
+                        <td>{{getanswer(item.answerth,item.answeren)}}</td>
+                        <td>{{item.point}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="questiontype == 2">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>คำตอบ</th>
+                        <th>คะแนน</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>ถูก</td>
+                        <td><input type="text" class="form-control" id="tpoint" name="tpoint" formControlName="tpoint" readonly></td>
+                      </tr>
+                      <tr>
+                        <td>ผิด</td>
+                        <td><input type="text" class="form-control" id="fpoint" name="fpoint" formControlName="fpoint" readonly></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="questiontype == 3 && ansdata != null && ansdata.length > 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>ตัวเลือก</th>
+                        <th>คำตอบ</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="ansdata != null && ansdata.length > 0">
+                      <tr *ngFor="let item of ansdata">
+                        <td>{{item.choice}}</td>
+                        <td>{{getanswer(item.answerth,item.answeren)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="divq8">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">รูปแบบคำตอบ <span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" id="attitudeanstypename" name="attitudeanstypename" formControlName="attitudeanstypename" readonly>
+                    <input type="hidden" class="form-control" id="attitudeanstype" name="attitudeanstype" formControlName="attitudeanstype">
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" id="attitudeanssubtypename" name="attitudeanssubtypename" formControlName="attitudeanssubtypename" readonly>
+                    <input type="hidden" class="form-control" id="attitudeanssubtype" name="attitudeanssubtype" formControlName="attitudeanssubtype">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="div1">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ตัวเลือกที่ 1 <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" formControlName="text1" id="text1" name="text1" readonly>
+                  </div>
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point1" id="point1" name="point1" readonly>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="div2">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ตัวเลือกที่ 2 <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" formControlName="text2" id="text2" name="text2" readonly>
+                  </div>
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point2" id="point2" name="point2" readonly>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="div3">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ตัวเลือกที่ 3 <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" formControlName="text3" id="text3" name="text3" readonly>
+                  </div>
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point3" id="point3" name="point3" readonly>                 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="div4">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ตัวเลือกที่ 4 <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" formControlName="text4" id="text4" name="text4" readonly>
+                  </div>
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point4" id="point4" name="point4" readonly>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="div5">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ตัวเลือกที่ 5 <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" formControlName="text5" id="text5" name="text5" readonly>
+                  </div>
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point5" id="point5" name="point5" readonly>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="div6">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ตัวเลือกที่ 6 <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" formControlName="text6" id="text6" name="text6" readonly>
+                  </div>
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point6" id="point6" name="point6" readonly>                 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="div7">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ตัวเลือกที่ 7 <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" formControlName="text7" id="text7" name="text7" readonly>
+                  </div>
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point7" id="point7" name="point7" readonly>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  การกลั่นกรองข้อสอบ
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>เจ้าหน้าที่</th>
+                        <th>สถานะ</th>
+                        <th>หมายเหตุ</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="appstaffdata != null && appstaffdata.length > 0">
+                      <tr *ngFor="let item of appstaffdata">
+                        <td>{{item.firstname}} {{item.lastname}}</td>
+                        <td>{{item.approvalstatusname}}</td>
+                        <td>{{item.remark}}</td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="appstaffdata == null || appstaffdata.length == 0">
+                      <tr>
+                        <td colspan="3" class="text-center">ไม่พบข้อมูล</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="isapproval == true">
+            <div class="col-sm-12" >
+              <div class="form-group">
+                <label class="col-sm-2 control-label">หมายเหตุการกลั่นกรอง</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="approveremark" name="approveremark" formControlName="approveremark">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10" >
+                  <a href="#" class="btn btn-blue" (click)="OnTestApprove()" *ngIf="isapproval == true" >
+                    อนุมัติ
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestReject()" *ngIf="isapproval == true">
+                    ไม่อนุมัติ
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestApproveMaster()" *ngIf="useraccesdata.isMasterTestAppr == true">
+                    อนุมัติ (พิเศษ)
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestRejectMaster()" *ngIf="useraccesdata.isMasterTestAppr == true">
+                    ไม่อนุมัติ (พิเศษ)
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestDraftMaster()" *ngIf="useraccesdata.isMasterTestAppr == true">
+                    กลับไปสถานะร่าง
+                  </a>
+                  <a href="#" class="btn btn-gray" [routerLink]="['/question-search']">
+                    กลับ
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

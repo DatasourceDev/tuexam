@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="panel-body">
-        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmitForm()">
           <div class="row">
             <div class="form-group">
               <div class="col-sm-9">
@@ -46,7 +46,7 @@
                 <label class="control-label">คณะ</label>
                 <select class="form-control" id="faculty_search" name="faculty_search" formControlName="faculty_search">
                   <option></option>
-                  <option *ngFor="let item of facultylist" value="{{item.value}}">{{item.text}}</option>
+                  <option *ngFor="let item of facultylist" value="{{item.id}}">{{item.name}}</option>
                 </select>
               </div>
               <div class="col-sm-2">
@@ -71,15 +71,35 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">รายการ</h3>
+    <h3 class="panel-title">รายการ ({{itemcnt}})</h3>
     <div class="panel-options">
 
     </div>
   </div>
   <div class="panel-body">
-    <a href="#" class="btn btn-secondary" [routerLink]="['/student/0']">
-      เพิ่ม
-    </a>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <a href="#" class="btn btn-secondary" [routerLink]="['/student/0']">
+            เพิ่ม
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">นำเข้าด้วย Excel</label>
+          <div class="col-sm-6">
+            <input type="file" class="form-control" id="fileupload" name="fileupload" (change)="incomingfile($event)">
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-blue" (click)="OnUpload()">
+              นำเข้า
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+   
 
     <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
       <thead>

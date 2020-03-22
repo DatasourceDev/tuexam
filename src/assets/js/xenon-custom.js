@@ -1235,7 +1235,7 @@ function setup_calendar(events, curdate) {
     eventLimit: true,
     events: events,
     eventClick: function (info) {
-      //window.location = window.location.href.replace('exam-table','exam-register');
+     window.location = window.location.href.replace('exam-table','exam-search');
     },
     droppable: false,
     drop: function (date) {

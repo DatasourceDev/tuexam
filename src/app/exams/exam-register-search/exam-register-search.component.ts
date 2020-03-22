@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from "../../share/service/app.service";
+import { SessionService } from '../../share/service/session.service';
 import { HttpClient } from '@angular/common/http';
 import { AppData } from "../../share/data/app.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
@@ -15,6 +16,7 @@ declare var $: any;
 })
 export class ExamRegisterSearchComponent implements OnInit {
   //@ViewChild('fileUploader', { static: true }) fileUploader
+  public useraccesdata: any;
 
   public loading = false;
   private data: any;
@@ -30,18 +32,21 @@ export class ExamRegisterSearchComponent implements OnInit {
 
   pageno: number = 1;
   pagelen: number = 0;
-
+  itemcnt: number = 0;
   inputForm: FormGroup;
 
-  constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute) {
+  constructor(public session: SessionService,private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute) {
     let fileupload = new FormControl();
     let examid = new FormControl('');
+    let update_by = new FormControl('');
     
     this.inputForm = new FormGroup({
       examid: examid,
       fileupload: fileupload,
+      update_by: update_by
     });
-
+     let useracces = this.session.getData();
+    this.useraccesdata = JSON.parse(useracces);
   }
 
   ngOnInit() {
@@ -56,21 +61,22 @@ export class ExamRegisterSearchComponent implements OnInit {
         .subscribe(result => {
           if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
             Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-            this.router.navigate(['/subjectgroup-search/']);
+            this.router.navigate(['/exam-search/']);
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/subjectgroup-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               this.data = result;
-              this.examdate = this.data.examdate ;
+              this.examdate = this.data.examdate;
               this.examperiod = this.data.examperiodname;
               this.subject = this.data.subject;
               this.group = this.data.group;
               this.registercnt = this.data.registercnt;
+              this.OnSearch();
+            }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/exam-search/']);
             }
             this.loading = false;
           }
@@ -78,7 +84,6 @@ export class ExamRegisterSearchComponent implements OnInit {
           this.loading = false;
         });
     }     
-    this.OnSearch();
     this.ChooseOnchange('advance');
   }
   OnSearch() {
@@ -97,6 +102,7 @@ export class ExamRegisterSearchComponent implements OnInit {
         else {
           this.data = result["data"];
           this.pagelen = result["pagelen"];
+          this.itemcnt = result["itemcnt"];
         }
         this.loading = false;
       }, error => {
@@ -128,15 +134,16 @@ export class ExamRegisterSearchComponent implements OnInit {
         })
       };
     }
-  }
-
+  }  
   OnUpload() {
     this.loading = true;
+    this.inputForm.patchValue({ update_by: this.useraccesdata.username });
 
     let data = JSON.stringify(this.inputForm.value);
 
     this.service.httpClientFilePost("api/Exam/upload", data)
       .subscribe(result => {
+        Swal.fire({ text: 'นำเข้าสำเร็จ', type: 'success', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;       
         this.OnSearch();
         this.registercnt = result["registercnt"];
@@ -145,14 +152,20 @@ export class ExamRegisterSearchComponent implements OnInit {
         this.loading = false;
       });
   }
+
   OnDelete(id) {
     Swal.fire({ text: 'คุณต้องการที่จะลบรายการนี้', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
       if (result.value == true) {
         let deldata = { id: id };
 
         this.service.httpClientGet("api/Exam/registerdelete", deldata)
-          .subscribe(result => {             
-            this.OnSearch();
+          .subscribe(result => {
+            if (result["result"] != 200) {
+              Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            }
+            else {
+              this.OnSearch();
+            }
           }, error => {
             Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           });
@@ -166,7 +179,7 @@ export class ExamRegisterSearchComponent implements OnInit {
     };
     this.loading = true;
 
-    this.service.httpClientGet("api/Student/liststudent", formdata)
+    this.service.httpClientGet("api/Student/listAllstudent", formdata)
       .subscribe(result => {
         if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
           this.studentdata = null;
@@ -192,7 +205,7 @@ export class ExamRegisterSearchComponent implements OnInit {
       choose: choose,
       examid: this.id,
     };
-    this.service.httpClientGet("api/Exam/uploadwalkin", formdata)
+    this.service.httpClientPost("api/Exam/uploadwalkin", formdata)
       .subscribe(result => {
         this.studentdata = null;
         this.OnSearch();
@@ -213,6 +226,33 @@ export class ExamRegisterSearchComponent implements OnInit {
       }
     }
   }
+  OnMove(id) {
+    this.router.navigate(['/exam-move/' + id]);
+    return false;
+  }
+
+  OnDownloadTemplate() {
+    this.service.openurl("template/register/register.xlsx");
+    return false;
+  }
+  OnPageChange(no) {
+    if (no < 1)
+      no = 1;
+    if (no > this.pagelen)
+      no = this.pagelen;
+
+    this.pageno = no;
+    this.OnSearch();
+    return false;
+  }
+
+  getPaginationArray() {
+    var arr = [];
+    for (var i = 1; i <= this.pagelen; i++) {
+      arr.push(i);
+    }
+    return arr;
+  }
   getStudentName(prefix,firstname, lastname, firstnameen, lastnameen) {
     var name = prefix;
     if (firstname != null && firstname != '') {
@@ -229,6 +269,16 @@ export class ExamRegisterSearchComponent implements OnInit {
       name += " " + lastnameen;
     }
     return name;
+  }
+
+  getrowno(i) {
+    var rowno = 0;
+    if (this.pageno > 1) {
+      rowno = ((this.pageno-1) * 25) + i +1;
+    }
+    else
+      rowno = i + 1;
+    return rowno;
   }
 
 }

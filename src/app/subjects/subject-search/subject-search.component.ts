@@ -44,6 +44,7 @@ export class SubjectSearchComponent implements OnInit {
         this.loading = false;
 
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
 
       });
@@ -62,6 +63,7 @@ export class SubjectSearchComponent implements OnInit {
         this.loading = false;
 
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
 
       });
@@ -93,5 +95,26 @@ export class SubjectSearchComponent implements OnInit {
       }
     });
     
+  }
+
+  OnMoveUp(id) {
+    let formdata = { id: id };
+    this.service.httpClientGet("api/Subject/moveup", formdata)
+      .subscribe(result => {
+        this.OnSubmit();
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+    return false;
+  }
+  OnMoveDown(id) {
+    let formdata = { id: id };
+    this.service.httpClientGet("api/Subject/movedown", formdata)
+      .subscribe(result => {
+        this.OnSubmit();
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+    return false;
   }
 }

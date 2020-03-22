@@ -126,7 +126,7 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" id="phone" name="phone" formControlName="phone" maxlength="50">
                 </div>
-                <label class="col-sm-2 control-label">Passport</label>
+                <label class="col-sm-2 control-label">Passport No.</label>
                 <div class="col-sm-4">
                   <input type="text" class="form-control" id="passport" name="passport" formControlName="passport" maxlength="50">
                 </div>
@@ -150,7 +150,7 @@
                 <div class="col-sm-4">
                   <select class="form-control" id="faculty" name="faculty" formControlName="faculty">
                     <option></option>
-                    <option *ngFor="let item of facultylist" value="{{item.value}}">{{item.text}}</option>
+                    <option *ngFor="let item of facultylist" value="{{item.id}}">{{item.name}}</option>
                   </select>
                 </div>
                 <label class="col-sm-2 control-label">หลักสูตร <span class="text-red">*</span></label>
@@ -174,10 +174,7 @@
                   <button href="#" class="btn btn-blue" (click)="OnReset()" *ngIf="id != null && id > 0">
                     เปลี่ยนรหัสผ่าน
                   </button>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank" *ngIf="id != null && id > 0">
-                    ประวัติการเข้าสอบ
-                  </a>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank" *ngIf="id != null && id > 0">
+                  <a href="#" class="btn btn-blue" (click)="OnHistory()"  target="_blank" *ngIf="id != null && id > 0">
                     ประวัติการเข้า-ออกจากระบบ
                   </a>
                   <a href="#" class="btn btn-gray" [routerLink]="['/student-search']">

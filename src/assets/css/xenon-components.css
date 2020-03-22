@@ -1177,7 +1177,7 @@
 
   .gallery-env .album-images .album-image .name {
     float: left;
-    width: 75%
+    width: 50%
   }
 
     .gallery-env .album-images .album-image .name span {
@@ -1205,7 +1205,7 @@
 
 .gallery-env .album-images .album-image .image-options {
   float: right;
-  width: 25%;
+  width: 50%;
   text-align: right;
   white-space: nowrap
 }

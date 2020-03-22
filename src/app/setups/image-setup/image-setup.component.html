@@ -1,0 +1,52 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="page-title">
+  <div class="title-env">
+    <h1 class="title">รูปภาพ</h1>
+    <p class="description"></p>
+  </div>
+</div>
+<section class="gallery-env">
+
+  <div class="row">
+    <!-- Gallery Album Optipns and Images -->
+    <div class="col-sm-12 gallery-right">
+
+      <!-- Album Header -->
+      <div class="album-header">
+        <h2>เพิ่มรูป</h2>
+
+        <ul class="album-options list-unstyled list-inline">         
+          <li>
+            <input type='file' (change)="onSelectFile($event)" multiple accept="image/*">
+          </li>
+        </ul>
+      </div>  
+
+      <!-- Album Images -->
+      <div class="album-images row">
+
+        <!-- Album Image -->
+        <div class="col-md-3 col-sm-4 col-xs-6" *ngFor='let item of data'>
+          <div class="album-image" style="height:250px">
+            <a href="#" class="thumb" data-action="edit" style="height:190px">
+              <img [src]="item.url" class="img-responsive"  style="max-height:190px" />
+            </a>
+
+            <a href="#" class="name">
+              <span></span>
+              <em>{{item.update_on}}</em>
+            </a>
+
+            <div class="image-options">
+              <button class="btn btn-blue btn-xs" (click)="OnCopy(item.url)">คัดลอก</button><button class="btn btn-danger btn-xs"  (click)="OnDelete(item.id)">ลบ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+

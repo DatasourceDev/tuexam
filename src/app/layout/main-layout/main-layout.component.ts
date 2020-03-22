@@ -10,6 +10,7 @@ declare var setup_select2: any;
 declare var cbr_replace: any;
 declare var select2: any;
 declare var $: any;
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-main-layout',
@@ -18,8 +19,10 @@ declare var $: any;
 })
 export class MainLayoutComponent implements OnInit {
   public useraccesdata: any;
+  public loading = false;
 
-  constructor(private router: Router, public session: SessionService) { }
+  constructor(private router: Router, public session: SessionService, private service: AppService) {
+  }
 
   ngOnInit() {
     setup_horizontal_menu();
@@ -34,6 +37,16 @@ export class MainLayoutComponent implements OnInit {
   OnLogout() {
     this.session.logOut();
     this.router.navigate(["/login"]);
+
+    let formdata = { id: this.useraccesdata.staffid };
+    this.loading = true;
+    this.service.httpClientGet("api/Account/logout", formdata)
+      .subscribe(result => {
+        this.loading = false;
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        this.loading = false;
+      });
     return false;
   }
 
@@ -43,6 +56,17 @@ export class MainLayoutComponent implements OnInit {
   }
   OnReset() {
     this.router.navigate(["/reset-password/" + this.useraccesdata.staffid]);
+    return false;
+  }
+
+  OnQuestionSearch() {
+    this.router.navigate(["/question-search/"]);
+    sessionStorage.clear();
+    return false;
+  }
+  OnStudentSearch() {
+    this.router.navigate(["/student-search/"]);
+    sessionStorage.clear();
     return false;
   }
 }

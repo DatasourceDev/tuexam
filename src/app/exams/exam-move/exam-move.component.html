@@ -1,0 +1,65 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">ย้ายรอบสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">รายการ</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>วันที่</th>
+          <th>รอบ</th>
+          <th>วิชา</th>
+          <th>แบบทดสอบ</th>
+          <th class="action"></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.examdate}}</td>
+          <td>{{item.examperiod}}</td>
+          <td>{{item.group}} - {{item.subject}}</td>
+          <td>{{item.test}}</td>
+          <td>
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnChoose(item.id)">
+              เลือก
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+      <tbody *ngIf="data == null || data.length == 0">
+        <tr>
+          <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="pagelen > 1">
+        <tr>
+          <td colspan="5" class="text-right">
+            <ul class="pagination">
+              <li><a href="#" (click)="OnPageChange(pageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==pageno}">
+                <a href="#" (click)="OnPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnPageChange(pageno+1)"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    <a class="btn btn-gray" [routerLink]="['/exam-register-search/' + examid]">
+      กลับ
+    </a>
+  </div>
+</div>

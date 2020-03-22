@@ -47,6 +47,8 @@ export class TestComponent implements OnInit {
     let testcode = new FormControl('');
     let group = new FormControl('');
     let subject = new FormControl('');
+    let approvalstatusname = new FormControl('');
+    let questioncnt = new FormControl('');
 
     this.inputForm = new FormGroup({
       name: name,
@@ -64,7 +66,9 @@ export class TestComponent implements OnInit {
       testcustomordertype: testcustomordertype,
       testcode: testcode,
       group: group,
-      subject: subject
+      subject: subject,
+      approvalstatusname: approvalstatusname,
+      questioncnt: questioncnt,
     });
 
   }
@@ -77,7 +81,7 @@ export class TestComponent implements OnInit {
     this.testdoexamtypelist = this.appdata.gettestdoexamtype();
     this.courselist = this.appdata.getcourse();
     this.showresultlist = this.appdata.getshowresult();
-    this.approvelist = this.appdata.getapprovestatus();
+    this.approvelist = this.appdata.gettestapprovestatus();
     this.testquestionlist = this.appdata.gettestquestiontype();
     this.testcustomordertypelist = this.appdata.gettestcustomordertype();
 
@@ -87,7 +91,7 @@ export class TestComponent implements OnInit {
     this.inputForm.patchValue({ approvalstatus: "0" });
     this.inputForm.patchValue({ testdoexamtype: "0" });
     this.inputForm.patchValue({ course: "0" });
-    this.inputForm.patchValue({ testquestiontype: "0" });
+    this.inputForm.patchValue({ testquestiontype: "1" });
     this.inputForm.patchValue({ testcustomordertype: "0" });
 
     if (this.id != null && parseInt(this.id) > 0) {
@@ -102,11 +106,7 @@ export class TestComponent implements OnInit {
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/test-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               this.data = result;
               this.inputForm.patchValue({ name: this.data.name });
               this.inputForm.patchValue({ status: this.data.status });
@@ -124,14 +124,20 @@ export class TestComponent implements OnInit {
               this.inputForm.patchValue({ testcode: this.data.testcode });
               this.inputForm.patchValue({ group: this.data.group });
               this.inputForm.patchValue({ subject: this.data.subject });
+              this.inputForm.patchValue({ approvalstatusname: this.data.approvalstatusname });
+
               this.OnGroupList(false);
               this.OnSujectList(false);
               this.ChooseOnchange();
-
+            }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/test-search/']);
             }
             this.loading = false;
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
       this.OnQRandomSearch();
@@ -164,6 +170,7 @@ export class TestComponent implements OnInit {
           }
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSujectList(setdefault) {
@@ -186,6 +193,7 @@ export class TestComponent implements OnInit {
 
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
 
       });
   }
@@ -240,7 +248,7 @@ export class TestComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -268,7 +276,7 @@ export class TestComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -297,13 +305,14 @@ export class TestComponent implements OnInit {
         }
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }
          
   OnQRandomAdd() {
     if (this.id == null || parseInt(this.id) == 0) {
-      Swal.fire({ text: 'ทำการบันทึกข้อมูลก่อนไปยังขั้นตอนจัดการคำตอบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      Swal.fire({ text: 'หลังจากกดปุ่มตกลง ระบบจะบันทึกข้อมูลเข้าสู่ระบบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
         if (result.value == true) {
           this.OnSubmit(true,false);
         }
@@ -346,9 +355,11 @@ export class TestComponent implements OnInit {
       .subscribe(result => {
         if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
           this.qcustomdata = null;
+          this.inputForm.patchValue({ questioncnt:0 });
         }
         else {
-          this.qcustomdata = result;
+          this.qcustomdata = result["data"];
+          this.inputForm.patchValue({ questioncnt: result["questioncnt"] });
         }
         this.loading = false;
       }, error => {
@@ -358,7 +369,7 @@ export class TestComponent implements OnInit {
 
   OnQCustomAdd() {
     if (this.id == null || parseInt(this.id) == 0) {
-      Swal.fire({ text: 'ทำการบันทึกข้อมูลก่อนไปยังขั้นตอนจัดการคำตอบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      Swal.fire({ text: 'หลังจากกดปุ่มตกลง ระบบจะบันทึกข้อมูลเข้าสู่ระบบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
         if (result.value == true) {
           this.OnSubmit(false,true);
         }
@@ -387,19 +398,47 @@ export class TestComponent implements OnInit {
     });
     return false;
   }
+
+  OnQCustomMoveUp(id) {
+    let formdata = { id: id };
+    this.service.httpClientGet("api/Test/qcustommoveup", formdata)
+      .subscribe(result => {
+        this.OnQCustomSearch();
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+    return false;
+  }
+  OnQCustomMoveDown(id) {
+    let formdata = { id: id };
+    this.service.httpClientGet("api/Test/qcustommovedown", formdata)
+      .subscribe(result => {
+        this.OnQCustomSearch();
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+    return false;
+  }
+
+  OnApprove() {
+    Swal.fire({ text: 'คุณต้องการเริ่มกระบวนการคัดเลือกแบบทดสอบ', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      if (result.value == true) {
+        let formdata = { id: this.id };
+        this.service.httpClientGet("api/Test/approveconfirm", formdata)
+          .subscribe(result => {
+            Swal.fire({ text: 'ส่งคัดเลือกสำเร็จ', type: 'success', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            this.router.navigate(['/test-search/']);
+          }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          });
+      }
+    });
+    return false;
+  }
   getquestion(th, en) {
     var name = th;
     if (th == null || th == '')
       name = en;
-    return this.convert_html_to_string(name);
-  }
-  convert_html_to_string(html) {
-    if (html == null)
-      return "";
-    var result = html.replace(/(<([^>]+)>)/g, "");
-    if (result.length > 20) {
-      result = result.substring(0, 20) + ' ...';
-    }
-    return result;
+    return this.service.convert_html_to_string(name,50);
   }
 }

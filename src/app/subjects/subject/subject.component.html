@@ -17,9 +17,22 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
+                <label class="col-sm-2 control-label">ลำดับการทำข้อสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="order" name="order" formControlName="order" readonly>
+                  <span class="text-danger" *ngIf="!inputForm.get('order').valid && inputForm.get('order').touched">
+                    กรุณาระบุลำดับการทำข้อสอบ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
                 <label class="col-sm-2 control-label">ชื่อวิชา <span class="text-red">*</span></label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="name" name="name" formControlName ="name" maxlength="250">
+                  <input type="text" class="form-control" id="name" name="name" formControlName="name" maxlength="250">
                   <span class="text-danger" *ngIf="!inputForm.get('name').valid && inputForm.get('name').touched">
                     กรุณาระบุชื่อวิชา
                   </span>
@@ -32,23 +45,12 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
                 <div class="col-sm-4">
-                  <select class="form-control" id="groupid" name="groupid" formControlName="groupid">
+                  <select class="form-control" id="groupid" name="groupid" formControlName="groupid" (change)="OnGroupChange()">
                     <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                   </select>
                   <span class="text-danger" *ngIf="!inputForm.get('groupid').valid && inputForm.get('groupid').touched">
                     กรุณาระบุกลุ่มวิชา
                   </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">ลำดับการทำข้อสอบ <span class="text-red">*</span></label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="index" name="index" formControlName="index">
-                  
                 </div>
               </div>
             </div>

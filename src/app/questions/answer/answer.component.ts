@@ -18,6 +18,7 @@ export class AnswerComponent implements OnInit {
   private data: any;
   id: string;
   qid: string;
+  pid: string;
   inputForm: FormGroup;
   constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute) {
     let order = new FormControl('');
@@ -39,6 +40,7 @@ export class AnswerComponent implements OnInit {
 
     this.qid = this.route.snapshot.params['qid'];
     this.id = this.route.snapshot.params['id'];
+    this.pid = this.route.snapshot.params['pid'];
 
     this.inputForm.patchValue({ point: 0 });
     if (this.id != null && parseInt(this.id) > 0) {
@@ -47,15 +49,11 @@ export class AnswerComponent implements OnInit {
         .subscribe(result => {
           if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
             Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-            this.router.navigate(['/question-multi-choice/', this.qid]);
+            this.router.navigate(['/question-multi-choice/', this.qid, this.pid]);
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/question-multi-choice/', this.qid]);
-            }
-            else {
+            if (result["result"] == 200) {
               setup_ckeditor();
 
               this.data = result;
@@ -68,9 +66,14 @@ export class AnswerComponent implements OnInit {
               $('#answesth').val(this.data.answesth);
               $('#answesen').val(this.data.answesen);
             }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/question-multi-choice/', this.qid, this.pid]);
+            }
             this.loading = false;
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         });
     }
     else {
@@ -81,12 +84,13 @@ export class AnswerComponent implements OnInit {
         .subscribe(result => {
           if (result == null || (Array.isArray(result) && result.length == 0)) {
             Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-            this.router.navigate(['/question-multi-choice/', this.qid]);
+            this.router.navigate(['/question-multi-choice/', this.qid,this.pid]);
           }
           else {
             this.inputForm.patchValue({ order: result });
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         });
     }
   }
@@ -126,7 +130,7 @@ export class AnswerComponent implements OnInit {
             }
             else {
               if (result["result"] == 200) {
-                this.router.navigate(['/question-multi-choice/', this.qid]);
+                this.router.navigate(['/question-multi-choice/', this.qid, this.pid]);
               }
               else {
                 Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
@@ -134,7 +138,7 @@ export class AnswerComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -146,7 +150,7 @@ export class AnswerComponent implements OnInit {
             }
             else {
               if (result["result"] == 200) {
-                this.router.navigate(['/question-multi-choice/', this.qid]);
+                this.router.navigate(['/question-multi-choice/', this.qid, this.pid]);
               }
               else {
                 Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
@@ -154,7 +158,7 @@ export class AnswerComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -162,7 +166,7 @@ export class AnswerComponent implements OnInit {
   }
   
   OnBack() {
-    this.router.navigate(['/question-multi-choice/', this.qid]);
+    this.router.navigate(['/question-multi-choice/', this.qid, this.pid]);
     return false;
   }
 }

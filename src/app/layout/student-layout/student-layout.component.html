@@ -34,12 +34,20 @@
 
       <!-- notifications and other links -->
       <ul class="nav nav-userinfo navbar-right">
-
+        <li class="search-form">
+          <a class="btn btn-link" href="#" (click)="OnEn()">En</a>
+        </li>
+        <li class="search-form">
+          |
+        </li>
+        <li class="search-form">
+          <a class="btn btn-link" href="#" (click)="OnTh()">Th</a>
+        </li>
         <li class="dropdown user-profile">
           <a href="#" data-toggle="dropdown">
             <img src="assets/images/user-1.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
             <span>
-              {{useraccesdata.firstname}} {{useraccesdata.lastname}}
+              {{useraccesdata.firstname}} {{useraccesdata.lastname}} {{useraccesdata.idcard}}
               <i class="fa-angle-down"></i>
             </span>
           </a>

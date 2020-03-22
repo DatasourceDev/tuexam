@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from "../../share/service/app.service";
+import { SessionService } from '../../share/service/session.service';
 import { HttpClient } from '@angular/common/http';
 import { AppData } from "../../share/data/app.data";
 import { Router } from '@angular/router';
@@ -12,7 +13,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./test-search.component.css']
 })
 export class TestSearchComponent implements OnInit {
-     public loading = false;
+  public useraccesdata: any;
+
+  public loading = false;
   private data: any;
   private statuslist: any;
   private grouplist: any;
@@ -20,9 +23,13 @@ export class TestSearchComponent implements OnInit {
 
   pageno: number = 1;
   pagelen: number = 0;
+  itemcnt: number = 0;
 
   SearchFrom: FormGroup;
-  constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router) {
+  constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, public session: SessionService) {
+    let useracces = this.session.getData();
+    this.useraccesdata = JSON.parse(useracces);
+
     let text_search = new FormControl('', Validators.maxLength(1000));
     let status_search = new FormControl('');
     let group_search = new FormControl('');
@@ -56,6 +63,7 @@ export class TestSearchComponent implements OnInit {
           this.grouplist = result;
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSujectList() {
@@ -73,6 +81,7 @@ export class TestSearchComponent implements OnInit {
           this.subjectlist = result;
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
 
       });
   }
@@ -88,9 +97,11 @@ export class TestSearchComponent implements OnInit {
         else {
           this.data = result["data"];
           this.pagelen = result["pagelen"];
+          this.itemcnt = result["itemcnt"]; 
         }
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }
@@ -124,7 +135,9 @@ export class TestSearchComponent implements OnInit {
       }
     });
   }
-
+  OnView(id) {
+    this.router.navigate(['/test-view/', id]);
+  }
   OnPageChange(no) {
     if (no < 1)
       no = 1;

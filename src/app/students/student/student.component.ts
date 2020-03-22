@@ -18,7 +18,8 @@ export class StudentComponent implements OnInit {
   private statuslist: any;
   private prefixlist: any;
   private courselist: any;
-
+  private facultylist: any;
+  
   id: string;
 
   inputForm: FormGroup;
@@ -62,6 +63,7 @@ export class StudentComponent implements OnInit {
 
 
   ngOnInit() {
+    this.OnFacultyList();
     this.statuslist = this.appdata.getstatus();
     this.prefixlist = this.appdata.getprefix();
     this.courselist = this.appdata.getcourse();
@@ -81,11 +83,7 @@ export class StudentComponent implements OnInit {
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/staff-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               this.data = result;
               this.inputForm.patchValue({ userid: this.data.userid });
               this.inputForm.patchValue({ username: this.data.username });
@@ -102,16 +100,32 @@ export class StudentComponent implements OnInit {
               this.inputForm.patchValue({ address: this.data.address });
               this.inputForm.patchValue({ lastnameen: this.data.lastnameen });
               this.inputForm.patchValue({ firstnameen: this.data.firstnameen });
-
+            }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/staff-search/']);
             }
             this.loading = false;
           }
         }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
     }
   }
-
+  OnFacultyList() {
+    this.service.httpClientGet("api/Faculty/listActivefaculty", null)
+      .subscribe(result => {
+        if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
+          this.facultylist = null;
+        }
+        else {
+          this.facultylist = result;
+        }
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+  }
   OnSubmit() {
     this.inputForm.controls['firstname'].markAsTouched();
     this.inputForm.controls['lastname'].markAsTouched();
@@ -179,7 +193,7 @@ export class StudentComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -199,7 +213,7 @@ export class StudentComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -210,5 +224,12 @@ export class StudentComponent implements OnInit {
     if (this.id != null && parseInt(this.id) > 0) {
       this.router.navigate(['/reset-password-student/', this.id]);
     }
+  }
+
+  OnHistory() {
+    if (this.id != null && parseInt(this.id) > 0) {
+      this.router.navigate(['/login-student-history/', this.id]);
+    }
+    return false;
   }
 }

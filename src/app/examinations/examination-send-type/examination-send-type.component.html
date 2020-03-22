@@ -2,7 +2,7 @@
 <div class="page-title">
 
   <div class="title-env">
-    <h1 class="title">สิ้นสุดการทำแบบทดสอบ</h1>
+    <h1 class="title">{{translate("finish")}}</h1>
     <p class="description"></p>
   </div>
 
@@ -27,16 +27,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  รหัสนักศึกษา <b>{{useraccesdata.studentcode}}</b>
-</div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <u>แบบทดสอบ</u>
+                  {{translate("student_code")}} <b>{{useraccesdata.studentcode}}</b>
                 </div>
               </div>
             </div>
@@ -45,8 +36,8 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  กลุ่มวิชา <b>{{group}}</b>
-</div>
+                  <u>{{translate("test")}}</u>
+                </div>
               </div>
             </div>
           </div>
@@ -54,8 +45,8 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  วิชา <b>{{subject}}</b>
-</div>
+                  {{translate("group")}} <b>{{group}}</b>
+                </div>
               </div>
             </div>
           </div>
@@ -63,7 +54,16 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  ทำข้อสอบไปทั้งหมดจำนวน <b>{{answeredcnt}}</b>/<b>{{questioncnt}}</b> ข้อ
+                  {{translate("subject")}} <b>{{subject}}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  {{translate("answered_count")}} <b [ngClass]="{'text-red':answeredcnt!=questioncnt}">{{answeredcnt}}</b>/<b>{{questioncnt}}</b>  {{translate("kho")}}
                 </div>
               </div>
             </div>
@@ -73,7 +73,16 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  ประกาศผลที่เว็บไซต์ <a href="https://tu.ac.th/" target="_blank">www.tu.ac.th</a>
+                  {{description}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="allowsendbyemail == true || allowsendbypost == true || allowother == true" >
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  {{translate("msg_required_send_result_type")}}
                 </div>
               </div>
             </div>
@@ -82,50 +91,41 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  กรุณาระบุช่องการส่งผลสอบ
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-4" checked #device1 value="email" (change)="ChooseOnchange(device1.value)">
-                    อีเมล
+                  <label class="radio-inline" *ngIf="allowsendbyemail == true">
+                    <input type="radio" name="radio-4"  #device1 value="email" (change)="ChooseOnchange(device1.value)">
+                    {{translate("email")}}
                   </label>
-                  <label class="radio-inline">
+                  <label class="radio-inline" *ngIf="allowsendbypost == true">
                     <input type="radio" name="radio-4" #device2 value="post" (change)="ChooseOnchange(device2.value)">
-                    ไปรษณีย์
+                    {{translate("post")}}
                   </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="radio-4" #device3 value="other" (change)="ChooseOnchange(device3.value)">
-                    อื่นๆ
+                  <label class="radio-inline" *ngIf="allowother == true">
+                    <input type="radio" name="radio-4" checked #device3 value="other" (change)="ChooseOnchange(device3.value)">
+                    {{translate("other")}}
                   </label>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row" id="divemail">
-            <div class="col-sm-12">
+          <div class="row" id="divemail" >
+            <div class="col-sm-12" *ngIf="allowsendbyemail == true">
               <div class="form-group">
                 <div class="col-sm-6">
-                  <input type="text" class="form-control"  id="email" name="email" formControlName="email">
+                  <input type="text" class="form-control" id="email" name="email" formControlName="email">
                   <span class="text-danger" *ngIf="!inputForm.get('email').valid && inputForm.get('email').touched">
-                    รูปแบบอีเมลไม่ถูกต้อง
+                    {{translate("msg_invalid_format_email")}}
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row" id="divpost">
-            <div class="col-sm-12">
+          <div class="row" id="divpost" >
+            <div class="col-sm-12" *ngIf="allowsendbypost == true">
               <div class="form-group">
                 <div class="col-sm-6">
                   <textarea class="form-control" rows="3" id="address" name="address" formControlName="address"></textarea>
                   <span class="text-danger" *ngIf="!inputForm.get('address').valid && inputForm.get('address').touched">
-                    กรุณาระบุที่อยู่
+                    {{translate("msg_required_address")}}
                   </span>
                 </div>
               </div>
@@ -137,10 +137,10 @@
               <div class="form-group">
                 <div class="col-sm-12">
                   <button class="btn btn-gray" (click)="OnBack()" *ngIf="timeremaining > 0">
-                    กลับไปยังแบบทดสอบ
+                    {{translate("back_to_exam")}}
                   </button>
                   <button class="btn btn-orange" type="submit">
-                    ส่งแบบทดสอบ
+                    {{translate("commit")}}
                   </button>
                 </div>
               </div>

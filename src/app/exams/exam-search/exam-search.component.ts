@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import Swal from 'sweetalert2'; 
 declare var $: any;
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-exam-search',
@@ -15,12 +16,14 @@ declare var $: any;
 export class ExamSearchComponent implements OnInit {
   public loading = false;
   private data: any;
+  private repair: any;
   private statuslist: any;
   private grouplist: any;
   private subjectlist: any;
 
   pageno: number = 1;
   pagelen: number = 0;
+  itemcnt: number = 0;
 
   SearchFrom: FormGroup;
 
@@ -41,11 +44,44 @@ export class ExamSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    var currentDate = formatDate(new Date(), 'dd/MM/yyyy', 'en');
+    $('#date').val(currentDate);
+    this.OnRepair();
     let formdata = { pageno: this.pageno };
     this.OnSearch(formdata);
     this.statuslist = this.appdata.getstatus();
     this.OnGroupList();
   }
+  OnRepair() {
+    let formdata = { };
+    this.loading = true;
+    this.service.httpClientGet("api/TestResult/listrepair", formdata)
+      .subscribe(result => {
+        this.loading = false;
+        this.repair = result;
+        for (var i = 0; i < this.repair.length; i++) {
+          var item = this.repair[i];
+          formdata = {
+            ID: item.id,
+            Email: item.email,
+            Address: item.address,
+            SendByEmail: false,
+            SendByPost: false,
+            Other : true,
+          };
+          this.service.httpClientPost("api/TestResult/sendresult", formdata)
+            .subscribe(result => {
+            
+            }, error => {
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            });
+        }
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        this.loading = false;
+      });
+  }
+
   OnGroupChange() {
     this.OnSujectList();
   }
@@ -60,6 +96,7 @@ export class ExamSearchComponent implements OnInit {
           this.grouplist = result;
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSujectList() {
@@ -77,7 +114,7 @@ export class ExamSearchComponent implements OnInit {
           this.subjectlist = result;
         }
       }, error => {
-
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSearch(formdata) {
@@ -92,9 +129,11 @@ export class ExamSearchComponent implements OnInit {
         else {
           this.data = result["data"];
           this.pagelen = result["pagelen"];
+          this.itemcnt = result["itemcnt"];
         }
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }
@@ -122,18 +161,22 @@ export class ExamSearchComponent implements OnInit {
     this.router.navigate(['/exam/', id]);
   }
   OnDelete(id) {
+    this.loading = true;
+
     Swal.fire({ text: 'คุณต้องการที่จะลบรายการนี้', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
       if (result.value == true) {
-        let deldata = { id: id };
-
+        let deldata = { id: id }; 
         this.service.httpClientGet("api/Exam/delete", deldata)
           .subscribe(result => {
             if (result["result"] == 200) 
-              this.OnSubmit();            
+              this.OnSubmit();              
             else 
               Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            this.loading = false;
+
           }, error => {
-            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.loading = false;
           });
       }
     });
@@ -142,7 +185,26 @@ export class ExamSearchComponent implements OnInit {
   OnRegister(id) {
     this.router.navigate(['/exam-register-search/', id]);
   }
-
+  OnAddAuto() {
+    Swal.fire({ text: 'คุณต้องการเพิ่มรอบสอบแบอัตโนมัติ', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      if (result.value == true) {
+        let formdata = { date : $('#date').val() };
+        this.service.httpClientGet("api/ExamSetup/dailyexamsetup", formdata)
+          .subscribe(result => {
+            if (result["result"] == 200)
+              this.OnSubmit();
+            else
+              Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          });
+      }
+    });
+  }
+  OnPdf(id) {
+    this.service.openurl("api/File/examstudentlistpdf?id=" + id);
+    return false;
+  }
   OnPageChange(no) {
     if (no < 1)
       no = 1;

@@ -1,0 +1,64 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+<div class="page-title">
+  <div class="title-env">
+    <h1 class="title">กำหนดรูปแบบการส่งผลสอบ</h1>
+    <p class="description"></p>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">รายการ</h3>
+    <div class="panel-options">
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>กลุ่มวิชา</th>
+          <th>วิชา</th>
+          <th>อีเมล</th>
+          <th>ไปรษณีย์</th>
+          <th>อื่นๆ</th>
+          <th>ข้อความ</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td class="text-center" *ngIf="item.sendbyemail == true">
+            <input type="checkbox" class="sendbyemail" value="{{item.id}}" checked>
+          </td>
+          <td class="text-center" *ngIf="item.sendbyemail == false">
+            <input type="checkbox" class="sendbyemail" value="{{item.id}}">
+          </td>
+          <td class="text-center" *ngIf="item.sendbypost == true">
+            <input type="checkbox" class="sendbypost" value="{{item.id}}" checked>
+          </td>
+          <td class="text-center" *ngIf="item.sendbypost == false">
+            <input type="checkbox" class="sendbypost" value="{{item.id}}">
+          </td>
+          <td class="text-center" *ngIf="item.other == true">
+            <input type="checkbox" class="other" value="{{item.id}}" checked>
+          </td>
+          <td class="text-center" *ngIf="item.other == false">
+            <input type="checkbox" class="other" value="{{item.id}}">
+          </td>
+          <td>
+            <input type="text" class="form-control desc" value="{{item.description}}" />
+            <input type="hidden" value="{{item.id}}" class="id" />
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="data == null || data.length == 0">
+        <tr>
+          <td colspan="6" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="#" class="btn btn-danger" (click)="OnSubmit()">
+      บันทึก
+    </a>
+  </div>
+</div>

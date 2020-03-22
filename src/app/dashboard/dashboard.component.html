@@ -9,9 +9,8 @@
 </div>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">ข้อสอบรอการกลั่นกรอง</h3>
+    <h3 class="panel-title">ข้อสอบ รอการกลั่นกรอง ({{qpendingitemcnt}})</h3>
     <div class="panel-options">
-
     </div>
   </div>
   <div class="panel-body">
@@ -29,46 +28,47 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Q0001</td>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>G1</td>
-          <td>5</td>
-          <td>2</td>
-          <td>01/01/2019 - 31/01/2019</td>
-          <td>รอการกลั่นกรอง</td>
+      <tbody *ngIf="qpendingdata != null && qpendingdata.length > 0">
+        <tr *ngFor="let item of qpendingdata">
+          <td>{{item.questioncode}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.sub}}</td>
+          <td>{{item.approvalcnt}}</td>
+          <td>{{item.approvedcnt}}</td>
+          <td>{{item.startfrom}} - {{item.endfrom}}</td>
+          <td>{{item.approvalstatusname}}</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left"  [routerLink]="['/question-multi-choice']">
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/question-view',item.id]">
               ดูข้อสอบ
-            </a>
+            </a>          
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="qpendingdata == null || qpendingdata.length == 0">
+        <tr>
+          <td colspan="9" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="qpendingpagelen > 1">
         <tr>
           <td colspan="9" class="text-right">
             <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+              <li><a href="#" (click)="OnQPendingPageChange(qpendingpageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getQPendingPaginationArray()" [ngClass]="{'active':item==qpendingpageno}">
+                <a href="#" (click)="OnQPendingPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnQPendingPageChange(qpendingpageno+1)"><i class="fa-angle-right"></i></a></li>
             </ul>
           </td>
         </tr>
       </tfoot>
     </table>
-
   </div>
 </div>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">ข้อสอบไม่ผ่านการกลั่นกรอง</h3>
+    <h3 class="panel-title">ข้อสอบ ไม่ผ่านการกลั่นกรอง ({{qrejectitemcnt}})</h3>
     <div class="panel-options">
 
     </div>
@@ -82,218 +82,96 @@
           <th>วิชา</th>
           <th>วิชาย่อย</th>
           <th>ผู้มีสิทธิ์กลั่นกรอง</th>
-          <th>กลั่นกรองแล้ว</th>
           <th>ไม่ให้ผ่าน</th>
           <th>ระยะเวลากลั่นกรอง</th>
           <th>สถานะ</th>
           <th></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Q0001</td>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>G1</td>
-          <td>5</td>
-          <td>2</td>
-          <td>3</td>
-          <td>01/01/2019 - 31/01/2019</td>
-          <td>ไม่ผ่าน</td>
+      <tbody *ngIf="qrejectdata != null && qrejectdata.length > 0">
+        <tr *ngFor="let item of qrejectdata">
+          <td>{{item.questioncode}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.sub}}</td>
+          <td>{{item.approvalcnt}}</td>
+          <td>{{item.rejectedcnt}}</td>
+          <td>{{item.startfrom}} - {{item.endfrom}}</td>
+          <td>{{item.approvalstatusname}}</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/question-multi-choice']">
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/question-view',item.id]">
               ดูข้อสอบ
             </a>
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="qrejectdata == null || qrejectdata.length == 0">
+        <tr>
+          <td colspan="10" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="qrejectpagelen > 1">
         <tr>
           <td colspan="10" class="text-right">
             <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+              <li><a href="#" (click)="OnQRejectPageChange(qrejectgpageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getQRejectPaginationArray()" [ngClass]="{'active':item==qrejectgpageno}">
+                <a href="#" (click)="OnQRejectPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnQRejectPageChange(qrejectgpageno+1)"><i class="fa-angle-right"></i></a></li>
             </ul>
           </td>
         </tr>
       </tfoot>
     </table>
-
-  </div>
-</div>
-
-
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">แบบทดสอบรอการคัดเลือก</h3>
-    <div class="panel-options">
-
-    </div>
-  </div>
-  <div class="panel-body">
-    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-          <th>แบบทดสอบ</th>
-          <th>กลุ่มวิชา</th>
-          <th>วิชา</th>
-          <th>ผู้มีสิทธิ์คัดเลือก</th>
-          <th>คัดเลือกแล้ว</th>
-          <th>ระยะเวลาคัดเลือก</th>
-          <th>สถานะ</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>G000001</td>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>5</td>
-          <td>2</td>
-          <td>01/01/2019 - 31/01/2019</td>
-          <td>รอการคัดเลือก</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left"  [routerLink]="['/test']">
-              ดูแบบทดสอบ
-            </a>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="8" class="text-right">
-            <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
-            </ul>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-
   </div>
 </div>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">แบบทดสอบไม่ผ่านการคัดเลือก</h3>
+    <h3 class="panel-title">ข้อสอบ กลั่นกรองแล้ว ({{qapproveditemcnt}})</h3>
     <div class="panel-options">
-
     </div>
   </div>
   <div class="panel-body">
     <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
       <thead>
         <tr>
-          <th>แบบทดสอบ</th>
+          <th>ข้อสอบ</th>
           <th>กลุ่มวิชา</th>
           <th>วิชา</th>
-          <th>ผู้มีสิทธิ์คัดเลือก</th>
-          <th>คัดเลือกแล้ว</th>
-          <th>ไม่ให้ผ่าน</th>
-          <th>ระยะเวลาคัดเลือก</th>
-          <th>สถานะ</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>G000001</td>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>5</td>
-          <td>2</td>
-          <td>3</td>
-          <td>01/01/2019 - 31/01/2019</td>
-          <td>ไม่ผ่าน</td>
-          <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/test']">
-              ดูแบบทดสอบ
-            </a>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="9" class="text-right">
-            <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
-            </ul>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-
-  </div>
-</div>
-<!--<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">แบบทดสอบที่คัดเลือกแล้ว</h3>
-    <div class="panel-options">
-
-    </div>
-  </div>
-  <div class="panel-body">
-    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-          <th>แบบทดสอบ</th>
-          <th>วิชา</th>
-          <th>ผู้มีสิทธิ์คัดเลือก</th>
-          <th>คัดเลือกแล้ว</th>
-          <th>วันที่เปิดคัดเลือก</th>
-          <th>คัดเลือกได้ถึง</th>
+          <th>วิชาย่อย</th>
           <th>สถานะ</th>
           <th class="action"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>G000001</td>
-          <td>G</td>
-          <td>5</td>
-          <td>2</td>
-          <td>01/01/2019</td>
-          <td>31/01/2019</td>
-          <td>คัดเลือกแล้ว</td>
+      <tbody *ngIf="qapproveddata != null && qapproveddata.length > 0">
+        <tr *ngFor="let item of qapproveddata">
+          <td>{{item.questioncode}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.sub}}</td>
+          <td>{{item.approvalstatusname}}</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left">
-              ดูแบบทดสอบ
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/question-view', item.id]">
+              ดูข้อสอบ
             </a>
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="qapproveddata == null || qapproveddata.length == 0">
         <tr>
-          <td colspan="8" class="text-right">
+          <td colspan="6" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="qapprovedpagelen > 1">
+        <tr>
+          <td colspan="6" class="text-right">
             <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
+              <li><a href="#" (click)="OnQApprovedPageChange(qapprovedpageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getQApprovedPaginationArray()" [ngClass]="{'active':item==qapprovedpageno}">
+                <a href="#" (click)="OnQApprovedPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnQApprovedPageChange(qapprovedpageno+1)"><i class="fa-angle-right"></i></a></li>
             </ul>
           </td>
         </tr>
@@ -301,4 +179,176 @@
     </table>
 
   </div>
-</div>-->
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">แบบทดสอบ รอการคัดเลือก ({{testpendingitemcnt}})</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>แบบทดสอบ</th>
+          <th>กลุ่มวิชา</th>
+          <th>วิชา</th>
+          <th>ผู้มีสิทธิ์คัดเลือก</th>
+          <th>คัดเลือกแล้ว</th>
+          <th>ระยะเวลาคัดเลือก</th>
+          <th>สถานะ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="testpendingdata != null && testpendingdata.length > 0">
+        <tr *ngFor="let item of testpendingdata">
+          <td>{{item.testcode}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.approvalcnt}}</td>
+          <td>{{item.approvedcnt}}</td>
+          <td>{{item.startfrom}} - {{item.endfrom}}</td>
+          <td>{{item.approvalstatusname}}</td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/test-view',item.id]">
+              ดูแบบทดสอบ
+            </a>           
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="testpendingdata == null || testpendingdata.length == 0">
+        <tr>
+          <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="testpendingpagelen > 1">
+        <tr>
+          <td colspan="8" class="text-right">
+            <ul class="pagination">
+              <li><a href="#" (click)="OnTestPendingPageChange(testpendingpageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getTestPendingPaginationArray()" [ngClass]="{'active':item==testpendingpageno}">
+                <a href="#" (click)="OnTestPendingPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnTestPendingPageChange(testpendingpageno+1)"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">แบบทดสอบ ไม่ผ่านการคัดเลือก ({{testrejectitemcnt}})</h3>
+    <div class="panel-options">
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>แบบทดสอบ</th>
+          <th>กลุ่มวิชา</th>
+          <th>วิชา</th>
+          <th>ผู้มีสิทธิ์คัดเลือก</th>
+          <th>คัดเลือกแล้ว</th>
+          <th>ไม่ให้ผ่าน</th>
+          <th>ระยะเวลาคัดเลือก</th>
+          <th>สถานะ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="testrejectdata != null && testrejectdata.length > 0">
+        <tr *ngFor="let item of testrejectdata">
+          <td>{{item.testcode}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.approvalcnt}}</td>
+          <td>{{item.approvedcnt}}</td>
+          <td>{{item.rejectedcnt}}</td>
+          <td>{{item.startfrom}} - {{item.endfrom}}</td>
+          <td>{{item.approvalstatusname}}</td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/test-view', item.id]">
+              ดูแบบทดสอบ
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="testrejectdata == null || testrejectdata.length == 0">
+        <tr>
+          <td colspan="9" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="testrejectpagelen > 1">
+        <tr>
+          <td colspan="9" class="text-right">
+            <ul class="pagination">
+              <li><a href="#" (click)="OnTestRejectPageChange(testrejectgpageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getTestRejectPaginationArray()" [ngClass]="{'active':item==testrejectgpageno}">
+                <a href="#" (click)="OnTestRejectPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnTestRejectPageChange(testrejectgpageno+1)"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">แบบทดสอบ คัดเลือกแล้ว ({{testapproveditemcnt}})</h3>
+    <div class="panel-options">
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>แบบทดสอบ</th>
+          <th>กลุ่มวิชา</th>
+          <th>วิชา</th>
+          <th>สถานะ</th>
+          <th class="action"></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="testapproveddata != null && testapproveddata.length > 0">
+        <tr *ngFor="let item of testapproveddata">
+          <td>{{item.testcode}}</td>
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.approvalstatusname}}</td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" [routerLink]="['/test-view', item.id]">
+              ดูแบบทดสอบ
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="testapproveddata == null || testapproveddata.length == 0">
+        <tr>
+          <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="testapprovedpagelen > 1">
+        <tr>
+          <td colspan="5" class="text-right">
+            <ul class="pagination">
+              <li><a href="#" (click)="OnTestApprovedPageChange(testapprovedpageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getTestApprovedPaginationArray()" [ngClass]="{'active':item==testapprovedpageno}">
+                <a href="#" (click)="OnTestApprovedPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnTestApprovedPageChange(testapprovedpageno+1)"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>      
+    </table>
+
+  </div>
+</div>

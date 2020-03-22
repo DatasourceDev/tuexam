@@ -133,3 +133,29 @@
 
   </div>
 </div>
+
+<div class="panel panel-default" *ngIf="registeddata != null && registeddata.length > 0">
+  <div class="panel-heading">
+    <h3 class="panel-title">ยังไม่เข้าสอบ</h3>
+    <div class="panel-options">
+
+    </div>
+  </div>
+  <div class="panel-body">
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>รหัสนักศึกษา</th>
+          <th>ชื่อ-นามสกุล</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="registeddata != null && registeddata.length > 0">
+        <tr *ngFor="let item of registeddata">
+          <td>{{item.studentcode}}</td>
+          <td>{{getStudentName(item.prefix,item.firstname,item.lastname, item.firstnameen, item.lastnameen)}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

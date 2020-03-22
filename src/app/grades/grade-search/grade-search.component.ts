@@ -18,6 +18,8 @@ export class GradeSearchComponent implements OnInit {
 
   public loading = false;
   private data: any;
+  private repair: any;
+
   private statuslist: any;
   private grouplist: any;
   private subjectlist: any;
@@ -48,10 +50,39 @@ export class GradeSearchComponent implements OnInit {
 
   ngOnInit() {
     let formdata = { pageno: this.pageno };
+    this.OnRepair();
     this.OnSearch(formdata);
     this.statuslist = this.appdata.getgradestatus();
 
     this.OnGroupList();
+  }
+  OnRepair() {
+    let formdata = {};
+    this.loading = true;
+    this.service.httpClientGet("api/TestResult/listrepair", formdata)
+      .subscribe(result => {
+        this.loading = false;
+        this.repair = result;
+        for (var i = 0; i < this.repair.length; i++) {
+          var item = this.repair[i];
+          formdata = {
+            ID: item.id,
+            Email: item.email,
+            Address: item.address,
+            SendByEmail: false,
+            SendByPost: false,
+            Other: true,
+          };
+          this.service.httpClientPost("api/TestResult/sendresult", formdata)
+            .subscribe(result => {
+            }, error => {
+              Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            });
+        }
+      }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        this.loading = false;
+      });
   }
   OnGroupChange() {
     this.OnSujectList();
@@ -67,6 +98,7 @@ export class GradeSearchComponent implements OnInit {
           this.grouplist = result;
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSujectList() {
@@ -84,6 +116,7 @@ export class GradeSearchComponent implements OnInit {
           this.subjectlist = result;
         }
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
 
       });
   }
@@ -102,6 +135,7 @@ export class GradeSearchComponent implements OnInit {
         }
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }

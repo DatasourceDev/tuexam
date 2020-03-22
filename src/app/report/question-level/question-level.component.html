@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -7,7 +9,37 @@
   </div>
 
 </div>
-
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">การค้นหา</h3>
+        <div class="panel-options">
+        </div>
+      </div>
+      <div class="panel-body">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
+          <div class="row">
+            <div class="form-group">            
+              <div class="col-sm-10">
+              </div>
+              <div class="col-sm-1">
+                <a class="btn btn-secondary btn-search btn-block" href="#" target="_blank" (click)="OnExcel()">
+                  Excel
+                </a>
+              </div>
+              <div class="col-sm-1">
+                <a href="#" class="btn btn-danger btn-search btn-block" (click)="OnPdf()" target="_blank">
+                  PDF
+                </a>
+              </div>
+            </div>
+          </div>          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">รายการ</h3>
@@ -23,107 +55,24 @@
           <th colspan="5" class="text-center">ระดับความยาก - ง่าย</th>
           <th rowspan="2">รวม</th>
         </tr>
-        
+
       </thead>
-      <tbody>
-        <tr>
-          <td>ข้อสอบแบบเลือกตอบ (Multiple Choice)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบแบบถูก-ผิด (True-False)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบแบบจับคู่ (Multiple Matching)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบแบบตอบสั้น (Short Answer)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบอัตนัยหรือเรียงความ (Essay)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบแบบส่งงาน (Assignment)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบแบบเลือกตอบประกอบบทความ (Reading Text And Multiple Choice)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบแบบวัดทัศนคติ (Attitude)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>ข้อสอบแบบปรนัยภาคพิสดาร (Comprehensive Multiple Choice)</td>
-          <td>5</td>
-          <td>4</td>
-          <td>2</td>
-          <td>5</td>
-          <td>5</td>
-          <td>21</td>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.questiontype}}</td>
+          <td>{{item.vereasy}}</td>
+          <td>{{item.easy}}</td>
+          <td>{{item.mid}}</td>
+          <td>{{item.hard}}</td>
+          <td>{{item.veryhard}}</td>
+          <td>{{item.total}}</td>
         </tr>
       </tbody>
-      <tfoot>
+      <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="7" class="text-right">
-            <ul class="pagination">
-              <li><a href="#"><i class="fa-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="disabled"><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">6</a></li>
-              <li><a href="#"><i class="fa-angle-right"></i></a></li>
-            </ul>
-          </td>
+          <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
         </tr>
-      </tfoot>
+      </tbody>
     </table>
 
   </div>

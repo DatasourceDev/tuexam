@@ -40,20 +40,21 @@ export class ExamTableComponent implements OnInit {
           var events = [];
           for (var i = 0; i < this.data.length; i++) {
             var data = this.data[i];
-            if (Number(data.registeredcnt) > 0) {
+            //if (Number(data.registeredcnt) > 0) {
               var e1 = {
-                id: data.id,
+                //id: data.id,
                 title: (Number(data.examperiod) + 1) + '. ' + data.group + ' ' + data.examperiodName + ' ' + data.registeredcnt + ' คน',
                 start: data.date,
                 color: data.color
               };
               events.push(e1);
-            }
+            //}
           }
           setup_calendar(events, currentDate);
         }
         this.loading = false;
       }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
       });
   }

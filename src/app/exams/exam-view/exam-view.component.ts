@@ -17,6 +17,7 @@ export class ExamViewComponent implements OnInit {
   public loading = false;
   private data: any;
   private testresultdata: any;
+  private registeddata: any;
   private examtesttypelist: any;
   private examperiodlist: any;
   private testlist: any;
@@ -75,11 +76,7 @@ export class ExamViewComponent implements OnInit {
             this.loading = false;
           }
           else {
-            if (result["result"] == -101) {
-              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-              this.router.navigate(['/exam-search/']);
-            }
-            else {
+            if (result["result"] == 200) {
               this.data = result;
               this.inputForm.patchValue({ examdate: this.data.examdate });
               this.inputForm.patchValue({ groupid: this.data.groupid });
@@ -94,10 +91,15 @@ export class ExamViewComponent implements OnInit {
               this.test = this.data.test;
               this.ExamTypeOnchange();
             }
+            else {
+              Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+              this.router.navigate(['/exam-search/']);
+            }
             this.loading = false;
 
           }
         }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
 
@@ -108,6 +110,17 @@ export class ExamViewComponent implements OnInit {
           this.testresultdata = result;
           this.loading = false;
         }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          this.loading = false;
+        });
+
+      this.loading = true;
+      this.service.httpClientGet("api/TestResult/listregistered", formdata)
+        .subscribe(result => {
+          this.registeddata = result;
+          this.loading = false;
+        }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
     }
@@ -115,7 +128,7 @@ export class ExamViewComponent implements OnInit {
       this.ExamTypeOnchange();
     }
 
-  }                              
+  }
   OnTestList() {
     let formdata = {
       group_search: this.inputForm.value.groupid,
@@ -131,6 +144,7 @@ export class ExamViewComponent implements OnInit {
 
         }
       }, error => {
+        Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnSubmit() {
@@ -176,7 +190,7 @@ export class ExamViewComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }
@@ -196,7 +210,7 @@ export class ExamViewComponent implements OnInit {
             }
             this.loading = false;
           }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
             this.loading = false;
           });
       }

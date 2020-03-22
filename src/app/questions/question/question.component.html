@@ -2,7 +2,7 @@
 <div class="page-title">
 
   <div class="title-env">
-    <h1 class="title">ข้อสอบ</h1>
+    <h1 class="title">เพิ่มข้อสอบ</h1>
     <p class="description"></p>
   </div>
 
@@ -13,32 +13,39 @@
       <div class="panel-body">
         <form role="form" class="form-horizontal">
           <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">ประเภทข้อสอบ</label>
-                <div class="col-sm-9">
-                  <select class="form-control" id="QuestionTypeID" (change)="onChange($event, device.value)" #device>
-                    <option></option>
-                    <option value="1">ข้อสอบแบบเลือกตอบ (Multiple Choice)</option>
-                    <option value="2">ข้อสอบแบบถูก-ผิด (True-False)</option>
-                    <option value="3">ข้อสอบแบบจับคู่ (Multiple Matching)</option>
-                    <option value="4">ข้อสอบแบบตอบสั้น (Short Answer)</option>
-                    <option value="5">ข้อสอบอัตนัยหรือเรียงความ (Essay)</option>
-                    <option value="6">ข้อสอบแบบส่งงาน (Assignment)</option>
-                    <option value="7">ข้อสอบแบบเลือกตอบประกอบบทความ (Reading Text And Multiple Choice)</option>
-                    <option value="8">ข้อสอบแบบวัดทัศนคติ (Attitude)</option>
-                  </select>
-                  
-                </div>
-              </div>
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-multi-choice/0/0']" routerLinkActive="active">ข้อสอบแบบเลือกตอบ<br />(Multiple Choice)</a>
+            </div>
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-attitude/0/0']" routerLinkActive="active">ข้อสอบแบบวัดทัศนคติ<br />(Attitude)</a>
+            </div>
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-read-text-multi-choice/0/0']" routerLinkActive="active">ข้อสอบแบบเลือกตอบประกอบบทความ<br />(Reading Text And Multiple Choice)</a>
             </div>
           </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-tf/0/0']" routerLinkActive="active">ข้อสอบแบบถูก-ผิด<br />(True-False)</a>
+            </div>
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-multi-math/0']" routerLinkActive="active">ข้อสอบแบบจับคู่<br />(Multiple Matching)</a>
+            </div>
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-short-ans/0/0']" routerLinkActive="active">ข้อสอบแบบตอบสั้น<br />(Short Answer)</a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-eassy/0/0']" routerLinkActive="active">ข้อสอบอัตนัยหรือเรียงความ<br />(Essay)</a>
+            </div>
+            <div class="col-sm-4">
+              <a class="btn btn-primary btn-block" href="#" [routerLink]="['/question-assigment/0/0']" routerLinkActive="active">ข้อสอบแบบส่งงาน<br />(Assignment)</a>
+            </div>
+          </div>
+          
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
-
 

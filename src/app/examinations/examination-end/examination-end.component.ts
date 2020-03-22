@@ -5,6 +5,9 @@ import { AppData } from "../../share/data/app.data";
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../share/service/session.service';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { formatDate, LocationStrategy } from '@angular/common';
+import { TranslationService } from 'src/app/share/service/translation.service';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,15 +27,26 @@ export class ExaminationEndComponent implements OnInit {
   correctcnt: number;
   wrongcnt: number;
   point: number;
-  
+  sendtype: string;
+  showresult: string;
+
   starton: string;
   endon: string;
-  constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute, public session: SessionService) {
+  constructor(private translator: TranslationService,private location: LocationStrategy,private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute, public session: SessionService) {
     let useracces = this.session.getData();
     this.useraccesdata = JSON.parse(useracces);
+    history.pushState(null, null, window.location.href);
+    this.location.onPopState(() => {
+      history.pushState(null, null, window.location.href);
+    });
+   
   }
-
+  
   ngOnInit() {
+    if (!this.session.isFirstTab()) {
+      this.router.navigate(["/examination-message"]);
+    }
+    this.OnCheckToken();
     this.id = this.route.snapshot.params['id'];
     let formdata = {
       id: this.id
@@ -54,6 +68,8 @@ export class ExaminationEndComponent implements OnInit {
             this.correctcnt = result["correctcnt"];
             this.wrongcnt = result["wrongcnt"];
             this.point = result["point"];
+            this.sendtype = this.getsendtype(result["sendbyemail"], result["sendbyemail"], result["other"]);
+            this.showresult = result["showresult"];
           }
           else {
             Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
@@ -61,13 +77,47 @@ export class ExaminationEndComponent implements OnInit {
         }
         this.loading = false;
       }, error => {
-        Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;
+      });
+  }
+  OnCheckToken() {
+    let token = this.session.getToken();
+    let formdata = { token: token, id: this.useraccesdata.studentid };
+    this.service.httpClientGet("api/Account/tokenisexist", formdata)
+      .subscribe(result => {
+        if (result["result"] != 200) {
+          this.router.navigate(["/login-student"]);
+          Swal.fire({ text: 'session หมดอายุหรือผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        }
+      }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
   OnLogout() {
     this.session.logOut();
     this.router.navigate(["/login-student"]);
+    return false;
+  }
+  getsendtype(sendbyemail, sendbypost, other) {
+    if (sendbyemail == true)
+      return "อีเมล";
+    else if (sendbypost == true)
+      return "ไปรษณีย์";
+    else if (other == true)
+      return "อื่นๆ";
+    return "";
+  }
+  translate(key: string): string {
+    return this.translator.translate(key);
+  }
+
+  OnEn() {
+    this.translator.setLanguage('en');
+    return false;
+  }
+  OnTh() {
+    this.translator.setLanguage('th');
     return false;
   }
 }

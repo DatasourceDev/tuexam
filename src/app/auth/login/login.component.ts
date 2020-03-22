@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { AppData } from "../../share/data/app.data";
 import Swal from 'sweetalert2';            
 import { SessionService } from 'src/app/share/service/session.service';
+import { TranslationService } from 'src/app/share/service/translation.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,7 +20,7 @@ export class LoginComponent implements OnInit {
   inputForm: FormGroup;
   public useraccesdata: any;
 
-  constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute, private session: SessionService) {
+  constructor(private translator: TranslationService, private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute, private session: SessionService) {
     let username = new FormControl('', [Validators.required, Validators.maxLength(250)]);
     let password = new FormControl('', [Validators.required, Validators.maxLength(250)]);
 
@@ -27,8 +29,9 @@ export class LoginComponent implements OnInit {
       password: password,
     });
   }
-
+ 
   ngOnInit() {
+   
   }
 
   onSubmit() {
@@ -65,7 +68,7 @@ export class LoginComponent implements OnInit {
             }
             else {
               Swal.fire({
-                text: 'รหัสผู้ใช้หรือรหัสผ่านผิดพลาด',
+                text: result["message"] ,
                 type: 'warning',
                 confirmButtonText: 'ตกลง',
                 buttonsStyling: false,
@@ -86,6 +89,19 @@ export class LoginComponent implements OnInit {
 
   ForgotPwd() {
     this.router.navigate(["/forgot"]);
+    return false;
+  }
+
+  translate(key: string): string {
+    return this.translator.translate(key);
+  }
+
+  OnEn() {
+    this.translator.setLanguage('en');
+    return false;
+  }
+  OnTh() {
+    this.translator.setLanguage('th');
     return false;
   }
 }

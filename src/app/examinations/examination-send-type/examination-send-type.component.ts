@@ -6,6 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../share/service/session.service';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import Swal from 'sweetalert2';                              
+import { formatDate, LocationStrategy } from '@angular/common';
+import { TranslationService } from 'src/app/share/service/translation.service';
 
 declare var $: any;
 
@@ -19,7 +21,9 @@ export class ExaminationSendTypeComponent implements OnInit {
   id: string;
   public loading = false;
   group: string;
+  groupid: string;
   subject: string;
+  subjectid: string;
   examingstatus: string;
   questioncnt: number;
   answeredcnt: number;
@@ -29,7 +33,17 @@ export class ExaminationSendTypeComponent implements OnInit {
   sendbypost: boolean;
   sendother: boolean;
   timeremaining: number;
-  constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute, public session: SessionService) {
+
+  allowsendbyemail: boolean;
+  allowsendbypost: boolean;
+  allowother: boolean;
+  description: string;
+
+  constructor(private translator: TranslationService,private location: LocationStrategy, private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute, public session: SessionService) {
+    history.pushState(null, null, window.location.href);
+    this.location.onPopState(() => {
+      history.pushState(null, null, window.location.href);
+    });  
     let useracces = this.session.getData();
     this.useraccesdata = JSON.parse(useracces);
 
@@ -41,39 +55,29 @@ export class ExaminationSendTypeComponent implements OnInit {
       address: address
     });
   }
-
+ 
   ngOnInit() {
+    if (!this.session.isFirstTab()) {
+      this.router.navigate(["/examination-message"]);
+    }
+    this.OnCheckToken();
     this.id = this.route.snapshot.params['id'];
-    this.OnSearch();
-    let formdata = {
-      id: this.id
-    };
-    this.loading = true;
-    this.service.httpClientGet("api/TestResult/gettestresultstudent", formdata)
-      .subscribe(result => {
-        if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
-          Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-        }
-        else {
-          if (result["result"] == 200) {
-            this.group = result["group"];
-            this.subject = result["subject"];
-            this.questioncnt = result["questioncnt"];
-            this.answeredcnt = result["answeredcnt"];
-            this.timeremaining = Number(result["timeremaining"]);
-          }
-          else {
-            Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-          }
-        }
-        this.loading = false;
-      }, error => {
-        Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-        this.loading = false;
-      });
-
+    this.OnSearch();   
     this.ChooseOnchange('email');
-  }            
+  }
+  OnCheckToken() {
+    let token = this.session.getToken();
+    let formdata = { token: token, id: this.useraccesdata.studentid };
+    this.service.httpClientGet("api/Account/tokenisexist", formdata)
+      .subscribe(result => {
+        if (result["result"] != 200) {
+          this.router.navigate(["/login-student"]);
+          Swal.fire({ text: 'session หมดอายุหรือผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        }
+      }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+      });
+  }
   OnSearch() {
     this.loading = true;
     let formdata = {
@@ -87,6 +91,16 @@ export class ExaminationSendTypeComponent implements OnInit {
         }
         else {
           if (result["result"] == 200) {
+            this.inputForm.patchValue({ email: result["email"] });
+            this.inputForm.patchValue({ address: result["address"] });
+
+            this.group = result["group"];
+            this.groupid = result["groupid"];
+            this.subject = result["subject"];
+            this.subjectid = result["subjectid"];
+            this.questioncnt = result["questioncnt"];
+            this.answeredcnt = result["answeredcnt"];
+            this.timeremaining = Number(result["timeremaining"]);
             this.examingstatus = result["examingstatus"];
             if (this.examingstatus == "0") {
               //done exam status
@@ -101,7 +115,7 @@ export class ExaminationSendTypeComponent implements OnInit {
               Swal.fire({ text: "สิ้นสุดแบบทดสอบแล้ว", type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
               this.router.navigate(['/examination-select/']);
             }
-            
+            this.OnSetupSearch();
           }
           else {
             Swal.fire({ text: result["message"], type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
@@ -110,7 +124,41 @@ export class ExaminationSendTypeComponent implements OnInit {
         }
         this.loading = false;
       }, error => {
-        Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        this.router.navigate(['/examination-select/']);
+        this.loading = false;
+      });
+  }
+
+  OnSetupSearch() {
+    this.loading = true;
+    let formdata = {
+      group_searh: this.groupid,
+      subject_search: this.subjectid,
+    };
+    this.service.httpClientGet("api/SendResultSetup/getsendresultsetup", formdata)
+      .subscribe(result => {
+        if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
+          Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          this.router.navigate(['/examination-select/']);
+        }
+        else {
+          if (result["result"] == 200) {
+            this.allowother = result["other"];
+            this.allowsendbyemail = result["sendbyemail"];
+            this.allowsendbypost = result["sendbypost"];
+            this.description = result["description"];
+          }
+          else {
+            this.allowother = false;
+            this.allowsendbyemail = false;
+            this.allowsendbypost = false;
+            this.description = "";
+          }
+        }
+        this.loading = false;
+      }, error => {
+          Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.router.navigate(['/examination-select/']);
         this.loading = false;
       });
@@ -121,10 +169,10 @@ export class ExaminationSendTypeComponent implements OnInit {
 
     this.inputForm.controls['email'].setErrors(null);
     this.inputForm.controls['address'].setErrors(null);
-    if (this.sendbyemail == true && (this.inputForm.value.email == null || this.inputForm.value.email == '')) {
+    if (this.allowsendbyemail == true && this.sendbyemail == true && (this.inputForm.value.email == null || this.inputForm.value.email == '')) {
       this.inputForm.controls['email'].setErrors({ 'email': true });
     }
-    if (this.sendbypost == true && (this.inputForm.value.address == null || this.inputForm.value.address == '')) {
+    if (this.allowsendbypost == true && this.sendbypost == true && (this.inputForm.value.address == null || this.inputForm.value.address == '')) {
       this.inputForm.controls['address'].setErrors({ 'incorrect': true });
     }                                 
    
@@ -153,7 +201,7 @@ export class ExaminationSendTypeComponent implements OnInit {
           }
           this.loading = false;
         }, error => {
-          Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
           this.loading = false;
         });
     }
@@ -189,5 +237,16 @@ export class ExaminationSendTypeComponent implements OnInit {
     }
   }
 
+  translate(key: string): string {
+    return this.translator.translate(key);
+  }
 
+  OnEn() {
+    this.translator.setLanguage('en');
+    return false;
+  }
+  OnTh() {
+    this.translator.setLanguage('th');
+    return false;
+  }
 }

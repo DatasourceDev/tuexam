@@ -4,14 +4,14 @@
 <div class="page-title">
 
   <div class="title-env">
-    <h1 class="title">เลือกวิชาที่ต้องการเข้าสอบ</h1>
+    <h1 class="title">{{translate("subject_select")}}</h1>
     <p class="description"></p>
   </div>
 
 </div>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">รายการ</h3>
+    <h3 class="panel-title">{{translate("list")}}</h3>
     <div class="panel-options">
 
     </div>
@@ -20,44 +20,50 @@
     <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
       <thead>
         <tr>
-          <th>กลุ่มวิชา</th>
-          <th>วิชา</th>
-          <th>แบบทดสอบ</th>
-          <th>จำนวนข้อสอบ</th>
-          <th>เวลา</th>
-          <th class="action">ทำเข้าสอบ</th>
+          <th>{{translate("group")}}</th>
+          <th>{{translate("subject")}}</th>
+          <th>{{translate("test")}}</th>
+          <th>{{translate("question_count")}}</th>
+          <th>{{translate("time_limit")}}</th>
+          <th class="action"></th>
         </tr>
       </thead>
       <tbody *ngIf="data != null && data.length > 0">
         <tr *ngFor="let item of data">
-          <td>{{item.group}}</td>
+          <td>{{item.groupname}}</td>
           <td>{{item.subject}}</td>
           <td>{{item.test}}</td>
           <td>{{item.questioncnt}}</td>
-          <td>{{item.timelimit}} {{item.timelimittype}}</td>
-          <td *ngIf="item.examingstatus == 0 ">
+          <td>{{item.timelimit}} {{translate(item.timelimittype)}}</td>
+          <td *ngIf="item.examingstatus == 0 && item.allowexam == true">
             <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnStart(item.id)">
-              เริ่ม
+              {{translate("start")}}
             </button>
+          </td>
+          <td *ngIf="item.examingstatus == 0 && item.allowexam == false">
+           
           </td>
           <td *ngIf="item.examingstatus == 1">
             <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnStart(item.id)">
-              ทำข้อสอบต่อ
+              {{translate("continue")}}
             </button>
           </td>
           <td *ngIf="item.examingstatus == 2">
-            สิ้นสุดแบบทดสอบ
+            {{translate("absent")}}
+          </td>
+          <td *ngIf="item.examingstatus == 3">
+            {{translate("finish")}}
           </td>
         </tr>
       </tbody>
       <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="6" class="text-center">ไม่พบข้อมูล</td>
+          <td colspan="6" class="text-center">{{translate("data_has_not_found")}}</td>
         </tr>
       </tbody>
     </table>
     <a href="#" class="btn btn-gray" (click)="OnLogout()">
-      ออกจากระบบ
+      {{translate("logout")}}
     </a>
   </div>
 </div>

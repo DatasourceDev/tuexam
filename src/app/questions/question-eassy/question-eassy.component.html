@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -7,230 +9,257 @@
   </div>
 
 </div>
-
 <div class="row">
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm" (ngSubmit)="OnSubmit(false)">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">รหัสข้อสอบ</label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 control-label">รหัสข้อสอบ</label>
+                <div class="col-sm-4">
+                  <input class="form-control" id="questioncode" name="questioncode" formControlName="questioncode" readonly />
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-6">
+          <div *ngIf="pid > 0">
+            <input type="hidden" id="groupid" name="groupid" formControlName="groupid" />
+            <input type="hidden" id="subjectid" name="subjectid" formControlName="subjectid" />
+            <input type="hidden" id="subid" name="subid" formControlName="subid" />
+            <input type="hidden" id="courseth" name="courseth" formControlName="courseth" />
+            <input type="hidden" id="courseen" name="courseen" formControlName="courseen" />
+            <input type="hidden" id="keyword" name="keyword" formControlName="keyword" />
+            <input type="hidden" id="questionlevel" name="questionlevel" formControlName="questionlevel" />
+            <input type="hidden" id="timelimit" name="timelimit" formControlName="timelimit" />
+            <input type="hidden" id="status" name="status" formControlName="status" />
+            <input type="hidden" id="approvalstatus" name="approvalstatus" formControlName="approvalstatus" />
+            <input type="hidden" id="fileurl" name="fileurl" formControlName="fileurl" />
+            <input type="hidden" id="filename" name="filename" formControlName="filename" />
+            <input type="hidden" id="filetype" name="filetype" formControlName="filetype" />
+          </div>
+          <div class="row" *ngIf="pid == 0">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectGroupID">
-                    <option>GREATS</option>
-                    <option>SMART WORK</option>
-                    <option>SMART II</option>
-                    <option>SMART PV</option>
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="groupid" name="groupid" formControlName="groupid" (change)="OnGroupChange()">
+                    <option *ngFor="let item of grouplist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('groupid').valid && inputForm.get('groupid').touched">
+                    กรุณาระบุกลุ่มวิชา
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-sm-6">
+          <div class="row" *ngIf="pid == 0">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">วิชา <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectID">
-                    <option>G</option>
-                    <option>R</option>
-                    <option>E</option>
-                    <option>A</option>
-                    <option>T</option>
-                    <option>S</option>
+                <label class="col-sm-2 control-label">วิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="subjectid" name="subjectid" formControlName="subjectid" (change)="OnSubjectChange()">
+                    <option *ngFor="let item of subjectlist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('subjectid').valid && inputForm.get('subjectid').touched">
+                    กรุณาระบุวิชา
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-6">
+          <div class="row" *ngIf="pid == 0">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">วิชาย่อย <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="SubjectSubID">
-                    <option>G1</option>
-                    <option>G2</option>
-                    <option>G3</option>
-                    <option>G4</option>
-                    <option>G5</option>
+                <label class="col-sm-2 control-label">วิชาย่อย <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="subid" name="subid" formControlName="subid">
+                    <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('subid').valid && inputForm.get('subid').touched">
+                    กรุณาระบุวิชาย่อย
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-6">
+          <div class="row" *ngIf="pid == 0">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">หลักสูตร <span class="text-red">*</span></label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 control-label">หลักสูตร <span class="text-red">*</span></label>
+                <div class="col-sm-4">
                   <label class="checkbox-inline">
-                    <input type="checkbox">
+                    <input type="checkbox" id="courseth" name="courseth" value="true" formControlName="courseth">
                     ไทย
                   </label>
                   <label class="checkbox-inline">
-                    <input type="checkbox">
+                    <input type="checkbox" id="courseen" name="courseen" value="true" formControlName="courseen">
                     อังกฤษ
                   </label>
+                  <div>
+                    <span class="text-danger" *ngIf="!inputForm.get('courseth').valid && inputForm.get('courseth').touched">
+                      กรุณาระบุหลักสูตร
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">คำถาม(ไทย)</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control " placeholder="คำถาม(ไทย)" rows="5"></textarea>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">คำถาม(อังกฤษ)</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control " placeholder="คำถาม(อังกฤษ)" rows="5"></textarea>
+                <label class="col-sm-2 control-label">คำถาม(ไทย)</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control ckeditor" rows="5" id="questionth" name="questionth" formControlName="questionth"></textarea>
+                  <span class="text-danger" *ngIf="!inputForm.get('questionth').valid && inputForm.get('questionth').touched">
+                    กรุณาระบุคำถาม(ไทย) หรือ คำถาม(อังกฤษ)
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">ไฟล์คำถาม</label>
-                <div class="col-sm-9">
-                  <input type="file" class="form-control">
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">คำค้นหา (Keyword)</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="Keyword" placeholder="คำค้นหา (Keyword)">
+                <label class="col-sm-2 control-label">คำถาม(อังกฤษ)</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control ckeditor" rows="5" id="questionen" name="questionen" formControlName="questionen"></textarea>
+                  <span class="text-danger" *ngIf="!inputForm.get('questionen').valid && inputForm.get('questionen').touched">
+                    กรุณาระบุคำถาม(ไทย) หรือ คำถาม(อังกฤษ)
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">ระดับความยาก <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="LevelID">
-                    <option>ง่ายมาก</option>
-                    <option>ง่าย</option>
-                    <option selected>ปานกลาง</option>
-                    <option>ยาก</option>
-                    <option>ยากมาก</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">เวลาที่อนุญาตให้ทำข้อสอบ</label>
-                <div class="col-sm-5">
-                  <input type="text" class="form-control" id="Time" placeholder="เวลา">
+                <label class="col-sm-2 control-label">ไฟล์เสียงหรือวีดีโอ</label>
+                <div class="col-sm-4">
+                  <input type="file" accept="audio/mp3, video/mp4" class="form-control" id="fileupload" name="fileupload" (change)="incomingfile($event)">
                 </div>
                 <div class="col-sm-4">
-                  <select class="form-control select2" id="TimeTypeID">
-                    <option>วินาที</option>
-                    <option>นาที</option>
-                    <option>ชั่วโมง</option>
+                  <button class="btn btn-blue" type="button" (click)="OnFileUpload()">นำเข้า</button>
+                  <button class="btn btn-danger" type="button" (click)="OnFileDelete()">ลบ</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="fileurl != null && fileurl != ''">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-4">
+                  <plyr style="display: block; width: 100%;"
+                        plyrTitle="Video 1"
+                        [plyrPlaysInline]="true"
+                        [plyrSources]="videoSources"
+                        (plyrInit)="player = $event"
+                        (plyrPlay)="played($event)"></plyr>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="pid == 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">คำค้นหา (Keyword)</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="keyword" name="keyword" formControlName="keyword">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="pid == 0">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ระดับความยาก <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="questionlevel" name="questionlevel" formControlName="questionlevel">
+                    <option *ngFor="let item of levellist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('groupid').valid && inputForm.get('groupid').touched">
+                    กรุณาระบุระดับความยาก
+                  </span>
+
+                </div>
+                <label class="col-sm-2 control-label">เวลาที่อนุญาตให้ทำข้อสอบ</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="timelimit" name="timelimit" formControlName="timelimit">
+                </div>
+                <div class="col-sm-2">
+                  <select class="form-control" id="timelimittype" name="timelimittype" formControlName="timelimittype">
+                    <option *ngFor="let item of timetypelist" value="{{item.value}}">{{item.text}}</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-6">
+          <div class="row" *ngIf="pid == 0">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">สถานะ <span class="text-red">*</span></label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="Status">
-                    <option>ใช้งาน</option>
-                    <option>ยกเลิก</option>
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="status" name="status" formControlName="status">
+                    <option *ngFor="let item of statuslist" value="{{item.value}}">{{item.text}}</option>
                   </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('groupid').valid && inputForm.get('groupid').touched">
+                    กรุณาระบุสถานะ
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">สถานะการกลั่นกรอง</label>
-                <div class="col-sm-9">
-                  <select class="form-control select2" id="Status">
-                    <option>ร่าง</option>
-                    <option>รอกลั่นกรอง</option>
-                    <option>กลั่นกรองแล้ว</option>
-                    <option>ไม่ให้ผ่าน</option>
-                  </select>
+                <label class="col-sm-2 control-label">สถานะการกลั่นกรอง</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="approvalstatusname" name="approvalstatusname" formControlName="approvalstatusname" readonly>
+                  <input type="hidden" class="form-control" id="approvalstatus" name="approvalstatus" formControlName="approvalstatus">
+
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-3 control-label">หมายเหตุ</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control " placeholder="หมายเหตุ" rows="5"></textarea>
+                <label class="col-sm-2 control-label">หมายเหตุ</label>
+                <div class="col-sm-4">
+                  <textarea class="form-control " id="remark" name="remark" formControlName="remark" rows="5"></textarea>
+                </div>
+                <label class="col-sm-2 control-label">ผู้แก้ไข</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="update_by" name="update_by" formControlName="update_by" readonly>
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="update_on" name="update_on" formControlName="update_on" readonly>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
-                <div class="col-sm-3">
-                </div>
-                <div class="col-sm-9">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
                   <button class="btn btn-danger" type="submit">
                     บันทึก
                   </button>
-
-                  <a href="#" class="btn btn-gray" [routerLink]="['/question-search']">
+                  <a href="#" class="btn btn-blue" (click)="OnApprove()" *ngIf="id != null && id > 0 && pid == 0">
+                    ส่งให้กลั่นกรอง
+                  </a>
+                  <a href="#" class="btn btn-gray" [routerLink]="['/question-search']" *ngIf="pid == 0">
+                    กลับ
+                  </a>
+                  <a href="#" class="btn btn-gray" [routerLink]="['/question-read-text-multi-choice/',pid,0]" *ngIf="pid > 0">
                     กลับ
                   </a>
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <div class="col-sm-12 text-right">
-                  <a href="#" class="btn btn-blue">
-                    ดูตัวอย่างการแสดงผล
-                  </a>
-                  <a href="#" class="btn btn-blue">
-                    ส่งให้กลั่นกรอง
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
+
+
+
 
         </form>
 
@@ -241,104 +270,3 @@
 
 
 </div>
-
-<!-- Modal 6 (Long Modal)-->
-<div class="modal fade" id="modal-6">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal Content is Responsive</h4>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="row">
-          <div class="col-md-6">
-
-            <div class="form-group">
-              <label for="field-1" class="control-label">Name</label>
-
-              <input type="text" class="form-control" id="field-1" placeholder="John">
-            </div>
-
-          </div>
-
-          <div class="col-md-6">
-
-            <div class="form-group">
-              <label for="field-2" class="control-label">Surname</label>
-
-              <input type="text" class="form-control" id="field-2" placeholder="Doe">
-            </div>
-
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-
-            <div class="form-group">
-              <label for="field-3" class="control-label">Address</label>
-
-              <input type="text" class="form-control" id="field-3" placeholder="Address">
-            </div>
-
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4">
-
-            <div class="form-group">
-              <label for="field-4" class="control-label">City</label>
-
-              <input type="text" class="form-control" id="field-4" placeholder="Boston">
-            </div>
-
-          </div>
-
-          <div class="col-md-4">
-
-            <div class="form-group">
-              <label for="field-5" class="control-label">Country</label>
-
-              <input type="text" class="form-control" id="field-5" placeholder="United States">
-            </div>
-
-          </div>
-
-          <div class="col-md-4">
-
-            <div class="form-group">
-              <label for="field-6" class="control-label">Zip</label>
-
-              <input type="text" class="form-control" id="field-6" placeholder="123456">
-            </div>
-
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-
-            <div class="form-group no-margin">
-              <label for="field-7" class="control-label">Personal Info</label>
-
-              <textarea class="form-control autogrow" id="field-7" placeholder="Write something about yourself"></textarea>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-

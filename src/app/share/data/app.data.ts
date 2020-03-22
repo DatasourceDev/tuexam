@@ -46,6 +46,14 @@ export class AppData {
     list.push({ value: '3', text: 'ไม่ผ่านการกลั่นกรอง' });
     return list;
   }
+  gettestapprovestatus() {
+    var list = [];
+    list.push({ value: '0', text: 'ร่าง' });
+    list.push({ value: '1', text: 'รอการคัดเลือก' });
+    list.push({ value: '2', text: 'คัดเลือกแล้ว' });
+    list.push({ value: '3', text: 'ไม่ผ่านการคัดเลือก' });
+    return list;
+  }
   getlevel() {
     var list = [];
     list.push({ value: '0', text: 'ง่ายมาก' });
@@ -116,6 +124,38 @@ export class AppData {
     var list = [];
     list.push({ value: '0', text: 'รอตรวจสอบ' });
     list.push({ value: '1', text: 'ตรวจแล้ว' });
+    return list;
+  }
+
+  getattitudeanstype() {
+    var list = [];
+    list.push({ value: '2', text: '2 ตัวเลือก' });
+    list.push({ value: '3', text: '3 ตัวเลือก' });
+    list.push({ value: '4', text: '4 ตัวเลือก' });
+    list.push({ value: '5', text: '5 ตัวเลือก' });
+    list.push({ value: '6', text: '6 ตัวเลือก' });
+    list.push({ value: '7', text: '7 ตัวเลือก' });
+    return list;
+  }
+  getattitudeanssubtype() {
+    var list = [];
+    list.push({ value: '1', text: 'แบบที่ 1' });
+    list.push({ value: '2', text: 'แบบที่ 2' });
+    return list;
+  }
+
+  getchoice() {
+    var list = [];
+    list.push({ value: 'A', text: 'A' });
+    list.push({ value: 'B', text: 'B' });
+    list.push({ value: 'C', text: 'C' });
+    list.push({ value: 'D', text: 'D' });
+    list.push({ value: 'E', text: 'E' });
+    list.push({ value: 'F', text: 'F' });
+    list.push({ value: 'G', text: 'G' });
+    list.push({ value: 'H', text: 'H' });
+    list.push({ value: 'I', text: 'I' });
+    list.push({ value: 'J', text: 'J' });
     return list;
   }
 }

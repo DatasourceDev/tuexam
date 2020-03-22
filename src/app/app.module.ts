@@ -27,7 +27,6 @@ import { SubjectgroupComponent } from './subjectgroups/subjectgroup/subjectgroup
 import { SubjectComponent } from './subjects/subject/subject.component';
 import { SubjectsubComponent } from './subjectsubs/subjectsub/subjectsub.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
-import { LoginLogoutHistoryComponent } from './report/login-logout-history/login-logout-history.component';
 import { StudentComponent } from './students/student/student.component';
 import { StudentSearchComponent } from './students/student-search/student-search.component';
 import { QuestionComponent } from './questions/question/question.component';
@@ -59,7 +58,6 @@ import { StudentLayoutComponent } from './layout/student-layout/student-layout.c
 import { GradeEndComponent } from './grades/grade-end/grade-end.component';
 import { ExaminationSendTypeComponent } from './examinations/examination-send-type/examination-send-type.component';
 import { ExaminationSummaryComponent } from './examinations/examination-summary/examination-summary.component';
-import { ExamAutoSetupComponent } from './exams/exam-auto-setup/exam-auto-setup.component';
 
 import { AppService } from "./share/service/app.service";
 import { AppData } from "./share/data/app.data";
@@ -70,12 +68,37 @@ import { TestQrandomComponent } from './tests/test-qrandom/test-qrandom.componen
 import { TestQcustomComponent } from './tests/test-qcustom/test-qcustom.component';
 import { ResetPasswordStudentComponent } from './authstudent/reset-password-student/reset-password-student.component';
 import { ExamViewComponent } from './exams/exam-view/exam-view.component';
+import { AttitudeSetupComponent } from './setups/attitude-setup/attitude-setup.component';
+import { QuestionQuestionComponent } from './questions/question-question/question-question.component';
+import { ExamSetupComponent } from './setups/exam-setup/exam-setup.component';
+import { SendResultSetupComponent } from './setups/send-result-setup/send-result-setup.component';
+import { PlyrModule } from 'ngx-plyr';
+import { LoginStaffHistoryComponent } from './staffs/login-staff-history/login-staff-history.component';
+import { LoginStudentHistoryComponent } from './students/login-student-history/login-student-history.component';
+import { ExamMoveComponent } from './exams/exam-move/exam-move.component';
+import { ExaminationMessageComponent } from './examinations/examination-message/examination-message.component';
+import { TempComponent } from './questions/temp/temp.component';
+import { TestViewComponent } from './tests/test-view/test-view.component';
+import { Temp2Component } from './questions/temp2/temp2.component';
+import { ImageSetupComponent } from './setups/image-setup/image-setup.component';
+import { QuestionExampleComponent } from './questions/question-example/question-example.component';
+import { MmSubQuestionComponent } from './questions/mm-sub-question/mm-sub-question.component';
+import { MmSubAnswerComponent } from './questions/mm-sub-answer/mm-sub-answer.component';
+import { QuestionViewComponent } from './questions/question-view/question-view.component';
+import { QuestionViewChildComponent } from './questions/question-view-child/question-view-child.component';
+import { DownloadComponent } from './download/download.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'login-student', component: LoginStudentComponent },
   { path: 'forgot', component: ForgotComponent },
+  {
+    path: 'download', component: MainLayoutComponent,
+    children: [
+      { path: '', component: DownloadComponent }
+    ]
+  },  
   {
     path: 'subjectgroup-search', component: MainLayoutComponent,
     children: [
@@ -113,6 +136,18 @@ const appRoutes: Routes = [
     ]
   },
   {
+    path: 'temp', component: MainLayoutComponent,
+    children: [
+      { path: '', component: TempComponent }
+    ]
+  },
+  {
+    path: 'temp2', component: MainLayoutComponent,
+    children: [
+      { path: '', component: Temp2Component }
+    ]
+  },
+  {
     path: 'question-search', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionSearchComponent }
@@ -125,19 +160,19 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'question-assigment/:id', component: MainLayoutComponent,
+    path: 'question-assigment/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionAssigmentComponent }
     ]
   },
   {
-    path: 'question-eassy/:id', component: MainLayoutComponent,
+    path: 'question-eassy/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionEassyComponent }
     ]
   },
   {
-    path: 'question-multi-choice/:id', component: MainLayoutComponent,
+    path: 'question-multi-choice/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionMultiChoiceComponent }
     ]
@@ -149,33 +184,63 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'question-short-ans/:id', component: MainLayoutComponent,
+    path: 'mm-sub-question/:id/:qid', component: MainLayoutComponent,
+    children: [
+      { path: '', component: MmSubQuestionComponent }
+    ]
+  },
+  {
+    path: 'mm-sub-answer/:id/:qid', component: MainLayoutComponent,
+    children: [
+      { path: '', component: MmSubAnswerComponent }
+    ]
+  },
+  {
+    path: 'question-short-ans/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionShortAnsComponent }
     ]
   },
   {
-    path: 'question-tf/:id', component: MainLayoutComponent,
+    path: 'question-tf/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionTfComponent }
     ]
   },
   {
-    path: 'question-attitude/:id', component: MainLayoutComponent,
+    path: 'question-attitude/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionAttitudeComponent }
     ]
   },
   {
-    path: 'question-read-text-multi-choice/:id', component: MainLayoutComponent,
+    path: 'question-read-text-multi-choice/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: QuestionReadTextMultiChoiceComponent }
     ]
   },
   {
-    path: 'answer/:qid/:id', component: MainLayoutComponent,
+    path: 'answer/:qid/:id/:pid', component: MainLayoutComponent,
     children: [
       { path: '', component: AnswerComponent }
+    ]
+  },
+  {
+    path: 'question-question/:pid', component: MainLayoutComponent,
+    children: [
+      { path: '', component: QuestionQuestionComponent }
+    ]
+  },
+  {
+    path: 'question-view/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: QuestionViewComponent }
+    ]
+  },
+  {
+    path: 'question-view-child/:id/:pid', component: MainLayoutComponent,
+    children: [
+      { path: '', component: QuestionViewChildComponent }
     ]
   },
   {
@@ -224,6 +289,12 @@ const appRoutes: Routes = [
     path: 'test/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: TestComponent }
+    ]
+  },
+  {
+    path: 'test-view/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: TestViewComponent }
     ]
   },
   {
@@ -281,9 +352,15 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'exam-auto-setup', component: MainLayoutComponent,
+    path: 'exam-setup', component: MainLayoutComponent,
     children: [
-      { path: '', component: ExamAutoSetupComponent }
+      { path: '', component: ExamSetupComponent }
+    ]
+  },
+  {
+    path: 'exam-move/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamMoveComponent }
     ]
   },
   {
@@ -299,9 +376,15 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'login-logout-history', component: MainLayoutComponent,
+    path: 'login-student-history/:id', component: MainLayoutComponent,
     children: [
-      { path: '', component: LoginLogoutHistoryComponent }
+      { path: '', component: LoginStudentHistoryComponent }
+    ]
+  },
+  {
+    path: 'login-staff-history/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: LoginStaffHistoryComponent }
     ]
   },
   {
@@ -317,7 +400,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'exam-student-best-score', component: MainLayoutComponent,
+    path: 'exam-student-best-score/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: ExamStudentBestScoreComponent }
     ]
@@ -347,7 +430,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'exam-student-all', component: MainLayoutComponent,
+    path: 'exam-student-all/:id', component: MainLayoutComponent,
     children: [
       { path: '', component: ExamStudentAllComponent }
     ]
@@ -362,6 +445,24 @@ const appRoutes: Routes = [
     path: 'grade-end', component: MainLayoutComponent,
     children: [
       { path: '', component: GradeEndComponent }
+    ]
+  },
+  {
+    path: 'image-setup', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ImageSetupComponent }
+    ]
+  },
+  {
+    path: 'attitude-setup', component: MainLayoutComponent,
+    children: [
+      { path: '', component: AttitudeSetupComponent }
+    ]
+  },
+  {
+    path: 'send-result-setup', component: MainLayoutComponent,
+    children: [
+      { path: '', component: SendResultSetupComponent }
     ]
   },
   {
@@ -394,7 +495,12 @@ const appRoutes: Routes = [
       { path: '', component: ExaminationSummaryComponent }
     ]
   },
-
+  {
+    path: 'examination-message', component: StudentLayoutComponent,
+    children: [
+      { path: '', component: ExaminationMessageComponent }
+    ]
+  },
 ];
 
 @NgModule({
@@ -419,8 +525,7 @@ const appRoutes: Routes = [
     SubjectgroupComponent,
     SubjectComponent,
     SubjectsubComponent,
-    ResetPasswordComponent,
-    LoginLogoutHistoryComponent,
+    ResetPasswordComponent,    
     StudentComponent,
     StudentSearchComponent,
     QuestionComponent,
@@ -452,12 +557,29 @@ const appRoutes: Routes = [
     GradeEndComponent,
     ExaminationSendTypeComponent,
     ExaminationSummaryComponent,
-    ExamAutoSetupComponent,
     AnswerComponent,
     TestQrandomComponent,
     TestQcustomComponent,
     ResetPasswordStudentComponent,
     ExamViewComponent,
+    AttitudeSetupComponent,
+    QuestionQuestionComponent,
+    ExamSetupComponent,
+    SendResultSetupComponent,
+    LoginStaffHistoryComponent,
+    LoginStudentHistoryComponent,
+    ExamMoveComponent,
+    ExaminationMessageComponent,
+    TempComponent,
+    TestViewComponent,
+    Temp2Component,
+    ImageSetupComponent,
+    QuestionExampleComponent,
+    MmSubQuestionComponent,
+    MmSubAnswerComponent,
+    QuestionViewComponent,
+    QuestionViewChildComponent,
+    DownloadComponent,
   ],
   imports: [
     BrowserModule,
@@ -465,6 +587,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
+    PlyrModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }

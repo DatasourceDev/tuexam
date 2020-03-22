@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, Event as NavigationEvent } from '@angular/router';
 import { AppService } from './share/service/app.service';
 import { SessionService } from './share/service/session.service';
+import { TranslationService } from './share/service/translation.service';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,18 @@ import { SessionService } from './share/service/session.service';
 })
 export class AppComponent {
   title = 'tuexam';
-  constructor(private router: Router, public session: SessionService) {
+  constructor(private router: Router, public session: SessionService, private translator: TranslationService) {
     router.events.forEach((event: NavigationEvent) => {
       if (event instanceof NavigationEnd) {
         var url = event.url;
         var routing = url.split("/");
         if (this.session.isLoggedIn()) {
+          if (routing[1] == "login-student") {
+            return;
+          }
+          if (routing[1] == "login") {
+            return;
+          }
           let useracces = this.session.getData();
           let useraccesdata = JSON.parse(useracces);
           if (useraccesdata.staffid != null) {
@@ -34,7 +41,7 @@ export class AppComponent {
         else {
           if (routing[1] == "login-student") {
           }
-          if (routing[1].indexOf("examination") >= 0) {
+          else if (routing[1].indexOf("examination") >= 0) {
             this.router.navigate(["/login-student"]);
           }
           else {
@@ -43,5 +50,14 @@ export class AppComponent {
         }
       }
     });
+  }
+  
+
+  changeLanguage(l: string): void {
+    this.translator.setLanguage(l);
+  }
+
+  currentLanguage(): string {
+    return this.translator.getLanguage();
   }
 }

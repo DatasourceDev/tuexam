@@ -104,10 +104,10 @@
           <th>วันที่</th>
           <th>รอบ</th>
           <th>วิชา</th>
+          <th>แบบทดสอบ</th>
           <th>ผู้เข้าสอบ</th>
           <th>ตรวจแล้ว</th>
           <th>รอตรวจสอบ</th>
-          <th>สถานะ</th>
           <th class="action"></th>
         </tr>
       </thead>
@@ -116,10 +116,10 @@
           <td>{{item.examdate}}</td>
           <td>{{item.examperiod}}</td>
           <td>{{item.group}} - {{item.subject}}</td>
+          <td>{{item.test}}</td>
           <td>{{item.examregistercnt}}</td>
           <td>{{item.provedcnt}}</td>
           <td>{{item.unprovedcnt}}</td>
-          <td>{{item.provestatusname}}</td>
           <td *ngIf="item.provestatus == 0">
             <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
               ตรวจ

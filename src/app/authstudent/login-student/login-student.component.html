@@ -21,40 +21,38 @@
               <img src="assets/images/tu/main-logo.png" alt="" width="100%" />
               <br />
               <br />
-              <h4>Log in</h4>
+              <h4>{{translate("login")}}</h4>
             </a>
-
-            <p>ระบบจัดการสอบสมรรถนะตามแนวทาง GREATS </p>
+            <p>{{translate("exam_system")}}</p>
           </div>
 
 
           <div class="form-group">
             <input type="text" placeholder="รหัสผู้ใช้" class="form-control" formControlName="username" name="username" id="username" autocomplete="off" />
             <span class="text-danger" *ngIf="!inputForm.get('username').valid && inputForm.get('username').touched">
-              กรุณาระบุรหัสผู้ใช้
+              {{translate("msg_required_username")}}
             </span>
           </div>
 
           <div class="form-group">
             <input type="password" placeholder="รหัสผ่าน" class="form-control" formControlName="password" name="password" id="password" autocomplete="off" />
             <span class="text-danger" *ngIf="!inputForm.get('password').valid && inputForm.get('password').touched">
-              กรุณาระบุรหัสผ่าน
+              {{translate("msg_required_password")}}
             </span>
           </div>
 
           <div class="form-group">
             <button type="submit" class="btn btn-orange  btn-block text-left">
               <i class="fa-lock"></i>
-              Log In
+              {{translate("login")}}
             </button>
           </div>
 
-          <!--<div class="login-footer">
-            <div class="info-links">
-              <a href="#" [routerLink]="['/login']">ระบบคลังข้อสอบ</a>
-              <a href="#"></a>
+          <div class="login-footer">
+            <div class="info-links  text-right">
+              <a href="#" (click)="OnEn()">En</a> | <a href="#" (click)="OnTh()">Th</a>
             </div>
-          </div>-->
+          </div>
 
         </form>
 

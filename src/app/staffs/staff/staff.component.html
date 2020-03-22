@@ -75,11 +75,11 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-2 control-label">รหัสประจำตัวประชาชน <span class="text-red">*</span></label>
+                <label class="col-sm-2 control-label">เลขประจำตัวประชาชน <span class="text-red">*</span></label>
                 <div class="col-sm-4">
                   <input type="text" class="form-control" id="idcard" name="idcard" formControlName="idcard" maxlength="14">
                   <span class="text-danger" *ngIf="!inputForm.get('idcard').valid && inputForm.get('idcard').touched">
-                    กรุณาระบุรหัสประจำตัวประชาชน
+                    กรุณาระบุเลขประจำตัวประชาชน
                   </span>
                 </div>
                 <label class="col-sm-2 control-label">อีเมล</label>
@@ -99,6 +99,10 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" id="phone" name="phone" formControlName="phone" maxlength="10">
                 </div>
+                <label class="col-sm-2 control-label">เบอร์โทรสำรอง</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="phone2" name="phone2" formControlName="phone2" maxlength="10">
+                </div>
               </div>
             </div>
           </div>
@@ -114,7 +118,7 @@
                     </div>
                   </div>
                 </div>
-                <label class="col-sm-2 control-label">วันที่หมดอายุ</label>
+                <label class="col-sm-2 control-label">วันที่ปิดการใช้งาน</label>
                 <div class="col-sm-4">
                   <div class="input-group">
                     <input type="text" class="form-control datepicker" id="expirydate" name="expirydate" formControlName="expirydate" data-format="dd/mm/yyyy">
@@ -132,32 +136,32 @@
                 <label class="col-sm-2 control-label">สิทธิ์ <span class="text-red">*</span></label>
                 <div class="col-sm-4">
                   <label>
-                    <input type="checkbox">
+                    <input type="checkbox" id="isadmin" name="isadmin" formControlName="isadmin">
                     เจ้าหน้าที่ทั่วไป (Administrator)
                   </label>
                   <br />
                   <label>
-                    <input type="checkbox">
-                    เจ้าหน้าที่พิเศษ (Master Administrator
+                    <input type="checkbox" id="ismasteradmin" name="ismasteradmin" formControlName="ismasteradmin">
+                    เจ้าหน้าที่พิเศษ (Master Administrator)
                   </label>
                   <br />
                   <label>
-                    <input type="checkbox">
+                    <input type="checkbox" id="isquestionappr" name="isquestionappr" formControlName="isquestionappr">
                     ผู้กลั่นกรองข้อสอบ (Question Approval)
                   </label>
                   <br />
                   <label>
-                    <input type="checkbox">
+                    <input type="checkbox" id="ismasterquestionappr" name="ismasterquestionappr" formControlName="ismasterquestionappr">
                     ผู้กลั่นกรองข้อสอบพิเศษ (Master Question Approval)
                   </label>
                   <br />
                   <label>
-                    <input type="checkbox">
+                    <input type="checkbox" id="istestappr" name="istestappr" formControlName="istestappr">
                     ผู้คัดเลือกแบบทดสอบ (Test Approval)
                   </label>
                   <br />
                   <label>
-                    <input type="checkbox">
+                    <input type="checkbox" id="ismastertestappr" name="ismastertestappr" formControlName="ismastertestappr">
                     ผู้คัดเลือกแบบทดสอบพิเศษ (Master Approval)
                   </label>
                 </div>
@@ -180,7 +184,7 @@
                   <button href="#" class="btn btn-blue"  (click)="OnReset()" *ngIf="id != null && id > 0">
                     เปลี่ยนรหัสผ่าน
                   </button>
-                  <a href="#" class="btn btn-blue" [routerLink]="['/login-logout-history']" target="_blank" *ngIf="id != null && id > 0">
+                  <a href="#" class="btn btn-blue" (click)="OnHistory()" target="_blank" *ngIf="id != null && id > 0">
                     ประวัติการเข้า-ออกจากระบบ
                   </a>
                   <a href="#" class="btn btn-gray" [routerLink]="['/staff-search']">

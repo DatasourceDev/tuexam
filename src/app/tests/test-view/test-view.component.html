@@ -1,0 +1,300 @@
+<!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">แบบทดสอบ</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form-horizontal" [formGroup]="inputForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">รหัสแบบทดสอบ</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="testcode" name="testcode" formControlName="testcode" readonly>
+                </div>
+                <label class="col-sm-2 control-label">ชื่อแบบทดสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="name" name="name" formControlName="name" maxlength="250" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="group" name="group" formControlName="group" readonly>
+                  <input type="hidden" class="form-control" id="groupid" name="groupid" formControlName="groupid">
+                </div>
+                <label class="col-sm-2 control-label">วิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="subject" name="subject" formControlName="subject" readonly>
+                  <input type="hidden" class="form-control" id="subjectid" name="subjectid" formControlName="subjectid">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">คำอธิบาย</label>
+                <div class="col-sm-4">
+                  <textarea class="form-control " id="description" name="description" formControlName="description" rows="5" readonly></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">เวลาสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="timelimit" name="timelimit" formControlName="timelimit" readonly>
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="timelimittypename" name="timelimittypename" formControlName="timelimittypename" readonly>
+                </div>
+                <label class="col-sm-2 control-label">รูปแบบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="testdoexamtypename" name="testdoexamtypename" formControlName="testdoexamtypename" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">หลักสูตร <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="coursename" name="coursename" formControlName="coursename" readonly>
+                </div>
+                <label class="col-sm-2 control-label">แสดงผลคะแนน <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="showresultname" name="showresultname" formControlName="showresultname" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="statusname" name="statusname" formControlName="statusname" readonly>
+                  <input type="hidden" class="form-control" id="status" name="status" formControlName="status">
+                </div>
+                <div class="col-sm-2">
+                  <button href="#" class="btn btn-blue btn-block" (click)="OnChangeStatus()">
+                    เปลี่ยนสถานะ
+                  </button>
+                </div>
+                <label class="col-sm-2 control-label">การคัดเลือก <span class="text-red">*</span></label>
+                <div class="col-sm-4 ">
+                  <input type="text" class="form-control" id="approvalstatusname" name="approvalstatusname" formControlName="approvalstatusname" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">กำหนดข้อสอบ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="testquestiontypename" name="testquestiontypename" formControlName="testquestiontypename" readonly>
+                </div>
+                <label class="col-sm-2 control-label">หมายเหตุ</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="remark" name="remark" formControlName="remark" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="divrandom">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>ประเภทข้อสอบ</th>
+                        <!--<th>วิชาย่อย</th>-->
+                        <th>ง่ายมาก</th>
+                        <th>ง่าย</th>
+                        <th>ปานกลาง</th>
+                        <th>ยาก</th>
+                        <th>ยากมาก</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="qrandomdata != null && qrandomdata.length > 0">
+                      <tr *ngFor="let item of qrandomdata">
+                        <td>{{item.questiontype}}</td>
+                        <!--<td>{{item.sub}}</td>-->
+                        <td>{{item.veryeasy}}</td>
+                        <td>{{item.easy}}</td>
+                        <td>{{item.mid}}</td>
+                        <td>{{item.hard}}</td>
+                        <td>{{item.veryhard}}</td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="qrandomdata == null || qrandomdata.length == 0">
+                      <tr>
+                        <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="divcustom">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">ลำดับ <span class="text-red">*</span></label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" id="testcustomordertypename" name="testcustomordertypename" formControlName="testcustomordertypename" readonly>
+                  </div>
+                  <label class="col-sm-2 control-label">จำนวนข้อ</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" id="questioncnt" name="questioncnt" formControlName="questioncnt" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-10">
+                    <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>ลำดับ</th>
+                          <th>ประเภท</th>
+                          <th>คำถาม</th>
+                          <th>คำถามย่อย</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="qcustomdata != null && qcustomdata.length > 0">
+                        <tr *ngFor="let item of qcustomdata">
+                          <td>{{item.order}}</td>
+                          <td>{{item.questiontype}}</td>
+                          <td>{{getquestion(item.questionth,item.questionen)}}</td>
+                          <td>{{item.childcnt}}</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="qcustomdata == null || qcustomdata.length == 0">
+                        <tr>
+                          <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  การคัดเลือกแบบทดสอบ
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                  <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>เจ้าหน้าที่</th>
+                        <th>สถานะ</th>
+                        <th>หมายเหตุ</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="appstaffdata != null && appstaffdata.length > 0">
+                      <tr *ngFor="let item of appstaffdata">
+                        <td>{{item.firstname}} {{item.lastname}}</td>
+                        <td>{{item.approvalstatusname}}</td>
+                        <td>{{item.remark}}</td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="appstaffdata == null || appstaffdata.length == 0">
+                      <tr>
+                        <td colspan="2" class="text-center">ไม่พบข้อมูล</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="isapproval == true">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">หมายเหตุการคัดเลือก</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="approveremark" name="approveremark" formControlName="approveremark">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                  <a href="#" class="btn btn-blue" (click)="OnTestApprove()" *ngIf="isapproval == true">
+                    อนุมัติ
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestReject()" *ngIf="isapproval == true">
+                    ไม่อนุมัติ
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestApproveMaster()" *ngIf="useraccesdata.isMasterTestAppr == true">
+                    อนุมัติ (พิเศษ)
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestRejectMaster()" *ngIf="useraccesdata.isMasterTestAppr == true">
+                    ไม่อนุมัติ (พิเศษ)
+                  </a>
+                  <a href="#" class="btn btn-blue" (click)="OnTestDraftMaster()" *ngIf="useraccesdata.isMasterTestAppr == true">
+                    กลับไปสถานะร่าง
+                  </a>
+                  <a href="#" class="btn btn-gray" [routerLink]="['/test-search']">
+                    กลับ
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+

@@ -77,8 +77,7 @@
         <tr>
           <th>รหัสผู้ใช้</th>
           <th>ชื่อ-นามสกุล</th>
-          <th>อีเมล</th>
-          <th>รหัสบัตรประชาชน</th>
+          <th>เลขประจำตัวประชาชน</th>
           <th>เบอร์โทร</th>
           <th>วันที่เปิด/หมดอายุ</th>
           <th>สถานะ</th>
@@ -89,7 +88,6 @@
         <tr *ngFor="let item of data">
           <td>{{item.username}}</td>
           <td>{{item.prefix}} {{item.firstname}} {{item.lastname}}</td>
-          <td>{{item.email}}</td>
           <td>{{item.idcard}}</td>
           <td>{{item.phone}}</td>
           <td>{{item.opendate}} - {{item.expirydate}}</td>
@@ -106,7 +104,7 @@
       </tbody>
       <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
+          <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
         </tr>
       </tbody>
 

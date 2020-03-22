@@ -1,4 +1,6 @@
 <!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
 <div class="page-title">
 
   <div class="title-env">
@@ -15,10 +17,10 @@
           <div class="row">
             <div class="form-group">
               <div class="col-sm-6">
-                <label class="control-label">นางสาว นฤมล คงเที่ยง</label>
+                <label class="control-label">{{getStudentName(prefix,firstname,lastname, firstnameen, lastnameen)}}</label>
               </div>
               <div class="col-sm-6 text-right">
-                <label class="control-label">รหัส 102120220</label>
+                <label class="control-label">รหัส {{studentcode}}</label>
               </div>
 
             </div>
@@ -26,14 +28,14 @@
           <div class="row">
             <div class="form-group">
               <div class="col-sm-6">
-                <label class="control-label">คณะ แพทยศาสตร์</label>
+                <label class="control-label">คณะ </label>
               </div>
               <div class="col-sm-6 text-right">
-                <label class="control-label">หลักสูตร ภาษาไทย</label>
+                <label class="control-label">หลักสูตร {{course}}</label>
               </div>
             </div>
           </div>
-          <div class="row">
+          <!--<div class="row">
             <div class="form-group">
               <div class="col-sm-6">
               </div>
@@ -50,23 +52,11 @@
                 <label class="control-label">วิชา G จำนวน 2 ครั้ง</label>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="form-group">
-              <div class="col-sm-6">
-              </div>
-              <div class="col-sm-6 text-right">
-                <label class="control-label">วิชา R จำนวน 3 ครั้ง</label>
-              </div>
-            </div>
-          </div>
+          </div>-->
         </form>
       </div>
     </div>
-
   </div>
-
-
 </div>
 
 <div class="panel panel-default">
@@ -80,58 +70,46 @@
           <th>เวลาที่เริ่มสอบ</th>
           <th>คะแนน</th>
           <th>ชื่อแบบทดสอบ</th>
-          <th>หมายเหตุ</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>10/10/2019</td>
-          <td>10:10</td>
-          <td>35%</td>
-          <td>G00000001</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>GREATS</td>
-          <td>R</td>
-          <td>10/10/2019</td>
-          <td>10:10</td>
-          <td>87%</td>
-          <td>R00000001</td>
-          <td>Best Score</td>
-        </tr>
-        <tr>
-          <td>GREATS</td>
-          <td>G</td>
-          <td>10/05/2019</td>
-          <td>10:15</td>
-          <td>48%</td>
-          <td>G00000001</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>GREATS</td>
-          <td>R</td>
-          <td>10/05/2019</td>
-          <td>10:15</td>
-          <td>78%</td>
-          <td>R00000001</td>
-          <td>Best Score</td>
-        </tr>
-        <tr>
-          <td>GREATS</td>
-          <td>R</td>
-          <td>10/02/2019</td>
-          <td>10:12</td>
-          <td>65%</td>
-          <td>R00000001</td>
-          <td></td>
+      <tbody *ngIf="data != null && data.length > 0">
+        <tr *ngFor="let item of data">
+          <td>{{item.group}}</td>
+          <td>{{item.subject}}</td>
+          <td>{{item.examdate}}</td>
+          <td>{{item.starton}}</td>
+          <td>{{item.percent}}%</td>
+          <td>{{item.test}}</td>
         </tr>
       </tbody>
+      <tbody *ngIf="data == null || data.length == 0">
+        <tr>
+          <td colspan="6" class="text-center">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="pagelen > 1">
+        <tr>
+          <td colspan="6" class="text-right">
+            <ul class="pagination">
+              <li><a href="#" (click)="OnPageChange(pageno-1)"><i class="fa-angle-left"></i></a></li>
+              <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==pageno}">
+                <a href="#" (click)="OnPageChange(item)">{{item}}</a>
+              </li>
+              <li><a href="#" (click)="OnPageChange(pageno+1)"><i class="fa-angle-right"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
     </table>
-
+    <a href="#" class="btn btn-gray" [routerLink]="['/exam-student']">
+      กลับ
+    </a>
+    <a class="btn btn-secondary" href="#" target="_blank" (click)="OnExcel()">
+      Excel
+    </a>
+    <a href="#" class="btn btn-danger " (click)="OnPdf()" target="_blank">
+      PDF
+    </a>
   </div>
 </div>
 
