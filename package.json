@@ -23,7 +23,7 @@
     "@types/jquery": "^3.3.31",
     "angular-validation": "^1.4.4",
     "angular2-jwt": "^0.2.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ng2-validation": "^4.2.0",
     "ngx-loading": "^8.0.0",
     "ngx-plyr": "^3.0.1",
