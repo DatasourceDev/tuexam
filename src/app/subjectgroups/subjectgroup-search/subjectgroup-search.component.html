@@ -80,11 +80,11 @@
           <td>{{item.update_by}}</td>
           <td>{{item.update_on}}</td>
           <td>{{item.status}}</td>
-          <td>
-            <button class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
+          <td >
+            <button class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)" *ngIf="item.name != 'GREATS'">
               แก้ไข
             </button>
-            <button class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)">
+            <button class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)" *ngIf="item.name != 'GREATS'">
               ลบ
             </button>
           </td>

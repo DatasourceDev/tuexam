@@ -34,6 +34,7 @@ export class QuestionAttitudeComponent implements OnInit {
   private timetypelist: any;
   private attitudeanstypelist: any;
   private attitudeanssubtypelist: any;
+  private answertypelist: any;
 
   fileurl: string;
   id: string;
@@ -93,6 +94,14 @@ export class QuestionAttitudeComponent implements OnInit {
     let point5 = new FormControl('');
     let point6 = new FormControl('');
     let point7 = new FormControl('');
+    let answertype = new FormControl('');
+    let anssub1 = new FormControl('');
+    let anssub2 = new FormControl('');
+    let anssub3 = new FormControl('');
+    let anssub4 = new FormControl('');
+    let anssub5 = new FormControl('');
+    let anssub6 = new FormControl('');
+    let anssub7 = new FormControl('');
     let update_on = new FormControl('');
     let update_by = new FormControl('');
     this.inputForm = new FormGroup({
@@ -131,6 +140,14 @@ export class QuestionAttitudeComponent implements OnInit {
       point5: point5,
       point6: point6,
       point7: point7,
+      answertype: answertype,
+      anssub1: anssub1,
+      anssub2: anssub2,
+      anssub3: anssub3,
+      anssub4: anssub4,
+      anssub5: anssub5,
+      anssub6: anssub6,
+      anssub7: anssub7,
       update_on: update_on,
       update_by: update_by,
     });
@@ -159,6 +176,7 @@ export class QuestionAttitudeComponent implements OnInit {
     this.timetypelist = this.appdata.gettimetype();
     this.attitudeanstypelist = this.appdata.getattitudeanstype();
     this.attitudeanssubtypelist = this.appdata.getattitudeanssubtype();
+    this.answertypelist = this.appdata.getanswertype();
 
     this.inputForm.patchValue({ status: "1" });
     this.inputForm.patchValue({ questionlevel: "2" });
@@ -167,6 +185,7 @@ export class QuestionAttitudeComponent implements OnInit {
     this.inputForm.patchValue({ approvalstatusname: "ร่าง" });
     this.inputForm.patchValue({ attitudeanstype: "2" });
     this.inputForm.patchValue({ attitudeanssubtype: "1" });
+    this.inputForm.patchValue({ answertype: "0" });
     this.inputForm.patchValue({ courseth: true });
 
     if (this.id != null && parseInt(this.id) > 0) {
@@ -210,8 +229,19 @@ export class QuestionAttitudeComponent implements OnInit {
               this.inputForm.patchValue({ filetype: this.data.filetype });
               this.inputForm.patchValue({ update_by: this.data.update_by });
               this.inputForm.patchValue({ update_on: this.data.update_on });
-             
+              this.inputForm.patchValue({ answertype: this.data.answertype });
+              this.inputForm.patchValue({ anssub1: this.data.anssub1 });
+              this.inputForm.patchValue({ anssub2: this.data.anssub2 });
+              this.inputForm.patchValue({ anssub3: this.data.anssub3 });
+              this.inputForm.patchValue({ anssub4: this.data.anssub4 });
+              this.inputForm.patchValue({ anssub5: this.data.anssub5 });
+              this.inputForm.patchValue({ anssub6: this.data.anssub6 });
+              this.inputForm.patchValue({ anssub7: this.data.anssub7 });
 
+              if (this.data.subject== 'R')
+                $('#divanswertype').show();
+              else
+                $('#divanswertype').hide();
 
               this.fileurl = this.data.fileurl;
               this.videoSources = [
@@ -223,9 +253,8 @@ export class QuestionAttitudeComponent implements OnInit {
               this.OnGroupList(false);
               this.OnSujectList(false);
               this.OnSubList(false);
-              this.OnTypeChange();
-
-              
+              this.OnTypeChange();              
+              this.OnAnswerTypeChange();
 
               $('#questionth').val(this.data.questionth);
               $('#questionen').val(this.data.questionen);
@@ -247,11 +276,15 @@ export class QuestionAttitudeComponent implements OnInit {
     }
     else {
       setup_ckeditor();
-      this.OnGroupList(true);
-      this.OnGetParent();
-      this.OnTypeChange();
+      if (this.pid != null && parseInt(this.pid) > 0) {
+        this.OnGetParent();        
+      }
+      else {
+        this.OnGroupList(true);
+        this.OnTypeChange();
+        this.OnAnswerTypeChange();
+      }
     }
-    
   }
   
   OnGetParent() {
@@ -283,6 +316,17 @@ export class QuestionAttitudeComponent implements OnInit {
               this.inputForm.patchValue({ approvalstatus: this.data.approvalstatus });
               this.inputForm.patchValue({ approvalstatusname: this.data.approvalstatusname });
               this.inputForm.patchValue({ status: this.data.status });
+
+              if (this.data.subject == 'R')
+                $('#divanswertype').show();
+              else
+                $('#divanswertype').hide();
+
+              this.OnGroupList(false);
+              this.OnSujectList(false);
+              this.OnSubList(false);
+              this.OnTypeChange();
+              this.OnAnswerTypeChange();
             }
             else {
               Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
@@ -302,10 +346,24 @@ export class QuestionAttitudeComponent implements OnInit {
     this.inputForm.patchValue({ subjectid: '' });
     this.inputForm.patchValue({ subid: '' });
   }
+
   OnSubjectChange() {
     this.OnSubList(false);
     this.inputForm.patchValue({ subid: '' });
+   
+    if (this.pid != null && parseInt(this.pid) > 0) {       
+    }
+    else {
+      if ($('#subjectid option:selected').text() == 'R')
+        $('#divanswertype').show();
+      else {
+        $('#divanswertype').hide();
+        this.inputForm.patchValue({ answertype: 0 });
+      }
+    }
+    this.OnAnswerTypeChange();
   }
+
   OnGroupList(setdefault) {
     this.service.httpClientGet("api/SubjectGroup/listActivegroup", null)
       .subscribe(result => {
@@ -343,6 +401,7 @@ export class QuestionAttitudeComponent implements OnInit {
               var subject = this.subjectlist[0];
               this.inputForm.patchValue({ subjectid: subject.id });
               this.OnSubList(setdefault);
+              $('#divanswertype').hide();
             }
           }
 
@@ -437,108 +496,28 @@ export class QuestionAttitudeComponent implements OnInit {
       this.inputForm.controls['questionth'].setErrors({ 'incorrect': true });
       this.inputForm.controls['questionen'].setErrors({ 'incorrect': true });
     }
-    this.inputForm.controls['point1'].setErrors(null);
-    this.inputForm.controls['point2'].setErrors(null);
-    this.inputForm.controls['point3'].setErrors(null);
-    this.inputForm.controls['point4'].setErrors(null);
-    this.inputForm.controls['point5'].setErrors(null);
-    this.inputForm.controls['point6'].setErrors(null);
-    this.inputForm.controls['point7'].setErrors(null);
-    if (this.inputForm.value.attitudeanstype == "2") {
-      if (this.inputForm.value.point1 == null || this.inputForm.value.point1 === "") {
-        this.inputForm.controls['point1'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point2 == null || this.inputForm.value.point2 === "") {
-        this.inputForm.controls['point2'].setErrors({ 'incorrect': true });
-      }
 
-    }
-    else if (this.inputForm.value.attitudeanstype == "3") {
-      if (this.inputForm.value.point1 == null || this.inputForm.value.point1 === "") {
-          this.inputForm.controls['point1'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point2 == null || this.inputForm.value.point2 === "") {
-        this.inputForm.controls['point2'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point3 == null || this.inputForm.value.point3 === "") {
-        this.inputForm.controls['point3'].setErrors({ 'incorrect': true });
-      }
-    }
-    else if (this.inputForm.value.attitudeanstype == "4") {
-      if (this.inputForm.value.point1 == null || this.inputForm.value.point1 === "") {
-        this.inputForm.controls['point1'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point2 == null || this.inputForm.value.point2 === "") {
-        this.inputForm.controls['point2'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point3 == null || this.inputForm.value.point3 === "") {
-        this.inputForm.controls['point3'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point4 == null || this.inputForm.value.point4 === "") {
-        this.inputForm.controls['point4'].setErrors({ 'incorrect': true });
-      }
-    }
-    else if (this.inputForm.value.attitudeanstype == "5") {
-      if (this.inputForm.value.point1 == null || this.inputForm.value.point1 === "") {
-        this.inputForm.controls['point1'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point2 == null || this.inputForm.value.point2 === "") {
-        this.inputForm.controls['point2'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point3 == null || this.inputForm.value.point3 === "") {
-        this.inputForm.controls['point3'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point4 == null || this.inputForm.value.point4 === "") {
-        this.inputForm.controls['point4'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point5 == null || this.inputForm.value.point5 === "") {
-        this.inputForm.controls['point5'].setErrors({ 'incorrect': true });
-      }
-    }
-    else if (this.inputForm.value.attitudeanstype == "6") {  
-      if (this.inputForm.value.point1 == null || this.inputForm.value.point1 === "") {
-        this.inputForm.controls['point1'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point2 == null || this.inputForm.value.point2 === "") {
-        this.inputForm.controls['point2'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point3 == null || this.inputForm.value.point3 === "") {
-        this.inputForm.controls['point3'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point4 == null || this.inputForm.value.point4 === "") {
-        this.inputForm.controls['point4'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point5 == null || this.inputForm.value.point5 === "") {
-        this.inputForm.controls['point5'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point6 == null || this.inputForm.value.point6 === "") {
-        this.inputForm.controls['point6'].setErrors({ 'incorrect': true });
-      }
-    }
-    else if (this.inputForm.value.attitudeanstype == "7") {      
-
-      if (this.inputForm.value.point1 == null || this.inputForm.value.point1 === "") {
-        this.inputForm.controls['point1'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point2 == null || this.inputForm.value.point2 === "") {
-        this.inputForm.controls['point2'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point3 == null || this.inputForm.value.point3 === "") {
-        this.inputForm.controls['point3'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point4 == null || this.inputForm.value.point4 === "") {
-        this.inputForm.controls['point4'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point5 == null || this.inputForm.value.point5 === "") {
-        this.inputForm.controls['point5'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point6 == null || this.inputForm.value.point6 === "") {
-        this.inputForm.controls['point6'].setErrors({ 'incorrect': true });
-      }
-      if (this.inputForm.value.point7 == null || this.inputForm.value.point7 === "") {
-        this.inputForm.controls['point7'].setErrors({ 'incorrect': true });
-      }
-    }
+    if (this.inputForm.value.point1 == null || this.inputForm.value.point1 === "") 
+      this.inputForm.patchValue({ point1: 0 });
+    
+    if (this.inputForm.value.point2 == null || this.inputForm.value.point2 === "") 
+      this.inputForm.patchValue({ point2: 0 });
+    
+    if (this.inputForm.value.point3 == null || this.inputForm.value.point3 === "") 
+      this.inputForm.patchValue({ point3: 0 });
+    
+    if (this.inputForm.value.point4 == null || this.inputForm.value.point4 === "") 
+       this.inputForm.patchValue({ point4: 0 });
+    
+    if (this.inputForm.value.point5 == null || this.inputForm.value.point5 === "") 
+      this.inputForm.patchValue({ point5: 0 });
+    
+    if (this.inputForm.value.point6 == null || this.inputForm.value.point6 === "") 
+      this.inputForm.patchValue({ point6: 0 });
+    
+    if (this.inputForm.value.point7 == null || this.inputForm.value.point7 === "") 
+      this.inputForm.patchValue({ point7: 0 });
+    
 
     if (this.inputForm.valid) {
       let formdata = {
@@ -571,6 +550,14 @@ export class QuestionAttitudeComponent implements OnInit {
         Point5: this.inputForm.value.point5,
         Point6: this.inputForm.value.point6,
         Point7: this.inputForm.value.point7,
+        AnswerType: this.inputForm.value.answertype,
+        AnswerSubjectSub1: this.inputForm.value.anssub1,
+        AnswerSubjectSub2: this.inputForm.value.anssub2,
+        AnswerSubjectSub3: this.inputForm.value.anssub3,
+        AnswerSubjectSub4: this.inputForm.value.anssub4,
+        AnswerSubjectSub5: this.inputForm.value.anssub5,
+        AnswerSubjectSub6: this.inputForm.value.anssub6,
+        AnswerSubjectSub7: this.inputForm.value.anssub7,
       };
       this.loading = true;
       if (this.id != null && parseInt(this.id) > 0) {
@@ -681,6 +668,40 @@ export class QuestionAttitudeComponent implements OnInit {
     }
     this.OnAttSearch();
   }
+  OnAnswerTypeChange() {
+    if (this.inputForm.value.answertype == '1') {
+      $('#divanssub1').show();
+      $('#divanssub2').show();
+      $('#divanssub3').show();
+      $('#divanssub4').show();
+      $('#divanssub5').show();
+      $('#divanssub6').show();
+      $('#divanssub7').show();
+      $('#divpoint1').hide();
+      $('#divpoint2').hide();
+      $('#divpoint3').hide();
+      $('#divpoint4').hide();
+      $('#divpoint5').hide();
+      $('#divpoint6').hide();
+      $('#divpoint7').hide();
+    }
+    else {
+      $('#divanssub1').hide();
+      $('#divanssub2').hide();
+      $('#divanssub3').hide();
+      $('#divanssub4').hide();
+      $('#divanssub5').hide();
+      $('#divanssub6').hide();
+      $('#divanssub7').hide();
+      $('#divpoint1').show();
+      $('#divpoint2').show();
+      $('#divpoint3').show();
+      $('#divpoint4').show();
+      $('#divpoint5').show();
+      $('#divpoint6').show();
+      $('#divpoint7').show();
+    }
+  }
   OnAttSearch() {
     this.loading = true;
     let formdata = {
@@ -708,19 +729,19 @@ export class QuestionAttitudeComponent implements OnInit {
             this.inputForm.patchValue({ point6: this.data2.point6 });
             this.inputForm.patchValue({ point7: this.data2.point7 });
 
-            if (this.data != null && this.data.point1 != null && this.data.point1 > 0)
+            if (this.data != null && this.data.point1 != null && this.data.point1 >= 0)
               this.inputForm.patchValue({ point1: this.data.point1 });
-            if (this.data != null && this.data.point1 != null && this.data.point2 > 0)
+            if (this.data != null && this.data.point1 != null && this.data.point2 >= 0)
               this.inputForm.patchValue({ point2: this.data.point2 });
-            if (this.data != null && this.data.point1 != null && this.data.point3 > 0)
+            if (this.data != null && this.data.point1 != null && this.data.point3 >= 0)
               this.inputForm.patchValue({ point3: this.data.point3 });
-            if (this.data != null && this.data.point1 != null && this.data.point4 > 0)
+            if (this.data != null && this.data.point1 != null && this.data.point4 >= 0)
               this.inputForm.patchValue({ point4: this.data.point4 });
-            if (this.data != null && this.data.point1 != null && this.data.point5 > 0)
+            if (this.data != null && this.data.point1 != null && this.data.point5 >= 0)
               this.inputForm.patchValue({ point5: this.data.point5 });
-            if (this.data != null && this.data.point1 != null && this.data.point6 > 0)
+            if (this.data != null && this.data.point1 != null && this.data.point6 >= 0)
               this.inputForm.patchValue({ point6: this.data.point6 });
-            if (this.data != null && this.data.point1 != null && this.data.point7 > 0)
+            if (this.data != null && this.data.point1 != null && this.data.point7 >= 0)
               this.inputForm.patchValue({ point7: this.data.point7 });
           }
         }

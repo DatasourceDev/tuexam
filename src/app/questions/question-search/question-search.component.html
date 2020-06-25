@@ -22,7 +22,7 @@
             <div class="col-sm-6">
               ES = ข้อสอบอัตนัยหรือเรียงความ (Essay)<br />
               AS = ข้อสอบแบบส่งงาน (Assignment)<br />
-              RT = ข้อสอบแบบเลือกตอบประกอบบทความ (Reading Text And Multiple Choice<br />
+              RT = ข้อสอบแบบเลือกตอบประกอบบทความ (Reading Text And Multiple Choice)<br />
               AT = ข้อสอบแบบวัดทัศนคติ (Attitude)<br />
             </div>
           </div>
@@ -154,10 +154,13 @@
   <div class="panel-body">
     <div class="row">
       <div class="form-group">
-        <div class="col-sm-5">
+        <div class="col-sm-6">
           <a href="#" class="btn btn-secondary" [routerLink]="['/question']">
             เพิ่ม
           </a>
+          <button class="btn btn-danger" (click)="DeleteAll()">
+            ลบ
+          </button>
           <button class="btn btn-blue" (click)="OnApproveAll()">
             ส่งกลั่นกรอง
           </button>
@@ -171,7 +174,7 @@
             กลับไปสถานะร่าง
           </a>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <input type="file" class="form-control" id="fileupload" name="fileupload1" (change)="incomingfile($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
         </div>
         <div class="col-sm-3 text-right">

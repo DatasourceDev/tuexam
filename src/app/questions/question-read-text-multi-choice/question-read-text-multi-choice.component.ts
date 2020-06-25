@@ -295,7 +295,7 @@ export class QuestionReadTextMultiChoiceComponent implements OnInit {
   }
   OnQuestionAdd() {
     if (this.id == null || parseInt(this.id) == 0) {
-      Swal.fire({ text: 'ทำการบันทึกข้อมูลก่อนไปยังขั้นตอนจัดการคำถาม', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      Swal.fire({ text: 'หลังจากกดปุ่มตกลง ระบบจะบันทึกข้อมูลเข้าสู่ระบบ', type: 'info', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
         if (result.value == true) {
           this.OnSubmit(1);
         }

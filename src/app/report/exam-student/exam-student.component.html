@@ -92,7 +92,8 @@
         <tr>
           <th>รหัสนักศึกษา</th>
           <th>ชื่อ-นามสกุล</th>
-          <th class="action"></th>
+          <th class="action">GREATS</th>
+          <th class="action">อื่นๆ</th>
         </tr>
       </thead>
       <tbody *ngIf="data != null && data.length > 0">
@@ -100,11 +101,16 @@
           <td>{{item.studentcode}}</td>
           <td>{{getStudentName(item.prefix,item.firstname,item.lastname, item.firstnameen, item.lastnameen)}}</td>
           <td>
-            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnViewAll(item.studentid)" target="_blank">
-              ทั้งหมด
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnViewGREATS(item.studentid)" target="_blank">
+              ดู
             </a>
             <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnViewBestScore(item.studentid)" target="_blank">
-              Best Score
+              พิมพ์ผลสอบล่าสุด
+            </a>
+          </td>
+          <td>
+            <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnViewAll(item.studentid)" target="_blank">
+              ดู
             </a>
           </td>
         </tr>
@@ -112,12 +118,12 @@
       </tbody>
       <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="3" class="text-center">ไม่พบข้อมูล</td>
+          <td colspan="4" class="text-center">ไม่พบข้อมูล</td>
         </tr>
       </tbody>
       <tfoot *ngIf="pagelen > 1">
         <tr>
-          <td colspan="3" class="text-right">
+          <td colspan="4" class="text-right">
             <ul class="pagination">
               <li><a href="#" (click)="OnPageChange(pageno-1)"><i class="fa-angle-left"></i></a></li>
               <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==pageno}">
@@ -129,7 +135,7 @@
         </tr>
       </tfoot>
     </table>
-   
+
   </div>
 </div>
 

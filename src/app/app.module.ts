@@ -87,6 +87,9 @@ import { MmSubAnswerComponent } from './questions/mm-sub-answer/mm-sub-answer.co
 import { QuestionViewComponent } from './questions/question-view/question-view.component';
 import { QuestionViewChildComponent } from './questions/question-view-child/question-view-child.component';
 import { DownloadComponent } from './download/download.component';
+import { Temp3Component } from './questions/temp3/temp3.component';
+import { ExamStudentGreatsComponent } from './report/exam-student-greats/exam-student-greats.component';
+import { ExamStudentGreatsBestScoreComponent } from './report/exam-student-greats-best-score/exam-student-greats-best-score.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -145,6 +148,12 @@ const appRoutes: Routes = [
     path: 'temp2', component: MainLayoutComponent,
     children: [
       { path: '', component: Temp2Component }
+    ]
+  },
+  {
+    path: 'temp3', component: MainLayoutComponent,
+    children: [
+      { path: '', component: Temp3Component }
     ]
   },
   {
@@ -436,6 +445,12 @@ const appRoutes: Routes = [
     ]
   },
   {
+    path: 'exam-student-greats/:id', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamStudentGreatsComponent }
+    ]
+  },
+  {
     path: 'grade-prove/:id/:ix', component: MainLayoutComponent,
     children: [
       { path: '', component: GradeProveComponent }
@@ -580,6 +595,9 @@ const appRoutes: Routes = [
     QuestionViewComponent,
     QuestionViewChildComponent,
     DownloadComponent,
+    Temp3Component,
+    ExamStudentGreatsComponent,
+    ExamStudentGreatsBestScoreComponent,
   ],
   imports: [
     BrowserModule,

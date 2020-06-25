@@ -53,11 +53,9 @@
                     กรุณาระบุกลุ่มวิชา
                   </span>
                 </div>
-
               </div>
             </div>
           </div>
-
           <div class="row" *ngIf="pid == 0">
             <div class="col-sm-12">
               <div class="form-group">
@@ -88,6 +86,7 @@
               </div>
             </div>
           </div>
+
           <div class="row" *ngIf="pid == 0">
             <div class="col-sm-12">
               <div class="form-group">
@@ -238,6 +237,23 @@
               </div>
             </div>
           </div>
+          <div class="row" id="divanswertype">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ประเภทเฉลย <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="answertype" name="answertype" formControlName="answertype" (change)="OnAnswerTypeChange()">
+                    <option *ngFor="let item of answertypelist" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="!inputForm.get('answertype').valid && inputForm.get('answertype').touched">
+                    ประเภทเฉลย
+                  </span>
+                </div>
+                <div class="col-sm-6">
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
@@ -268,12 +284,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" formControlName="text1" id="text1" name="text1" readonly>
                 </div>
-                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
-                <div class="col-sm-2">
-                  <input type="text" class="form-control" formControlName="point1" id="point1" name="point1">
-                  <span class="text-danger" *ngIf="!inputForm.get('point1').valid && inputForm.get('point1').touched">
-                    กรุณาระบุคะแนน
-                  </span>
+                <div id="divpoint1">
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point1" id="point1" name="point1">
+                    <span class="text-danger" *ngIf="!inputForm.get('point1').valid && inputForm.get('point1').touched">
+                      กรุณาระบุคะแนน
+                    </span>
+                  </div>
+                </div>
+                <div id="divanssub1">
+                  <label class="col-sm-1 control-label">วิชาย่อย</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" id="anssub1" name="anssub1" formControlName="anssub1">
+                      <option value=""></option>
+                      <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('anssub1').valid && inputForm.get('anssub1').touched">
+                      กรุณาระบุวิชาย่อย
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -285,12 +315,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" formControlName="text2" id="text2" name="text2" readonly>
                 </div>
-                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
-                <div class="col-sm-2">
-                  <input type="text" class="form-control" formControlName="point2" id="point2" name="point2">
-                  <span class="text-danger" *ngIf="!inputForm.get('point2').valid && inputForm.get('point2').touched">
-                    กรุณาระบุคะแนน
-                  </span>
+                <div id="divpoint2">
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point2" id="point2" name="point2">
+                    <span class="text-danger" *ngIf="!inputForm.get('point2').valid && inputForm.get('point2').touched">
+                      กรุณาระบุคะแนน
+                    </span>
+                  </div>
+                </div>
+                <div id="divanssub2">
+                  <label class="col-sm-1 control-label">วิชาย่อย</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" id="anssub2" name="anssub2" formControlName="anssub2">
+                      <option value=""></option>
+                      <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('anssub2').valid && inputForm.get('anssub2').touched">
+                      กรุณาระบุวิชาย่อย
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -302,12 +346,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" formControlName="text3" id="text3" name="text3" readonly>
                 </div>
-                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
-                <div class="col-sm-2">
-                  <input type="text" class="form-control" formControlName="point3" id="point3" name="point3">
-                  <span class="text-danger" *ngIf="!inputForm.get('point3').valid && inputForm.get('point3').touched">
-                    กรุณาระบุคะแนน
-                  </span>
+                <div id="divpoint3">
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point3" id="point3" name="point3">
+                    <span class="text-danger" *ngIf="!inputForm.get('point3').valid && inputForm.get('point3').touched">
+                      กรุณาระบุคะแนน
+                    </span>
+                  </div>
+                </div>
+                <div id="divanssub3">
+                  <label class="col-sm-1 control-label">วิชาย่อย</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" id="anssub3" name="anssub3" formControlName="anssub3">
+                      <option value=""></option>
+                      <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('anssub3').valid && inputForm.get('anssub3').touched">
+                      กรุณาระบุวิชาย่อย
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -319,12 +377,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" formControlName="text4" id="text4" name="text4" readonly>
                 </div>
-                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
-                <div class="col-sm-2">
-                  <input type="text" class="form-control" formControlName="point4" id="point4" name="point4">
-                  <span class="text-danger" *ngIf="!inputForm.get('point4').valid && inputForm.get('point4').touched">
-                    กรุณาระบุคะแนน
-                  </span>
+                <div id="divpoint4">
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point4" id="point4" name="point4">
+                    <span class="text-danger" *ngIf="!inputForm.get('point4').valid && inputForm.get('point4').touched">
+                      กรุณาระบุคะแนน
+                    </span>
+                  </div>
+                </div>
+                <div id="divanssub4">
+                  <label class="col-sm-1 control-label">วิชาย่อย</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" id="anssub4" name="anssub4" formControlName="anssub4">
+                      <option value=""></option>
+                      <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('anssub4').valid && inputForm.get('anssub4').touched">
+                      กรุณาระบุวิชาย่อย
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -336,12 +408,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" formControlName="text5" id="text5" name="text5" readonly>
                 </div>
-                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
-                <div class="col-sm-2">
-                  <input type="text" class="form-control" formControlName="point5" id="point5" name="point5">
-                  <span class="text-danger" *ngIf="!inputForm.get('point5').valid && inputForm.get('point5').touched">
-                    กรุณาระบุคะแนน
-                  </span>
+                <div id="divpoint5">
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point5" id="point5" name="point5">
+                    <span class="text-danger" *ngIf="!inputForm.get('point5').valid && inputForm.get('point5').touched">
+                      กรุณาระบุคะแนน
+                    </span>
+                  </div>
+                </div>
+                <div id="divanssub5">
+                  <label class="col-sm-1 control-label">วิชาย่อย</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" id="anssub5" name="anssub5" formControlName="anssub5">
+                      <option value=""></option>
+                      <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('anssub5').valid && inputForm.get('anssub5').touched">
+                      กรุณาระบุวิชาย่อย
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -353,12 +439,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" formControlName="text6" id="text6" name="text6" readonly>
                 </div>
-                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
-                <div class="col-sm-2">
-                  <input type="text" class="form-control" formControlName="point6" id="point6" name="point6">
-                  <span class="text-danger" *ngIf="!inputForm.get('point6').valid && inputForm.get('point6').touched">
-                    กรุณาระบุคะแนน
-                  </span>
+                <div id="divpoint6">
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point6" id="point6" name="point6">
+                    <span class="text-danger" *ngIf="!inputForm.get('point6').valid && inputForm.get('point6').touched">
+                      กรุณาระบุคะแนน
+                    </span>
+                  </div>
+                </div>
+                <div id="divanssub6">
+                  <label class="col-sm-1 control-label">วิชาย่อย</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" id="anssub6" name="anssub6" formControlName="anssub6">
+                      <option value=""></option>
+                      <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('anssub6').valid && inputForm.get('anssub6').touched">
+                      กรุณาระบุวิชาย่อย
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -370,12 +470,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" formControlName="text7" id="text7" name="text7" readonly>
                 </div>
-                <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
-                <div class="col-sm-2">
-                  <input type="text" class="form-control" formControlName="point7" id="point7" name="point7">
-                  <span class="text-danger" *ngIf="!inputForm.get('point7').valid && inputForm.get('point7').touched">
-                    กรุณาระบุคะแนน
-                  </span>
+                <div id="divpoint7">
+                  <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" formControlName="point7" id="point7" name="point7">
+                    <span class="text-danger" *ngIf="!inputForm.get('point7').valid && inputForm.get('point7').touched">
+                      กรุณาระบุคะแนน
+                    </span>
+                  </div>
+                </div>
+                <div id="divanssub7">
+                  <label class="col-sm-1 control-label">วิชาย่อย</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" id="anssub7" name="anssub7" formControlName="anssub7">
+                      <option value=""></option>
+                      <option *ngFor="let item of sublist" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!inputForm.get('anssub7').valid && inputForm.get('anssub7').touched">
+                      กรุณาระบุวิชาย่อย
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

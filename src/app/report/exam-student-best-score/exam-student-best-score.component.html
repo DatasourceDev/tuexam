@@ -53,7 +53,6 @@
           <th>วิชา</th>
           <th>วันที่สอบ</th>
           <th>เวลาที่เริ่มสอบ</th>
-          <th>คะแนน</th>
           <th>ชื่อแบบทดสอบ</th>
         </tr>
       </thead>
@@ -63,18 +62,17 @@
           <td>{{item.subject}}</td>
           <td>{{item.examdate}}</td>
           <td>{{item.starton}}</td>
-          <td>{{item.percent}}%</td>
           <td>{{item.test}}</td>
         </tr>
       </tbody>
       <tbody *ngIf="data == null || data.length == 0">
         <tr>
-          <td colspan="6" class="text-center">ไม่พบข้อมูล</td>
+          <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
         </tr>
       </tbody>
       <tfoot *ngIf="pagelen > 1">
         <tr>
-          <td colspan="6" class="text-right">
+          <td colspan="5" class="text-right">
             <ul class="pagination">
               <li><a href="#" (click)="OnPageChange(pageno-1)"><i class="fa-angle-left"></i></a></li>
               <li *ngFor="let item of getPaginationArray()" [ngClass]="{'active':item==pageno}">

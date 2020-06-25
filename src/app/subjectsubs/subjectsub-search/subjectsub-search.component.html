@@ -86,6 +86,7 @@
           <th>กลุ่มวิชา</th>
           <th>วิชา</th>
           <th>วิชาย่อย</th>
+          <th>คำอธิบาย</th>
           <th>ผู้แก้ไข</th>
           <th>วันที่แก้ไข</th>
           <th>สถานะ</th>
@@ -97,14 +98,15 @@
           <td>{{item.group}}</td>
           <td>{{item.subject}}</td>
           <td>{{item.name}}</td>
+          <td>{{item.description}}</td>
           <td>{{item.update_by}}</td>
           <td>{{item.update_on}}</td>
           <td>{{item.status}}</td>
           <td>
-            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)">
+            <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.id)" *ngIf="item.group != 'GREATS'">
               แก้ไข
             </button>
-            <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)">
+            <button href="#" class="btn btn-danger btn-sm btn-icon icon-left" (click)="OnDelete(item.id)" *ngIf="item.group != 'GREATS'">
               ลบ
             </button>
           </td>

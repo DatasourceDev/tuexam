@@ -303,6 +303,34 @@ export class QuestionSearchComponent implements OnInit {
     });
     return false;
   }
+  DeleteAll() {
+    Swal.fire({ text: 'คุณต้องการที่จะลบรายการเหล่านี้', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
+      if (result.value == true) {
+        this.loading = true;
+        var choose = '';
+        for (var i = 0; i < $('.chk').length; i++) {
+          if ($('.chk').get(i).checked == true) {
+            choose += $('.chk').get(i).value + ';';
+          }
+        }
+
+        let formdata = {
+          choose: choose
+        };
+        this.service.httpClientGet("api/Question/deleteall", formdata)
+          .subscribe(result => {
+            this.OnSubmit();
+            this.loading = false;
+            $('#chkall').get(0).checked = false;
+          }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            this.loading = false;
+          });
+      }
+    });
+
+    return false;
+  }
   OnApproveAll() {
     Swal.fire({ text: 'คุณต้องการเริ่มกระบวนการกลั่นกรองข้อสอบ', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {
       if (result.value == true) {

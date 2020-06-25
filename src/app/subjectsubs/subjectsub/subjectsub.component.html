@@ -30,6 +30,16 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
+                <label class="col-sm-2 control-label">คำอธิบาย</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="description" name="description" formControlName="description" maxlength="250">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
                 <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
                 <div class="col-sm-4">
                   <select class="form-control" id="groupid" name="groupid" formControlName="groupid" (change)="OnGroupChange(true)">

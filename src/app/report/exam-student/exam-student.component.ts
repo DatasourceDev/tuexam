@@ -78,13 +78,19 @@ export class ExamStudentComponent implements OnInit {
       this.OnSearch(formdata);
     }
   }
-  OnViewAll(id) {
+  OnViewAll(id ) {
     this.router.navigate(['/exam-student-all/', id]);
     return false;
   }
-  OnViewBestScore(id) {
-    this.router.navigate(['/exam-student-best-score/', id]);
+  OnViewGREATS(id) {
+    this.router.navigate(['/exam-student-greats/', id]);
     return false;
+  }
+  OnViewBestScore(id) {
+    this.service.openurl("api/PdfReport/resultform?student_search=" + id);
+    return false;
+    //this.router.navigate(['/exam-student-best-score/', id]);
+    //return false;
   }
 
   OnExcel() {

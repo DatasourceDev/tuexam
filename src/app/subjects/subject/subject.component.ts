@@ -27,12 +27,14 @@ export class SubjectComponent implements OnInit {
     let status = new FormControl('', Validators.required);
     let groupid = new FormControl('', Validators.required);
     let order = new FormControl('', Validators.required);
+    let description = new FormControl('');
 
     this.inputForm = new FormGroup({
       name: name,
       status: status,
       groupid: groupid,
       order: order,
+      description: description,
     });
   }
 
@@ -42,7 +44,7 @@ export class SubjectComponent implements OnInit {
     this.statuslist = this.appdata.getstatus();
     this.inputForm.patchValue({ status: "1" });
 
-    this.service.httpClientGet("api/SubjectGroup/listActivegroup", null)
+    this.service.httpClientGet("api/SubjectGroup/listActivegroup", { nogreats: true })
       .subscribe(result => {
         if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
           this.grouplist = null;
@@ -77,6 +79,7 @@ export class SubjectComponent implements OnInit {
             if (result["result"] == 200) {
               this.data = result;
               this.inputForm.patchValue({ name: this.data.name });
+              this.inputForm.patchValue({ description: this.data.description });
               this.inputForm.patchValue({ status: this.data.status });
               this.inputForm.patchValue({ groupid: this.data.groupid });
               this.inputForm.patchValue({ order: this.data.order });
@@ -112,6 +115,7 @@ export class SubjectComponent implements OnInit {
   }
   OnSubmit() {
     this.inputForm.controls['name'].markAsTouched();
+    this.inputForm.controls['description'].markAsTouched();
     this.inputForm.controls['status'].markAsTouched();
     this.inputForm.controls['groupid'].markAsTouched();
     this.inputForm.controls['order'].markAsTouched();
@@ -120,6 +124,7 @@ export class SubjectComponent implements OnInit {
       let formdata = {
         ID: this.id,
         Name: this.inputForm.value.name,
+        Description: this.inputForm.value.description,
         Status: this.inputForm.value.status,
         SubjectGroupID: this.inputForm.value.groupid,
         Order: this.inputForm.value.order,

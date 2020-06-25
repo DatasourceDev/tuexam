@@ -143,6 +143,12 @@ export class AppData {
     list.push({ value: '2', text: 'แบบที่ 2' });
     return list;
   }
+  getanswertype() {
+    var list = [];
+    list.push({ value: '0', text: 'คะแนน' });
+    list.push({ value: '1', text: 'วิชาย่อย' });
+    return list;
+  }
 
   getchoice() {
     var list = [];

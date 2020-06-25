@@ -9308,11 +9308,11 @@ ul > li a.unanswer {
 
 /*.form-control {
   border: 1px solid #2c2c2c;
-}*/
-/*.table.table-bordered > thead > tr > td, .table.table-bordered > tbody > tr > td, .table.table-bordered > tfood > tr > td, .table.table-bordered > thead > tr > th, .table.table-bordered > tbody > tr > th, .table.table-bordered > tfood > tr > th {
+}
+.table.table-bordered > thead > tr > td, .table.table-bordered > tbody > tr > td, .table.table-bordered > tfood > tr > td, .table.table-bordered > thead > tr > th, .table.table-bordered > tbody > tr > th, .table.table-bordered > tfood > tr > th {
   border-color: #2c2c2c;
-}*/
-/*.table.table-bordered {
+}
+.table.table-bordered {
   border-color: #2c2c2c;
 }
 .panel .panel-heading {

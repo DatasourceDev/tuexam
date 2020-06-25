@@ -73,7 +73,6 @@ export class ExaminationSelectComponent implements OnInit {
             var examingstatus = this.data[i].examingstatus;
             var subject = this.data[i].subject;
             var g = { group: group, doexamorder: doexamorder, examingstatus: [], subject: [] };
-
             var dup = false;
             for (var j = 0; j < groups.length; j++) {
               if (groups[j].group == group) {
@@ -109,6 +108,11 @@ export class ExaminationSelectComponent implements OnInit {
                 else {
                   this.data[j].allowexam = false;
                 }
+              }
+            }
+            else {
+              for (var j = 0; j < this.data.length; j++) {
+                  this.data[j].allowexam = true;
               }
             }
           }

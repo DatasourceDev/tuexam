@@ -24,6 +24,7 @@ export class ExamStudentAllComponent implements OnInit {
   firstnameen: string;
   lastnameen: string;
   studentcode: string;
+  faculty: string;
   course: string;
   constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute) {
 
@@ -52,6 +53,7 @@ export class ExamStudentAllComponent implements OnInit {
           this.lastnameen = result["lastnameen"];
           this.studentcode = result["studentcode"];
           this.course = result["course"];
+          this.faculty = result["faculty"];
           this.data = result["data"];
           this.pagelen = result["pagelen"];
         }
