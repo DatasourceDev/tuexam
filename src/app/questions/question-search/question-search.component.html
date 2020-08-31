@@ -148,7 +148,7 @@
   <div class="panel-heading">
     <h3 class="panel-title">รายการ ({{itemcnt}})</h3>
     <div class="panel-options">
-      
+
     </div>
   </div>
   <div class="panel-body">
@@ -193,6 +193,7 @@
           <th class="text-center">
             <input type="checkbox" id="chkall" value="true" (change)="OnCheckAll()">
           </th>
+          <!--<th>No</th>-->
           <th>วิชา</th>
           <th>ประเภท</th>
           <th>รหัสข้อสอบ</th>
@@ -208,6 +209,7 @@
           <td class="text-center">
             <input type="checkbox" class="chk" value="{{item.id}}">
           </td>
+          <!--<td>{{item.questionno}}</td>-->
           <td>{{item.group}} - {{item.subject}} - {{item.subjectsub}}</td>
           <td>{{item.questiontype}}</td>
           <td>{{item.questioncode}}</td>
@@ -222,8 +224,8 @@
               ดู
             </button>
             <!--<a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnApprove(item.id)" *ngIf="item.approvalstatus == 0">
-            ส่งกลั่นกรอง
-          </a>-->
+              ส่งกลั่นกรอง
+            </a>-->
             <button href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnEdit(item.questiontypeid,item.id)" *ngIf="item.approvalstatus == 0">
               แก้ไข
             </button>
@@ -253,7 +255,7 @@
         </tr>
       </tfoot>
     </table>
-   
+
   </div>
 </div>
 

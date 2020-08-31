@@ -1,0 +1,67 @@
+<!-- Basic Setup -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="page-title">
+
+  <div class="title-env">
+    <h1 class="title">ส่งออกผลการสอบ GREATS (Excel)</h1>
+    <p class="description"></p>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">การค้นหา</h3>
+        <div class="panel-options">
+        </div>
+      </div>
+      <div class="panel-body">
+        <form role="form" [formGroup]="SearchFrom" (ngSubmit)="OnSubmit()">
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-2">
+                <label class="control-label">วันที่จาก</label>
+                <div class="input-group">
+                  <input type="text" class="form-control datepicker" id="from_search" name="from_search" formControlName="from_search" data-format="dd/mm/yyyy">
+                  <div class="input-group-addon">
+                    <a href=""><i class="linecons-calendar"></i></a>
+                  </div>
+                </div>
+                <span class="text-danger" *ngIf="!SearchFrom.get('from_search').valid && SearchFrom.get('from_search').touched">
+                  กรุณาระบุวันที่จาก
+                </span>
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label">ถึง</label>
+                <div class="input-group">
+                  <input type="text" class="form-control datepicker" id="to_search" name="to_search" formControlName="to_search" data-format="dd/mm/yyyy">
+                  <div class="input-group-addon">
+                    <a href=""><i class="linecons-calendar"></i></a>
+                  </div>
+                </div>
+                <span class="text-danger" *ngIf="!SearchFrom.get('to_search').valid && SearchFrom.get('to_search').touched">
+                  กรุณาระบุวันที่ถึง
+                </span>
+              </div>
+              <div class="col-sm-1">
+                <button class="btn btn-secondary btn-search btn-block" type="submit">
+                  Excel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+

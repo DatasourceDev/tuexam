@@ -78,4 +78,6 @@ export class SendResultSetupComponent implements OnInit {
       });
     return false;
   }
+
+
 }

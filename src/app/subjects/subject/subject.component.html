@@ -27,7 +27,17 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="groupname == 'GREATS'">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ชื่อวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="name" name="name" formControlName="name" maxlength="250" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="groupname != 'GREATS'">
             <div class="col-sm-12">
               <div class="form-group">
                 <label class="col-sm-2 control-label">ชื่อวิชา <span class="text-red">*</span></label>
@@ -44,13 +54,25 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <label class="col-sm-2 control-label">คำอธิบาย</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="description" name="description" formControlName="description" maxlength="250">
+                <div class="col-sm-8">
+                  <textarea class="form-control" id="description" name="description" formControlName="description" rows="5"></textarea>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="groupname == 'GREATS'">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input class="form-control" type="text" value="{{groupname}}" readonly />
+                  <input class="form-control" type="hidden" id="groupid" name="groupid" formControlName="groupid" />
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="groupname != 'GREATS'">
             <div class="col-sm-12">
               <div class="form-group">
                 <label class="col-sm-2 control-label">กลุ่มวิชา <span class="text-red">*</span></label>
@@ -65,7 +87,18 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="groupname == 'GREATS'">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" value="{{statusname}}" readonly>
+                  <input class="form-control" type="hidden" id="status" name="status" formControlName="status" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="groupname != 'GREATS'">
             <div class="col-sm-12">
               <div class="form-group">
                 <label class="col-sm-2 control-label">สถานะ <span class="text-red">*</span></label>

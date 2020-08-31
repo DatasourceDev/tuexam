@@ -195,4 +195,8 @@ export class StudentSearchComponent implements OnInit {
 
     return name;
   }
+  OnDownloadTemplate() {
+    this.service.openurl("template/student.xlsx");
+    return false;
+  }
 }

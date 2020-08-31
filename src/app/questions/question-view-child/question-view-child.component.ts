@@ -95,14 +95,29 @@ export class QuestionViewChildComponent implements OnInit {
     let text4 = new FormControl('');
     let text5 = new FormControl('');
     let text6 = new FormControl('');
-    let text7 = new FormControl('');
+    let text7 = new FormControl('');      
     let point1 = new FormControl('');
     let point2 = new FormControl('');
     let point3 = new FormControl('');
     let point4 = new FormControl('');
     let point5 = new FormControl('');
-    let point6 = new FormControl('');
+    let point6 = new FormControl('');       
     let point7 = new FormControl('');
+    let answertype = new FormControl('');
+    let anssub1 = new FormControl('');
+    let anssub2 = new FormControl('');
+    let anssub3 = new FormControl('');
+    let anssub4 = new FormControl('');
+    let anssub5 = new FormControl('');
+    let anssub6 = new FormControl('');
+    let anssub7 = new FormControl('');
+    let anssubname1 = new FormControl('');
+    let anssubname2 = new FormControl('');
+    let anssubname3 = new FormControl('');
+    let anssubname4 = new FormControl('');
+    let anssubname5 = new FormControl('');
+    let anssubname6 = new FormControl('');
+    let anssubname7 = new FormControl('');
     this.inputForm = new FormGroup({
       questioncode: questioncode,
       status: status,
@@ -152,6 +167,21 @@ export class QuestionViewChildComponent implements OnInit {
       point5: point5,
       point6: point6,
       point7: point7,
+      answertype: answertype,
+      anssub1: anssub1,
+      anssub2: anssub2,
+      anssub3: anssub3,
+      anssub4: anssub4,
+      anssub5: anssub5,
+      anssub6: anssub6,
+      anssub7: anssub7,
+      anssubname1: anssubname1,
+      anssubname2: anssubname2,
+      anssubname3: anssubname3,
+      anssubname4: anssubname4,
+      anssubname5: anssubname5,
+      anssubname6: anssubname6,
+      anssubname7: anssubname7,
     });
 
     let fileupload = new FormControl();
@@ -232,7 +262,21 @@ export class QuestionViewChildComponent implements OnInit {
               this.inputForm.patchValue({ point5: this.data.point5 });
               this.inputForm.patchValue({ point6: this.data.point6 });
               this.inputForm.patchValue({ point7: this.data.point7 });
-
+              this.inputForm.patchValue({ answertype: this.data.answertype });
+              this.inputForm.patchValue({ anssub1: this.data.anssub1 });
+              this.inputForm.patchValue({ anssub2: this.data.anssub2 });
+              this.inputForm.patchValue({ anssub3: this.data.anssub3 });
+              this.inputForm.patchValue({ anssub4: this.data.anssub4 });
+              this.inputForm.patchValue({ anssub5: this.data.anssub5 });
+              this.inputForm.patchValue({ anssub6: this.data.anssub6 });
+              this.inputForm.patchValue({ anssub7: this.data.anssub7 });
+              this.inputForm.patchValue({ anssubname1: this.data.anssubname1 });
+              this.inputForm.patchValue({ anssubname2: this.data.anssubname2 });
+              this.inputForm.patchValue({ anssubname3: this.data.anssubname3 });
+              this.inputForm.patchValue({ anssubname4: this.data.anssubname4 });
+              this.inputForm.patchValue({ anssubname5: this.data.anssubname5 });
+              this.inputForm.patchValue({ anssubname6: this.data.anssubname6 });
+              this.inputForm.patchValue({ anssubname7: this.data.anssubname7 });
               this.fileurl = this.data.fileurl;
               this.videoSources = [
                 {
@@ -245,6 +289,7 @@ export class QuestionViewChildComponent implements OnInit {
               this.questiontype = this.data.questiontype;
 
               this.OnTypeChange();
+              this.OnAnswerTypeChange();
             }
             else {
               Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
@@ -390,6 +435,41 @@ export class QuestionViewChildComponent implements OnInit {
       $('#div7').show();
     }
     this.OnAttSearch();
+  }
+
+  OnAnswerTypeChange() {
+    if (this.inputForm.value.answertype == '1') {
+      $('#divanssub1').show();
+      $('#divanssub2').show();
+      $('#divanssub3').show();
+      $('#divanssub4').show();
+      $('#divanssub5').show();
+      $('#divanssub6').show();
+      $('#divanssub7').show();
+      $('#divpoint1').hide();
+      $('#divpoint2').hide();
+      $('#divpoint3').hide();
+      $('#divpoint4').hide();
+      $('#divpoint5').hide();
+      $('#divpoint6').hide();
+      $('#divpoint7').hide();
+    }
+    else {
+      $('#divanssub1').hide();
+      $('#divanssub2').hide();
+      $('#divanssub3').hide();
+      $('#divanssub4').hide();
+      $('#divanssub5').hide();
+      $('#divanssub6').hide();
+      $('#divanssub7').hide();
+      $('#divpoint1').show();
+      $('#divpoint2').show();
+      $('#divpoint3').show();
+      $('#divpoint4').show();
+      $('#divpoint5').show();
+      $('#divpoint6').show();
+      $('#divpoint7').show();
+    }
   }
 
   OnView(id) {

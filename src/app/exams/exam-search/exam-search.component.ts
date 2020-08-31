@@ -183,7 +183,11 @@ export class ExamSearchComponent implements OnInit {
   }
 
   OnRegister(id) {
-    this.router.navigate(['/exam-register-search/', id]);
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['/exam-register-search'])
+    );
+    window.open(url + "/"+ id)
+    //this.router.navigate(['/exam-register-search/', id]);
   }
   OnAddAuto() {
     Swal.fire({ text: 'คุณต้องการเพิ่มรอบสอบแบอัตโนมัติ', type: 'warning', showCancelButton: true, cancelButtonText: 'ยกเลิก', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-blue', cancelButton: 'btn btn-white' } }).then((result) => {

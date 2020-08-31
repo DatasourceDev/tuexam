@@ -90,6 +90,10 @@ import { DownloadComponent } from './download/download.component';
 import { Temp3Component } from './questions/temp3/temp3.component';
 import { ExamStudentGreatsComponent } from './report/exam-student-greats/exam-student-greats.component';
 import { ExamStudentGreatsBestScoreComponent } from './report/exam-student-greats-best-score/exam-student-greats-best-score.component';
+import { ExamAnswerComponent } from './report/exam-answer/exam-answer.component';
+import { ExamGreatsExcelComponent } from './report/exam-greats-excel/exam-greats-excel.component';
+import { ExamGreatsPerDateComponent } from './report/exam-greats-per-date/exam-greats-per-date.component';
+import { ExamGreatsPerStudentComponent } from './report/exam-greats-per-student/exam-greats-per-student.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -420,10 +424,35 @@ const appRoutes: Routes = [
       { path: '', component: ExamByDateComponent }
     ]
   },
+ 
+  {
+    path: 'exam-greats-excel', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamGreatsExcelComponent }
+    ]
+  },
+  {
+    path: 'exam-greats-per-date', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamGreatsPerDateComponent }
+    ]
+  },
+  {
+    path: 'exam-greats-per-student', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamGreatsPerStudentComponent }
+    ]
+  },
   {
     path: 'exam-by-month', component: MainLayoutComponent,
     children: [
       { path: '', component: ExamByMonthComponent }
+    ]
+  },
+  {
+    path: 'exam-answer', component: MainLayoutComponent,
+    children: [
+      { path: '', component: ExamAnswerComponent }
     ]
   },
   {
@@ -598,6 +627,10 @@ const appRoutes: Routes = [
     Temp3Component,
     ExamStudentGreatsComponent,
     ExamStudentGreatsBestScoreComponent,
+    ExamAnswerComponent,
+    ExamGreatsExcelComponent,
+    ExamGreatsPerDateComponent,
+    ExamGreatsPerStudentComponent,
   ],
   imports: [
     BrowserModule,

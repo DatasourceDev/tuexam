@@ -19,12 +19,10 @@ export class Temp3Component implements OnInit {
 
   constructor(public session: SessionService, private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router) {
     let fileupload = new FormControl();
-    let subjectname = new FormControl();
     let update_by = new FormControl();
 
     this.inputForm = new FormGroup({
       fileupload: fileupload,
-      subjectname: subjectname,
       update_by: update_by,
     });
 
@@ -56,16 +54,17 @@ export class Temp3Component implements OnInit {
     //this.service.httpClientFilePost("api/question/uploadgtemp", data)
     this.service.httpClientFilePost("api/question/uploadganswertemp", data)
       .subscribe(result => {
-        let formdata = {
-          id: result["tsresultid"]
-        };
-        this.service.httpClientPost("api/testresult/sendresult", formdata)
-          .subscribe(result => {
-            this.loading = false;
-          }, error => {
-            Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
-            this.loading = false;
-          });
+        this.loading = false;
+        //let formdata = {
+        //  id: result["tsresultid"]
+        //};
+        //this.service.httpClientPost("api/testresult/sendresult", formdata)
+        //  .subscribe(result => {
+        //    this.loading = false;
+        //  }, error => {
+        //    Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        //    this.loading = false;
+        //  });
       }, error => {
         Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
         this.loading = false;

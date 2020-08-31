@@ -102,11 +102,20 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row"  *ngIf="sendbyemail == true || sendbypost == true">
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
                   {{translate("send_chanel")}} <b>{{sendtype}}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"  *ngIf="sendother == true">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <b>{{description}}</b>
                 </div>
               </div>
             </div>

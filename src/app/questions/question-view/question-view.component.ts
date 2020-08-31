@@ -103,6 +103,8 @@ export class QuestionViewComponent implements OnInit {
     let point5 = new FormControl('');
     let point6 = new FormControl('');
     let point7 = new FormControl('');
+    let randomchoice = new FormControl('');
+
     this.inputForm = new FormGroup({
       questioncode: questioncode,
       status: status,
@@ -152,6 +154,8 @@ export class QuestionViewComponent implements OnInit {
       point5: point5,
       point6: point6,
       point7: point7,
+      randomchoice: randomchoice,
+
     });
 
     let fileupload = new FormControl();
@@ -231,6 +235,7 @@ export class QuestionViewComponent implements OnInit {
               this.inputForm.patchValue({ point5: this.data.point5 });
               this.inputForm.patchValue({ point6: this.data.point6 });
               this.inputForm.patchValue({ point7: this.data.point7 });
+              this.inputForm.patchValue({ randomchoice: this.data.randomchoice });
 
               this.fileurl = this.data.fileurl;
               this.videoSources = [

@@ -29,7 +29,10 @@ export class ExaminationEndComponent implements OnInit {
   point: number;
   sendtype: string;
   showresult: string;
-
+  description: string;
+  sendbyemail: boolean;
+  sendbypost: boolean;
+  sendother: boolean;
   starton: string;
   endon: string;
   constructor(private translator: TranslationService,private location: LocationStrategy,private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute, public session: SessionService) {
@@ -67,8 +70,13 @@ export class ExaminationEndComponent implements OnInit {
             this.endon = result["endon"];
             this.correctcnt = result["correctcnt"];
             this.wrongcnt = result["wrongcnt"];
-            this.point = result["point"];
+            this.point = result["point"];          
+            this.sendbyemail = result["sendbyemail"];
+            this.sendbypost = result["sendbypost"];
+            this.sendother = result["other"];
+
             this.sendtype = this.getsendtype(result["sendbyemail"], result["sendbyemail"], result["other"]);
+            this.description = result["description"];
             this.showresult = result["showresult"];
           }
           else {

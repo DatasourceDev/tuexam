@@ -148,7 +148,7 @@ export class ExaminationComponent implements OnInit {
               this.router.navigate(['/examination-select/']);
             }
             else if (this.examingstatus == "1") {
-              this.startCountdownTimer(Number(result["timeremaining"]));
+              this.startCountdownTimer(Number(result["timeremaining"]), this.id);
               if (Number(result["timeremaining"]) <= 0) {
                 if (this.showingexpirepopup == false) {
                   this.showingexpirepopup = true;
@@ -181,7 +181,8 @@ export class ExaminationComponent implements OnInit {
   OnContinuous() {
     let formdata = {
       id: this.id,
-      ix: this.ix
+      ix: this.ix  ,
+      displayrandom:true
     };
     this.service.httpClientGet("api/TestResult/con", formdata)
       .subscribe(result => {
@@ -302,6 +303,7 @@ export class ExaminationComponent implements OnInit {
     this.router.navigate(['/examination-send-type/', this.id]);
   }
 
+
   incomingfile(event) {
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
@@ -367,18 +369,33 @@ export class ExaminationComponent implements OnInit {
           Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
       });
   }
-  startCountdownTimer(sec) {
+  startCountdownTimer(sec,tsid) {
     const interval = 1000;
     const duration = sec * 1000;
     const stream$ = Observable.timer(0, interval)
       .finally(() => {
-        if (this.showingexpirepopup == false) {
-          this.showingexpirepopup = true;
-          Swal.fire({ text: 'หมดเวลาทำแบบทดสอบ', type: 'info', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } }).then((result) => {
-            this.showingexpirepopup = false;
-          });
-        }
-        this.OnSendResult();
+        let formdata = { id: tsid };
+        this.service.httpClientGet("api/TestResult/gettestresultstudent", formdata)
+          .subscribe(result => {
+            if (result == null || Object.keys(result).length == 0 || (Array.isArray(result) && result.length == 0)) {
+              Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+            }
+            else {
+              if (result["examingstatus"] != 3) {
+
+                if (this.showingexpirepopup == false) {
+                  this.showingexpirepopup = true;
+                  Swal.fire({ text: 'หมดเวลาทำแบบทดสอบ', type: 'info', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } }).then((result) => {
+                    this.showingexpirepopup = false;
+                  });
+                }
+                this.OnSendResult();
+              }
+            }
+          }, error => {
+            Swal.fire({ text: 'เกิดข้อผิดพลาดในระบบ', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+          });                        
+       
       })
       .takeUntil(Observable.timer(duration + interval))
       .map(value => duration - value * interval);

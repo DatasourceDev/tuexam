@@ -70,6 +70,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
     let approvalstatus = new FormControl('');
     let approvalstatusname = new FormControl('');
     let remark = new FormControl('');
+    let randomchoice = new FormControl('');
     let fileurl = new FormControl('');
     let filename = new FormControl('');
     let filetype = new FormControl('');
@@ -93,6 +94,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
       approvalstatus: approvalstatus,
       approvalstatusname: approvalstatusname,
       remark: remark,
+      randomchoice: randomchoice,
       fileurl: fileurl,
       filename: filename,
       filetype: filetype,
@@ -167,6 +169,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
               this.inputForm.patchValue({ approvalstatus: this.data.approvalstatus });
               this.inputForm.patchValue({ approvalstatusname: this.data.approvalstatusname });
               this.inputForm.patchValue({ remark: this.data.remark });
+              this.inputForm.patchValue({ randomchoice: this.data.randomchoice });
               this.inputForm.patchValue({ status: this.data.status });
               this.inputForm.patchValue({ fileurl: this.data.fileurl });
               this.inputForm.patchValue({ filename: this.data.filename });
@@ -402,6 +405,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
     this.inputForm.controls['approvalstatus'].markAsTouched();
     this.inputForm.controls['approvalstatusname'].markAsTouched();
     this.inputForm.controls['remark'].markAsTouched();
+    this.inputForm.controls['randomchoice'].markAsTouched();
     this.inputForm.controls['fileurl'].markAsTouched();
     this.inputForm.controls['filename'].markAsTouched();
     this.inputForm.controls['filetype'].markAsTouched();
@@ -447,6 +451,7 @@ export class QuestionMultiChoiceComponent implements OnInit {
         Status: this.inputForm.value.status,
         ApprovalStatus: this.inputForm.value.approvalstatus,
         Remark: this.inputForm.value.remark,
+        RandomChoice: this.inputForm.value.randomchoice,
         FileUrl: this.inputForm.value.fileurl,
         FileName: this.inputForm.value.filename,
         FileType: this.inputForm.value.filetype,

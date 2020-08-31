@@ -180,6 +180,21 @@
               </div>
             </div>
           </div>
+          <div class="row" *ngIf="questiontype == 1 && ansdata != null && ansdata.length > 0">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">สลับคำตอบ</label>
+                  <div class="col-sm-4">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" id="randomchoice" name="randomchoice" value="true" formControlName="randomchoice" disabled>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
           <div class="row" *ngIf="questiontype == 3 && questiondata != null && questiondata.length > 0">
             <div class="col-sm-12">
               <div class="form-group">
@@ -229,7 +244,7 @@
                         <td>{{item.questiontype}}</td>
                         <td>{{getquestion(item.questionth,item.questionen)}}</td>
                         <td>
-                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnView(item.id)"s>
+                          <a href="#" class="btn btn-blue btn-sm btn-icon icon-left" (click)="OnView(item.id)" s>
                             ดู
                           </a>
                         </td>
@@ -340,7 +355,7 @@
                   </div>
                   <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" formControlName="point1" id="point1" name="point1" readonly>                   
+                    <input type="text" class="form-control" formControlName="point1" id="point1" name="point1" readonly>
                   </div>
                 </div>
               </div>
@@ -354,7 +369,7 @@
                   </div>
                   <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" formControlName="point2" id="point2" name="point2" readonly>                   
+                    <input type="text" class="form-control" formControlName="point2" id="point2" name="point2" readonly>
                   </div>
                 </div>
               </div>
@@ -368,7 +383,7 @@
                   </div>
                   <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" formControlName="point3" id="point3" name="point3" readonly>                 
+                    <input type="text" class="form-control" formControlName="point3" id="point3" name="point3" readonly>
                   </div>
                 </div>
               </div>
@@ -382,7 +397,7 @@
                   </div>
                   <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" formControlName="point4" id="point4" name="point4" readonly>                   
+                    <input type="text" class="form-control" formControlName="point4" id="point4" name="point4" readonly>
                   </div>
                 </div>
               </div>
@@ -396,7 +411,7 @@
                   </div>
                   <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" formControlName="point5" id="point5" name="point5" readonly>                   
+                    <input type="text" class="form-control" formControlName="point5" id="point5" name="point5" readonly>
                   </div>
                 </div>
               </div>
@@ -410,7 +425,7 @@
                   </div>
                   <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" formControlName="point6" id="point6" name="point6" readonly>                 
+                    <input type="text" class="form-control" formControlName="point6" id="point6" name="point6" readonly>
                   </div>
                 </div>
               </div>
@@ -424,13 +439,13 @@
                   </div>
                   <label class="col-sm-1 control-label">คะแนน<span class="text-red">*</span></label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" formControlName="point7" id="point7" name="point7" readonly>                   
+                    <input type="text" class="form-control" formControlName="point7" id="point7" name="point7" readonly>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row" >
+          <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-2"></div>
@@ -440,7 +455,7 @@
               </div>
             </div>
           </div>
-          <div class="row" >
+          <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-2"></div>
@@ -471,7 +486,7 @@
             </div>
           </div>
           <div class="row" *ngIf="isapproval == true">
-            <div class="col-sm-12" >
+            <div class="col-sm-12">
               <div class="form-group">
                 <label class="col-sm-2 control-label">หมายเหตุการกลั่นกรอง</label>
                 <div class="col-sm-4">
@@ -480,13 +495,13 @@
               </div>
             </div>
           </div>
-          <div class="row" >
+          <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-2">
                 </div>
-                <div class="col-sm-10" >
-                  <a href="#" class="btn btn-blue" (click)="OnTestApprove()" *ngIf="isapproval == true" >
+                <div class="col-sm-10">
+                  <a href="#" class="btn btn-blue" (click)="OnTestApprove()" *ngIf="isapproval == true">
                     อนุมัติ
                   </a>
                   <a href="#" class="btn btn-blue" (click)="OnTestReject()" *ngIf="isapproval == true">

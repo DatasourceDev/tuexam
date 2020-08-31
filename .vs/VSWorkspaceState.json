@@ -3,10 +3,9 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\examinations",
-    "\\src\\app\\examinations\\examination-select",
-    "\\src\\assets\\css"
+    "\\src\\app\\questions",
+    "\\src\\app\\questions\\temp",
+    "\\src\\app\\questions\\temp3"
   ],
-  "SelectedNode": "\\src\\app\\examinations\\examination-select\\examination-select.component.html",
   "PreviewInSolutionExplorer": false
 }

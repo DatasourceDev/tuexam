@@ -20,7 +20,9 @@ export class SubjectComponent implements OnInit {
   private grouplist: any;
 
   id: string;
+  groupname: string;
   inputForm: FormGroup;
+  statusname: string;
 
   constructor(private service: AppService, private http: HttpClient, private appdata: AppData, private router: Router, private route: ActivatedRoute) {
     let name = new FormControl('', [Validators.required, Validators.maxLength(250)]);
@@ -83,6 +85,8 @@ export class SubjectComponent implements OnInit {
               this.inputForm.patchValue({ status: this.data.status });
               this.inputForm.patchValue({ groupid: this.data.groupid });
               this.inputForm.patchValue({ order: this.data.order });
+              this.groupname = this.data.group;
+              this.statusname = this.data.statusname;
             }
             else {
               Swal.fire({ text: 'ข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });

@@ -10,7 +10,8 @@ import 'rxjs/Rx';
 @Injectable()
 
 export class AppService {
-  private serverurl = "http://localhost:1532/";
+  private serverurl = "http://localhost:1533/";
+  //private serverurl = "http://192.168.1.3/tuexamapi/";
   private useraccessdata;
   private token;
   private appversion = "";

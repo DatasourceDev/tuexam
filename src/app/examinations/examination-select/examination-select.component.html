@@ -20,9 +20,7 @@
     <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
       <thead>
         <tr>
-          <th>{{translate("group")}}</th>
           <th>{{translate("subject")}}</th>
-          <th>{{translate("test")}}</th>
           <th>{{translate("question_count")}}</th>
           <th>{{translate("time_limit")}}</th>
           <th class="action"></th>
@@ -30,9 +28,11 @@
       </thead>
       <tbody *ngIf="data != null && data.length > 0">
         <tr *ngFor="let item of data">
-          <td>{{item.groupname}}</td>
-          <td>{{item.subject}}</td>
-          <td>{{item.test}}</td>
+          <td width="60%">
+            <h5 style="text-decoration:underline">{{item.groupname}} - {{item.subject}}</h5>
+            <br />
+            {{item.subectdescription}}
+          </td>
           <td>{{item.questioncnt}}</td>
           <td>{{item.timelimit}} {{translate(item.timelimittype)}}</td>
           <td *ngIf="item.examingstatus == 0 && item.allowexam == true">

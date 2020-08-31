@@ -31,6 +31,18 @@ export class TempComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true;
+    this.inputForm.patchValue({ email: "voranun.datasource@gmail.com" });
+
+    let data = JSON.stringify(this.inputForm.value);
+
+    this.service.httpClientGet("api/report/MailTest", data)
+      .subscribe(result => {
+        this.loading = false;
+      }, error => {
+        Swal.fire({ text: 'บันทึกข้อมูลผิดพลาด', type: 'error', confirmButtonText: 'ตกลง', buttonsStyling: false, customClass: { confirmButton: 'btn btn-danger' } });
+        this.loading = false;
+      });
   }
   incomingfile(event) {
     let reader = new FileReader();

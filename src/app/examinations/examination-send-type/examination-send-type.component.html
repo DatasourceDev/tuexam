@@ -69,16 +69,7 @@
             </div>
           </div>
           <br />
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="col-sm-12">
-                  {{description}}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row" *ngIf="allowsendbyemail == true || allowsendbypost == true || allowother == true" >
+          <div class="row" *ngIf="allowsendbyemail == true || allowsendbypost == true || allowother == true">
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
@@ -87,27 +78,30 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="allowsendbyemail == true || allowsendbypost == true || allowother == true">
             <div class="col-sm-12">
               <div class="form-group">
                 <div class="col-sm-12">
-                  <label class="radio-inline" *ngIf="allowsendbyemail == true">
-                    <input type="radio" name="radio-4"  #device1 value="email" (change)="ChooseOnchange(device1.value)">
-                    {{translate("email")}}
-                  </label>
-                  <label class="radio-inline" *ngIf="allowsendbypost == true">
-                    <input type="radio" name="radio-4" #device2 value="post" (change)="ChooseOnchange(device2.value)">
-                    {{translate("post")}}
-                  </label>
-                  <label class="radio-inline" *ngIf="allowother == true">
-                    <input type="radio" name="radio-4" checked #device3 value="other" (change)="ChooseOnchange(device3.value)">
-                    {{translate("other")}}
-                  </label>
+                  <div>
+                    <label class="radio-inline" *ngIf="allowsendbyemail == true">
+                      <input type="radio" name="radio-4" #device1 value="email" checked (change)="ChooseOnchange(device1.value)">
+                      {{translate("email")}}
+                    </label>
+                    <label class="radio-inline" *ngIf="allowsendbypost == true">
+                      <input type="radio" name="radio-4" #device2 value="post" checked (change)="ChooseOnchange(device2.value)">
+                      {{translate("post")}}
+                    </label>
+                    <label class="radio-inline" *ngIf="allowother == true">
+                      <input type="radio" name="radio-4" #device3 value="other" checked (change)="ChooseOnchange(device3.value)">
+                      {{translate("other")}}
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row" id="divemail" >
+
+          <div class="row" id="divemail">
             <div class="col-sm-12" *ngIf="allowsendbyemail == true">
               <div class="form-group">
                 <div class="col-sm-6">
@@ -119,7 +113,7 @@
               </div>
             </div>
           </div>
-          <div class="row" id="divpost" >
+          <div class="row" id="divpost">
             <div class="col-sm-12" *ngIf="allowsendbypost == true">
               <div class="form-group">
                 <div class="col-sm-6">
@@ -131,7 +125,15 @@
               </div>
             </div>
           </div>
-
+          <div class="row" id="divother">
+            <div class="col-sm-12" *ngIf="allowother == true">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  {{description}}
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">

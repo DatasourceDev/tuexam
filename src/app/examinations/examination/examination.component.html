@@ -1,7 +1,12 @@
 <!-- Basic Setup -->
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
 
-<div class="page-title">
+<style>
+.exam p{
+font-size:15px;
+}
+</style>
+<div class="page-title ">
 
   <div class="title-env">
     <h1 class="title">{{useraccesdata.prefix}} {{useraccesdata.firstname}} {{useraccesdata.lastname}}</h1>
@@ -18,7 +23,7 @@
 
   </div>
 </div>
-<div class="row">
+<div class="row exam">
   <div class="col-sm-12">
     <div class="panel panel-default">
       <div class="panel-body">
@@ -100,7 +105,7 @@
           </div>
           <div *ngIf="questiontype == 1">
             <div class="row" *ngFor="let item of mcanswers">
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <div class="form-group">
                   <div class="col-sm-1" *ngIf="answerid == item.id">
                     <input type="radio" class="rdo" name="rdo" value="{{item.id}}" checked #divice (click)="OnClick(divice.value)">
@@ -117,7 +122,7 @@
           </div>
           <div *ngIf="questiontype == 2">
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <div class="form-group">
                   <div class="col-sm-1" *ngIf="tfanswer == true">
                     <input type="radio" class="rdo" name="rdo" value="1" checked #divice (click)="OnClick(divice.value)">
@@ -132,7 +137,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <div class="form-group">
                   <div class="col-sm-1" *ngIf="tfanswer == false">
                     <input type="radio" class="rdo" name="rdo" value="0" checked #divice (click)="OnClick(divice.value)">
@@ -149,7 +154,7 @@
           </div>
           <div *ngIf="questiontype == 3 || questiontype == 16">
             <div class="row" *ngFor="let item of mmanswers">
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <div class="form-group">
                   <div class="col-sm-1" *ngIf="answerid == item.id">
                     <input type="radio" class="rdo" name="rdo" value="{{item.id}}" checked #divice (click)="OnClick(divice.value)">
@@ -213,7 +218,7 @@
           </div>
           <div *ngIf="questiontype == 8">
             <div class="row" *ngFor="let item of attanswers">
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <div class="form-group">
                   <div class="col-sm-1" *ngIf="attanswerid == item.id">
                     <input type="radio" class="rdo" name="rdo" value="{{item.id}}" checked #divice (click)="OnClick(divice.value)">
